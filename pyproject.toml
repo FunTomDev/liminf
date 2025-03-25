@@ -6,12 +6,13 @@ authors = [
     {name = "Aleksandr Kuraskin",email = "kuraskin0205@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.10, <4.0.0"
 dependencies = [
     "django (>=5.1.7,<6.0.0)",
     "django-restframework (>=0.0.1,<0.0.2)",
     "psycopg2 (>=2.9.10,<3.0.0)",
-    "django-tests (>=1.8.3,<2.0.0)"
+    "django-tests (>=1.8.3,<2.0.0)",
+    "django-tailwind[reload] (>=3.8.0,<4.0.0)"
 ]
 
 [tool.poetry]

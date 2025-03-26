@@ -1,7 +1,7 @@
 {% load static tailwind_tags %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,10 +9,25 @@
 
 	<title>liminf - Informatyka exclusive</title>
 </head>
-<body>
+<body class="bg-gray-950 text-gray-200">
 
-	<header>
-		<h1 class="text-lime-400">Jakiś testowy header z <span class="text-cyan-700">Tailwindem</span></h1>
+	<header class="main-header p-4 outline">
+		<div class="container flex flex-row justify-between items-center h-12 [&>div]:h-full [&>div]:border [&>div]:rounded-full [&>div]:p-4">
+			<div class="logo"><a href="{% url 'home' %}">liminf</a></div>
+			<div class="main-nav ml-auto p-4 flex-grow">
+				<ul class="flex flex-row gap-2 justify-between w-3/5 ml-auto">
+					<li><a href="{% url 'home' %}">Start</a></li>
+					<li><a href="{% url 'materials:subjects-list' %}">Materiały</a></li>
+					<li><a href="{% url 'problems' %}">Zadania</a></li>
+					<li><a href="{% url 'about' %}">O Projekcie</a></li>
+					<li><a href="{% url 'donate' %}">Podziękować</a></li>
+				</ul>
+			</div>
+			<div class="login flex flex-row gap-2">
+				<a href="{% url 'users:login' %}">Zaloguj się</a>
+				<a href="{% url 'users:register' %}">Zarejestruj się</a>
+			</div>
+		</div>
 	</header>
 	
 </body>

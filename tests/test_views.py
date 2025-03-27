@@ -6,7 +6,13 @@ class PageAccessTest(TestCase):
 		# Define all the pages you want to test (URL names from urls.py)
 		self.pages = [
 
-			{"name": "home", "args": []}
+			{"name": "home", "args": []},
+			{"name": "materials:subjects-list", "args": []},
+			{"name": "problems", "args": []},
+			{"name": "about", "args": []},
+			{"name": "donate", "args": []},
+			{"name": "users:login", "args": []},
+			{"name": "users:register", "args": []},
 
 		]
 

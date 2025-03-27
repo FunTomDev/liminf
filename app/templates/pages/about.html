@@ -1,1 +1,82 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
+
+<section class="bg-gray-950 py-16 px-4 sm:px-8 md:px-16 text-center">
+	<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">Po co to w ogóle istnieje?</h1>
+	<p class="text-gray-400 max-w-2xl mx-auto text-lg">
+		Początkowo miała to być strona zawierająca przetłumaczone materiały z zewnętrznej strony, z której osobiście się uczyłem i której autor ma, moim zdaniem, bardzo humorystyczny styl tłumaczenia zagadnień matematycznych. Ostatecznie postanowiłem
+		zrobić z tego platformę, która mam nadzieję umożliwi łatwiejszy dostęp do notatek z wykładów, zestawów zadań i ich rozwiązań.
+	</p>
+</section>
+<section class="bg-gray-950 py-12 px-8 md:px-16">
+	<div class="flex flex-col md:flex-row items-start gap-8">
+		<div class="md:w-1/2">
+			<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-300 mb-6">Notatki z wykładów</h1>
+			<p class="text-gray-400 text-lg">
+				Zapisałem wszystkie znalezione przeze mnie notatki z wykładów dla poszczególnych przedmiotów. Każdy przedmiot ma swoją oddzielną stronę, na której można znaleźć i otworzyć szukane materiały. Ręcznie napisane notatki zostały przepisane za
+				pomąco LaTeXa i zapisane do pliku PDF.
+			</p>
+		</div>
+		<div class="md:w-1/2">
+			<!-- Placeholder for image -->
+		</div>
+	</div>
+</section>
+<section class="bg-gray-950 py-12 px-8 md:px-16">
+	<div class="flex flex-col md:flex-row items-start gap-8">
+		<div class="md:w-1/2">
+			<!-- Placeholder for image -->
+		</div>
+		<div class="md:w-1/2">
+			<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-300 mb-6">Zbiory zadań</h1>
+			<p class="text-gray-400 text-lg">
+				Zadania również są posegregowane według przedmiotów. Listy zadań wysyłane nam jako jeden plik zostały podzielone na poszczególne zadania, aby ułatwić możliwość zadawania pytań na ich temat na forum lub dodawać rozwiązania.
+			</p>
+		</div>
+	</div>
+</section>
+
+<section class="bg-gray-950 py-12 px-8 md:px-16">
+	<div class="flex flex-col md:flex-row items-start gap-8">
+		<div class="md:w-1/2">
+			<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-300 mb-6">Rozwiązania i forum</h1>
+			<p class="text-gray-400 text-lg">
+				Możliwe jest dodawanie swoich własnych rozwiązań do poszczególnych zadań. Rozwiązane zadania zostają dodane do odpowiedniej listy (solved-problems/). Istnieje również możliwośc zadania pytania na temat konkretnego zadania lub jego
+				rozwiązania na dedykowanym forum.
+			</p>
+		</div>
+		<div class="md:w-1/2">
+			<!-- Placeholder for image -->
+		</div>
+	</div>
+</section>
+
+<section class="bg-gray-950 py-12 px-8 md:px-16">
+	<div class="flex flex-col md:flex-row items-start gap-8">
+		<div class="md:w-1/2">
+			<!-- Placeholder for image -->
+		</div>
+		<div class="md:w-1/2">
+			<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-300 mb-6">Weryfikacja rozwiązań</h1>
+			<p class="text-gray-400 text-lg">
+				Nie zawsze zaproponowane rozwiązania są poprawne. Dlatego istnieje opcja oznaczenia rozwiązania jako zweryfikowane. <em>Moim zdaniem</em> rozwiązania mają być oznaczane jako zweryfikowane tylko jeśli zostało ono uznane za poprawne przez
+				prowadzącego ćwiczenia/laby.
+			</p>
+		</div>
+	</div>
+</section>
+
+<section class="bg-gray-950 py-12 px-8 md:px-16">
+	<div class="flex flex-col md:flex-row items-start gap-8">
+		<div class="md:w-1/2">
+			<h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-300 mb-6">To nie wszystko...</h1>
+			<p class="text-gray-400 text-lg">
+				Projekt jest w ciągłym rozwoju. Planuję dodawać nowe funkcjonalności i ulepszać istniejące. W najbliższym czasie chcę dodać odznaki dla tych, którzy często publikują swoje rozwiązania albo udzielaja odpowiedzi na forum.
+			</p>
+		</div>
+		<div class="md:w-1/2">
+			<!-- Placeholder for image -->
+		</div>
+	</div>
+</section>
+
+{% endblock content %}

@@ -7,6 +7,21 @@
 
 const plugin = require('tailwindcss/plugin')
 module.exports = {
+    mode: 'jit',
+    safelist: [
+        'menu-button__close',
+        'menu-button__open',
+        'menu-icon__open',
+        'mobile-nav__open',
+        'mobile-nav__close',
+        'bg-curtain__open',
+        'bg-curtain__close'
+    ],
+    purge: [
+        '../templates/**/*.html',
+        '../../templates/**/*.html',
+        '../../**/templates/**/*.html',
+    ],
     content: [
         /**
          * HTML. Paths to Django template files that will contain Tailwind CSS classes.

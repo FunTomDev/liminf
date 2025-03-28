@@ -12,4 +12,62 @@
 	.nav-link {
 		@apply font-semibold transition-colors hover:text-gray-500;
 	}
+
+	.menu-button {
+		@apply fixed top-4 right-4 lg:invisible lg:hidden lg:size-0 z-10;
+	}
+
+	.menu-button__close {
+		@apply static;
+	}
+
+	.menu-button__open {
+		@apply fixed;
+	}
+
+	.menu-icon {
+		@apply flex flex-col justify-center gap-1.5 h-6 w-6;
+	}
+
+	.menu-icon > div {
+		@apply transition-[opacity,transform,transform-origin] duration-300;
+	}
+
+	.menu-icon__open > div:first-child {
+		@apply -rotate-45 origin-right -translate-x-1;
+	}
+	.menu-icon__open > div:nth-child(2) {
+		@apply opacity-0 transform translate-x-2;
+	}
+	.menu-icon__open > div:last-child {
+		@apply rotate-45 origin-right -translate-x-1;
+	}
+
+	.mobile-nav {
+		@apply fixed top-0 right-0 h-screen sm:w-80 max-sm:w-full lg:invisible transition-transform duration-300;
+	}
+
+	.mobile-nav__open {
+		@apply translate-x-0;
+	}
+
+	.mobile-nav__close {
+		@apply translate-x-full;
+	}
+
+	.bg-curtain {
+		@apply absolute top-0 left-0 h-screen w-full bg-gray-950 opacity-0 transition-opacity duration-300 lg:hidden;
+	}
+
+	.bg-curtain__open {
+		@apply !opacity-70;
+	}
+
+	.bg-curtain__close {
+		@apply transition-all duration-300 invisible;
+	}
+
+	.hero-section {
+		@apply py-32 px-4 sm:px-8 md:px-16 text-center z-0;
+	}
 }

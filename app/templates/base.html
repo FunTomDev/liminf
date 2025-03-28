@@ -13,12 +13,10 @@
 		<title>liminf - Informatyka exclusive</title>
 	</head>
 	<body class="bg-gray-950 text-gray-300 font-quicksand">
-		<header class="main-header p-4">
-			<div class="container flex flex-row justify-between min-w-full items-center [&>div]:h-full [&>div]:border [&>div]:border-gray-400 [&>div]:rounded-full [&>div]:flex [&>div]:items-center">
-				<div class="logo justify-center py-4 px-8 font-semibold">
-					<a href="{% url 'home' %}">liminf</a>
-				</div>
-				<div class="main-nav font-semibold flex-grow py-4 px-8 max-lg:invisible max-lg:absolute max-lg:size-0">
+		<header class="main-header z-50 bg-none fixed w-full p-4">
+			<div class="container flex flex-row justify-between min-w-full items-center [&>*]:border [&>*]:border-gray-400 [&>*]:rounded-full [&>*]:flex [&>*]:items-center">
+				<a href="{% url 'home' %}" class="logo block py-4 px-8 font-semibold">liminf</a>
+				<nav class="main-nav font-semibold flex-grow py-4 px-8 max-lg:invisible max-lg:absolute max-lg:size-0">
 					<ul class="flex flex-row gap-8 justify-end w-full ml-auto">
 						<li><a class="nav-link" href="{% url 'home' %}">Start</a></li>
 						<li><a class="nav-link" href="{% url 'materials:subjects-list' %}">Materiały</a></li>
@@ -26,25 +24,51 @@
 						<li><a class="nav-link" href="{% url 'about' %}">O Projekcie</a></li>
 						<li><a class="nav-link" href="{% url 'donate' %}">Podziękować</a></li>
 					</ul>
-				</div>
-				<div class="login gap-2 px-2 py-2">
+				</nav>
+				<div class="login gap-2 px-2 py-2 max-lg:invisible max-lg:absolute max-lg:size-0">
 					<a class="px-4 py-2 font-semibold transition-colors hover:text-gray-500" href="{% url 'users:login' %}">Zaloguj się</a>
 					<a class="btn-primary" href="{% url 'users:register' %}">Zarejestruj się</a>
 				</div>
+				<div class="menu-button menu-button__close">
+					<button class="p-4 rounded-lg">
+						<div class="menu-icon menu-icon__close">
+							<div class="h-0.5 w-full bg-current rounded-full"></div>
+							<div class="h-0.5 w-full bg-current rounded-full"></div>
+							<div class="h-0.5 w-full bg-current rounded-full"></div>
+						</div>
+					</button>
+				</div>
 			</div>
+			<div class="bg-curtain bg-curtain__close"></div>
+			<nav class="mobile-nav mobile-nav__close">
+				<div class="bg-gray-950 border-l max-sm:border-none border-gray-400 h-full p-8 max-sm:px-14 shadow-lg">
+					<ul class="flex flex-col max-sm:items-center gap-6 mt-24 text-right">
+						<li><a class="nav-link block text-lg" href="{% url 'home' %}">Start</a></li>
+						<li><a class="nav-link block text-lg" href="{% url 'materials:subjects-list' %}">Materiały</a></li>
+						<li><a class="nav-link block text-lg" href="{% url 'problems' %}">Zadania</a></li>
+						<li><a class="nav-link block text-lg" href="{% url 'about' %}">O Projekcie</a></li>
+						<li><a class="nav-link block text-lg" href="{% url 'donate' %}">Podziękować</a></li>
+					</ul>
+					<div class="flex flex-row gap-4 mt-8 items-center justify-between max-sm:flex-col w-full border-t border-gray-400 pt-4">
+						<a class="text-lg font-semibold transition-colors hover:text-gray-500 order-last max-sm:order-first" href="{% url 'users:login' %}">Zaloguj się</a>
+						<a class="btn-primary" href="{% url 'users:register' %}">Zarejestruj się</a>
+					</div>
+				</div>
+			</nav>
 		</header>
-		<main class="main-content">{% block content %} {% endblock content %}</main>
-		<footer class="main-footer bg-gray-900 text-gray-400 text-sm">
-			<div class="footer-content flex justify-between p-4">
+		<main class="main-content pt-[90px]">{% block content %} {% endblock content %}</main>
+		<footer class="main-footer mt-8 bg-gray-900 text-gray-400 text-sm">
+			<div class="footer-content flex justify-between p-4 gap-2 max-sm:flex-col max-sm:items-center">
 				<p class="">&copy liminf by <strong>Aleksandr Kuraskin</strong> 2025</p>
-				<div class="social-links">
+				<div class="social-links max-sm:order-first">
 					<ul class="flex flex-row gap-4">
-						<li><a href="discord">Discord</a></li>
-						<li><a href="facebook">Facebook</a></li>
-						<li><a href="instagram">Instagram</a></li>
+						<li><a class="transition-colors hover:text-gray-300" href="discord">Discord</a></li>
+						<li><a class="transition-colors hover:text-gray-300" href="facebook">Facebook</a></li>
+						<li><a class="transition-colors hover:text-gray-300" href="instagram">Instagram</a></li>
 					</ul>
 				</div>
 			</div>
 		</footer>
 	</body>
+	<script src="{% static 'js/scripts.js' %}"></script>
 </html>

@@ -7,6 +7,15 @@ class PageAccessTest(TestCase):
 		self.pages = [
 
 			{"name": "home", "args": []},
+<<<<<<< HEAD
+=======
+			{"name": "materials:subjects-list", "args": []},
+			{"name": "problems", "args": []},
+			{"name": "about", "args": []},
+			{"name": "donate", "args": []},
+			{"name": "users:login", "args": []},
+			{"name": "users:register", "args": []},
+>>>>>>> 1537deb4fa5435b70984fb9cf315a63e6ea3f8b3
 
 		]
 

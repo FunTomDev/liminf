@@ -5,7 +5,23 @@
  * https://unpkg.com/browse/tailwindcss@latest/stubs/defaultConfig.stub.js
  */
 
+const plugin = require('tailwindcss/plugin')
 module.exports = {
+    mode: 'jit',
+    safelist: [
+        'menu-button__close',
+        'menu-button__open',
+        'menu-icon__open',
+        'mobile-nav__open',
+        'mobile-nav__close',
+        'bg-curtain__open',
+        'bg-curtain__close'
+    ],
+    purge: [
+        '../templates/**/*.html',
+        '../../templates/**/*.html',
+        '../../**/templates/**/*.html',
+    ],
     content: [
         /**
          * HTML. Paths to Django template files that will contain Tailwind CSS classes.
@@ -42,7 +58,16 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                quicksand: ['Quicksand', 'sans-serif'],
+            },
+            textShadow: {
+                sm: '0 1px 2px var(--tw-shadow-color)',
+                DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+                lg: '0 8px 16px var(--tw-shadow-color)',
+            },
+        },
     },
     plugins: [
         /**
@@ -53,5 +78,15 @@ module.exports = {
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         require('@tailwindcss/aspect-ratio'),
+        plugin(function ({ matchUtilities, theme }) {
+            matchUtilities(
+              {
+                'text-shadow': (value) => ({
+                  textShadow: value,
+                }),
+              },
+              { values: theme('textShadow') }
+            )
+          }),
     ],
 }

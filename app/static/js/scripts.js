@@ -3,6 +3,7 @@ function toggleMenu() {
 	const menu_icon = document.querySelector('.menu-button').querySelector('.menu-icon');
 	const mobile_nav = document.querySelector('.mobile-nav');
 	const curtain = document.querySelector('.bg-curtain');
+	document.body.classList.toggle('overflow-hidden');
 	menu_icon.classList.toggle('menu-icon__open');
 	mobile_nav.classList.toggle('mobile-nav__open');
 	menu_button.classList.toggle('menu-button__open');

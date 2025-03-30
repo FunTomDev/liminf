@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-=x_zqwz8t=3wik#xr1$rhltbweoi402jbd%7$tqpzf*9z$%eb3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '192.168.22.160']
 
 
 # Application definition
@@ -54,7 +54,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd" if platform.system() == 'Windows' else '/usr/local/bin/npm'
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd" if platform.system() == 'Windows' else '/usr/bin/npm'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

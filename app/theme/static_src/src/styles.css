@@ -86,5 +86,22 @@
 		@apply btn-primary;
 	}
 
+	.main-content{
+
+		@apply pt-12;
+
+	}
+
+	.inline-link{
+
+		@apply border-b border-dotted transition-colors hover:text-gray-500;
+
+	}
+	.inline-link__sm{
+
+		@apply inline-link text-sm;
+
+	}
+
 
 }

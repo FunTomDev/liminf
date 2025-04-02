@@ -1,81 +1,91 @@
-{% extends 'base.html' %} {% block content %}
-{% include 'header.html' %}
-<main class="main-content">
-	<section class="hero-section relative overflow-hidden z-40">
-		<div class="text-center relative z-10">
-			<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">liminf - centrum materiałów z zajęć i pomocy z zadaniami</h1>
-			<p class="text-gray-400 max-w-2xl mx-auto text-lg">
-				Strona stworzona specjalnie dla kierunku IiSI na wydziale MiNI Politechniki Warszawskiej. Można tutaj znaleźć <em><strong>większość</strong></em> materiałów z zajęć, notatki i rozwiązania zadań, a także poprosić o pomoc z konkretnym problemem i <em><strong>najprawdopodobniej</strong></em> otrzymać na tę prośbę odpowiedź.
-			</p>
-		</div>
-	</section>
-	<hr>
-	<section class="materials-section py-12 px-8 md:px-16">
-		<div class="container">
-			<h2 class="text-3xl font-bold text-gray-300 text-center mb-6">Materiały</h2>
-			{% if subjects %}
-				<h3>Niedawno dodane</h3>
-				<div class="materials-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-					{% for subject in subjects %}
-					<div class="material-card bg-gray-950 p-4 rounded-lg shadow-lg">
-						<h3 class="text-xl font-semibold text-gray-300">{{ subject.name }}</h3>
-						<p class="text-gray-400">{{ subject.description }}</p>
-						<a href="{% url 'materials:subject-detail' subject.slug %}" class="btn-primary mt-4">Zobacz</a>
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero-section relative overflow-hidden z-40">
+	<div class="text-center relative z-10">
+		<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">liminf - centrum materiałów z zajęć i pomocy z zadaniami</h1>
+		<p class="text-gray-400 max-w-2xl mx-auto text-lg">
+			Strona stworzona specjalnie dla kierunku IiSI na wydziale MiNI Politechniki Warszawskiej. Można tutaj znaleźć <em><strong>większość</strong></em> materiałów z zajęć, notatki i rozwiązania zadań, a także poprosić o pomoc z konkretnym problemem i <em><strong>najprawdopodobniej</strong></em> otrzymać na tę prośbę odpowiedź.
+		</p>
+	</div>
+</section>
+<hr>
+<section class="materials-section py-12 px-8 md:px-16">
+	<div class="container">
+		<h2 class="text-3xl font-bold text-gray-300 text-center mb-6">Materiały</h2>
+		{% if recent_materials %}
+		<div class="flex flex-col items-center gap-4">
+			<div class="materials-grid w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+				{% for material in recent_materials %}
+				<div class="material-card tilt-container cursor-pointer bg-gray-950 p-4 shadow-lg flex flex-col gap-4" onmousemove="updateTilt(event)">
+					<div class="basic-data">
+						<h3 class="text-xl font-semibold text-gray-300">{{ material.title }}</h3>
+						<p class="text-gray-400">{{ material.topic.subject }}</p>
+						<p class="text-gray-400">{{ material.topic }}</p>
 					</div>
-					{% endfor %}
-				</div>
-			{% else %}
-				<p class="text-gray-400 text-center">Brak dodanych materiałów</p>
-			{% endif %}
-
-		</div>
-	</section>
-	<hr>
-	<section class="problems-section py-12 px-8 md:px-16">
-		<div class="container">
-			<h2 class="text-3xl font-bold text-gray-300 text-center mb-6">Zadania</h2>
-			{% if problems %}
-				<h3>Niedawno dodane</h3>
-				<div class="problems-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-					{% for problem in problems %}
-					<div class="problem-card bg-gray-950 p-4 rounded-lg shadow-lg">
-						<h3 class="text-xl font-semibold text-gray-300">{{ problem.name }}</h3>
-						<p class="text-gray-400">{{ problem.description }}</p>
-						<a href="{% url 'problems:problem-detail' problem.slug %}" class="btn-primary mt-4">Zobacz</a>
+					<hr>
+					<div class="description">
+						<p class='text-gray-400'>{{ material.description }}</p>
 					</div>
-					{% endfor %}
-				</div>
-				<button class="btn-primary">Zobaczy wszystkie &rarr;</button>
-			{% else %}
-				<p class="text-gray-400 text-center">Brak dodanych zadań</p>
-			{% endif %}
+					<hr>
+					<div class="additional-data">
+						<span class="text-gray-400 text-sm border-2 p-1 rounded-full border-gray-400">{{ material.material_type }}</span>
+					</div>
 
-		</div>
-	</section>
-	<section class="feedback-section py-12 px-8 md:px-16 bg-gray-900">
-		<div class="container grid grid-cols-2 gap-4 max-sm:grid-cols-1 max-sm:gap-12">
-			<div class="info-bar flex flex-col justify-center gap-4">	
-				<h2 class="text-3xl font-bold text-gray-300">Podziel się swoją opinią</h2>
-				<p>Napisz co sądzisz o projekcie. Co należy zmienić lub dodać? Jakikolwiek feedback na tym etapie 'produkcji' jest bardzo ważny, więc bardzo zachęcam.</p>
+				</div>
+				{% endfor %}
 			</div>
-			<form action="{% url 'feedback' %}" class="main-form" method="POST">
-				{% csrf_token %}
-				<div class="flex flex-col gap-4 w-full">
-					<label for="email" class="text-gray-400">Email:</label>
-					<input type="email" name="email" id="email" required>
-				</div>
-				<div class="flex flex-col w-full gap-2 justify-between">
-					<label for="message" class="text-gray-400">Wiadomość:</label>
-					<div>
-						<textarea class="resize-none h-32 w-full px-4 rounded-lg border border-gray-300 bg-gray-950" name="message" id="message" required></textarea>
-					</div>
-				</div>
-				<input type="submit" value="Wyślij">
-			</form>
-		</div>	
-	</section>
-</main>
-{% include 'footer.html' %}
+			<div class="flex justify-center">
+				<a href="{% url 'materials:subjects-list" class="btn-primary">Zobacz wszystkie</a>
+			</div>
+		</div>
+		{% else %}
+			<p class="text-gray-400 text-center">Brak dodanych materiałów</p>
+		{% endif %}
 
+	</div>
+</section>
+<hr>
+<section class="problems-section py-12 px-8 md:px-16">
+	<div class="container">
+		<h2 class="text-3xl font-bold text-gray-300 text-center mb-6">Zadania</h2>
+		{% if problems %}
+			<h3>Niedawno dodane</h3>
+			<div class="problems-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+				{% for problem in problems %}
+				<div class="problem-card bg-gray-950 p-4 rounded-lg shadow-lg">
+					<h3 class="text-xl font-semibold text-gray-300">{{ problem.name }}</h3>
+					<p class="text-gray-400">{{ problem.description }}</p>
+					<a href="{% url 'problems:problem-detail' problem.slug %}" class="btn-primary mt-4">Zobacz</a>
+				</div>
+				{% endfor %}
+			</div>
+			<button class="btn-primary">Zobaczy wszystkie &rarr;</button>
+		{% else %}
+			<p class="text-gray-400 text-center">Brak dodanych zadań</p>
+		{% endif %}
 
+	</div>
+</section>
+<section class="feedback-section py-12 px-8 md:px-16 bg-gray-900">
+	<div class="container grid grid-cols-2 gap-4 max-sm:grid-cols-1 max-sm:gap-12">
+		<div class="info-bar flex flex-col justify-center gap-4">	
+			<h2 class="text-3xl font-bold text-gray-300">Podziel się swoją opinią</h2>
+			<p>Napisz co sądzisz o projekcie. Co należy zmienić lub dodać? Jakikolwiek feedback na tym etapie 'produkcji' jest bardzo ważny, więc bardzo zachęcam.</p>
+		</div>
+		<form action="{% url 'feedback' %}" class="main-form" method="POST">
+			{% csrf_token %}
+			<div class="flex flex-col gap-4 w-full">
+				<label for="email" class="text-gray-400">Email:</label>
+				<input type="email" name="email" id="email" required>
+			</div>
+			<div class="flex flex-col w-full gap-2 justify-between">
+				<label for="message" class="text-gray-400">Wiadomość:</label>
+				<div>
+					<textarea class="resize-none h-32 w-full px-4 rounded-lg border border-gray-300 bg-gray-950" name="message" id="message" required></textarea>
+				</div>
+			</div>
+			<input type="submit" value="Wyślij">
+		</form>
+	</div>	
+</section>
 {% endblock content %}

@@ -1014,10 +1014,6 @@ select {
   background-color: rgb(156 163 175 / var(--tw-bg-opacity, 1));
 }
 
-.main-content {
-  padding-top: 3rem;
-}
-
 .inline-link__sm {
   border-bottom-width: 1px;
   border-style: dotted;
@@ -1034,6 +1030,29 @@ select {
 .inline-link__sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.material-card {
+  border-radius: 1.5rem;
+  border-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity, 1));
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.material-card:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
+}
+
+.tilt-container {
+  transition: transform 0.1s ease-out;
+}
+
+.tilt-container:hover {
+  transform: perspective(1000px) rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(1.05);
 }
 
 .static {
@@ -1117,10 +1136,6 @@ select {
   height: 100vh;
 }
 
-.w-64 {
-  width: 16rem;
-}
-
 .w-80 {
   width: 20rem;
 }
@@ -1139,6 +1154,10 @@ select {
 
 .flex-grow {
   flex-grow: 1;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .resize-none {
@@ -1282,6 +1301,14 @@ select {
   padding: 2rem;
 }
 
+.p-2 {
+  padding: 0.5rem;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -1310,6 +1337,10 @@ select {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.pt-12 {
+  padding-top: 3rem;
 }
 
 .pt-4 {

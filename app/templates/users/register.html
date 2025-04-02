@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_no_heafoo.html' %}
 
 {% block content %}
 <div class="h-screen grid place-items-center">
@@ -7,7 +7,15 @@
 		<form action="{% url 'users:register' %}" class="main-form p-4 border-gray-400 border-2 rounded-3xl" method="post">
 			{% csrf_token %}
 	  		<div>
-	  			<label for="username">Login <span title="Rejestracja za pomocą danych do usosa jest możliwa, ale NIE ZALECANA!!! Boimy się wycieków danych do internetu.">&#9432</span>:</label>
+	  			<label for="username">Login:</label>
+				<input type="text" name="username" id="username">
+	  		</div>
+	  		<div>
+	  			<label for="username">Imię:</label>
+				<input type="text" name="username" id="username">
+	  		</div>
+	  		<div>
+	  			<label for="username">Nazwisko:</label>
 				<input type="text" name="username" id="username">
 	  		</div>
 	  		<div>
@@ -18,7 +26,10 @@
 				<label for="password">Hasło:</label>
 				<input type="password" name="password" id="password">
 			</div>
-			<input type="submit" value="Zarejestruj się">
+			<div class="flex flex-col items-center gap-1">
+				<input class="w-full" type="submit" value="Zarejestruj się">
+				<p class="text-sm">Masz już konto? <a class = "inline-link__sm" href="{% url 'users:login' %}">Zaloguj się</a></p>
+			</div>
 		</form>
 	</div>
 </div>

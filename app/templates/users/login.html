@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_no_heafoo.html' %}
 
 
 {% block content %}
@@ -8,7 +8,7 @@
 		<form action="{% url 'users:login' %}" class="main-form p-4 border-gray-400 border-2 rounded-3xl" method="post">
 			{% csrf_token %}
 			<div class="flex flex-col gap-2">
-				<label for="username">Login &#9432:</label>
+				<label for="username">Login</label>
 				<input type="text" name="username" id="username">
 			</div>
 			<div class="flex flex-col gap-2">
@@ -21,7 +21,7 @@
 			</div>
 			<div class="flex flex-col items-center gap-1">
 				<input class="w-full" type="submit" value="Zaloguj się">
-				<a class = "inline-link__sm" href="{% url 'users:register' %}">Zarejestruj się</a>
+				<p class="text-sm">Nie masz konta? <a class = "inline-link__sm" href="{% url 'users:register' %}">Zarejestruj się</a></p>
 			</div>
 	  	</form>
 	</div>

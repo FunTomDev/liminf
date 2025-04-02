@@ -86,12 +86,6 @@
 		@apply btn-primary;
 	}
 
-	.main-content{
-
-		@apply pt-12;
-
-	}
-
 	.inline-link{
 
 		@apply border-b border-dotted transition-colors hover:text-gray-500;
@@ -102,6 +96,20 @@
 		@apply inline-link text-sm;
 
 	}
+
+	.material-card{
+
+		@apply border-2 border-gray-400 rounded-3xl transition-all hover:border-gray-200
+
+	}
+
+	.tilt-container {
+        transition: transform 0.1s ease-out;
+    }
+    
+    .tilt-container:hover {
+        transform: perspective(1000px) rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(1.05);
+    }
 
 
 }

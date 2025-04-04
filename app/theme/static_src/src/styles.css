@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-
 	.btn-primary {
 		@apply bg-gray-200 text-gray-800 font-semibold rounded-full px-4 py-2 cursor-pointer transition-colors;
 	}
@@ -76,40 +75,31 @@
 		@apply max-w-sm mx-auto min-w-full flex flex-col gap-4;
 	}
 
-	.main-form input[type="text"], 
+	.main-form input[type="text"],
 	.main-form input[type="email"],
-	.main-form input[type="password"]
-	{ 
+	.main-form input[type="password"] {
 		@apply w-full px-4 rounded-full border border-gray-300 bg-gray-950;
 	}
 	.main-form input[type="submit"] {
 		@apply btn-primary;
 	}
 
-	.inline-link{
-
+	.inline-link {
 		@apply border-b border-dotted transition-colors hover:text-gray-500;
-
 	}
-	.inline-link__sm{
-
+	.inline-link__sm {
 		@apply inline-link text-sm;
-
 	}
 
-	.material-card{
-
-		@apply border-2 border-gray-400 rounded-3xl transition-all hover:border-gray-200
-
+	.material-card {
+		@apply border-2 border-gray-400 rounded-3xl transition-all hover:border-gray-200;
 	}
 
 	.tilt-container {
-        transition: transform 0.1s ease-out;
-    }
-    
-    .tilt-container:hover {
-        transform: perspective(1000px) rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(1.05);
-    }
+		transition: transform 0.1s ease-out;
+	}
 
-
+	.tilt-container:hover {
+		transform: perspective(1000px) rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(1.05);
+	}
 }

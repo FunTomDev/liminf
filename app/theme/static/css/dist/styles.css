@@ -978,7 +978,7 @@ select {
   gap: 1rem;
 }
 
-.main-form input[type="text"], 
+.main-form input[type="text"],
 	.main-form input[type="email"],
 	.main-form input[type="password"] {
   width: 100%;
@@ -1108,10 +1108,6 @@ select {
   margin-top: 2rem;
 }
 
-.mt-\[90px\] {
-  margin-top: 90px;
-}
-
 .block {
   display: block;
 }
@@ -1158,6 +1154,10 @@ select {
 
 .max-w-2xl {
   max-width: 42rem;
+}
+
+.max-w-96 {
+  max-width: 24rem;
 }
 
 .flex-grow {
@@ -1349,10 +1349,6 @@ select {
 
 .pt-\[90px\] {
   padding-top: 90px;
-}
-
-.pt-16 {
-  padding-top: 4rem;
 }
 
 .text-center {

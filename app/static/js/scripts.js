@@ -13,6 +13,7 @@ function updateTilt(event) {
 
         element.style.setProperty('--rotate-x', `${-rotateX}deg`);
         element.style.setProperty('--rotate-y', `${-rotateY}deg`);
+		
     }
 
 function toggleMenu() {

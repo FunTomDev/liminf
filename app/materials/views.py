@@ -1,10 +1,11 @@
+import os
 from django.shortcuts import render, get_object_or_404
 from .models import Subject, Topic, Material
 
 # Create your views here.
-def subjects(request):
+def materials(request):
     """Render subjects list for materials"""
-    return render(request, "materials/subjects.html")
+    return render(request, "materials/materials.html")
 
 
 def details(request, subject_slug, topic_slug, material_id):
@@ -15,6 +16,7 @@ def details(request, subject_slug, topic_slug, material_id):
 
     context = {
         'material': material,
+        'file_name': os.path.basename(material.file.name),
     }
 
     return render(request, 'materials/details.html', context=context)

@@ -102,4 +102,8 @@
 	.tilt-container:hover {
 		transform: perspective(1000px) rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(1.05);
 	}
+
+	.divider {
+		@apply border-t-2 border-gray-400 my-6;
+	}
 }

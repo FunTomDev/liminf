@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <section class="hero-section relative overflow-hidden z-40">
-	<div class="text-center relative z-10">
+	<div class="text-center relative z-10 max-w-screen-lg mx-auto">
 		<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">liminf - centrum materiałów z zajęć i pomocy z zadaniami</h1>
 		<p class="text-gray-400 max-w-2xl mx-auto text-lg">
 			Strona stworzona specjalnie dla kierunku IiSI na wydziale MiNI Politechniki Warszawskiej. Można tutaj znaleźć <em><strong>większość</strong></em> materiałów z zajęć, notatki i rozwiązania zadań, a także poprosić o pomoc z konkretnym problemem i
@@ -8,7 +8,7 @@
 		</p>
 	</div>
 </section>
-<hr />
+<hr class="divider" />
 <section class="materials-section py-12 px-8 md:px-16">
 	<div>
 		<h2 class="text-3xl font-bold text-gray-300 text-center mb-6">Materiały</h2>
@@ -23,21 +23,21 @@
 							<p class="text-gray-400">{{ material.topic.subject }}</p>
 							<p class="text-gray-400">{{ material.topic }}</p>
 						</div>
-						<hr />
+						<hr class="divider" />
 						<div class="description">
-							<p class="text-gray-400">{{ material.description }}</p>
+							<p class="text-gray-400">{{ material.short_description }}</p>
 						</div>
-						<hr />
+						<hr class="divider" />
 						<div class="additional-data flex justify-between items-center">
-							<span class="text-gray-400 text-sm border-2 p-1 rounded-full border-gray-400">{{ material.material_type }}</span>
-							<span class="text-gray-600 text-sm">{{ material.uploaded_at|date:'d.m.Y' }}</span>
+							<span class="text-gray-400 text-sm border-2 py-1 px-2 rounded-full border-gray-400">{{ material.material_type }}</span>
+							<span class="text-gray-500 text-sm">{{ material.uploaded_at|date:'d.m.Y' }}</span>
 						</div>
 					</div>
 				</a>
 				{% endfor %}
 			</div>
 			<div class="flex justify-center">
-				<a href="{% url 'materials:subjects-list' %}" class="btn-primary">Zobacz wszystkie</a>
+				<a href="{% url 'materials:materials-list' %}" class="btn-primary">Zobacz wszystkie &#8594;</a>
 			</div>
 		</div>
 		{% else %}
@@ -45,7 +45,7 @@
 		{% endif %}
 	</div>
 </section>
-<hr />
+<hr class="divider" />
 <section class="problems-section py-12 px-8 md:px-16">
 	<h2 class="text-3xl font-bold text-gray-300 text-center mb-6">Zadania</h2>
 	{% if problems %}

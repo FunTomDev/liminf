@@ -1,0 +1,33 @@
+<div class="flex-1 materials-list w-full grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4" id="materials-list">
+	{% for material in page_obj %}
+	<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}">
+		<div class="material-item tilt-container cursor-pointer bg-gray-950 p-4 shadow-lg flex flex-col gap-4" onmousemove="updateTilt(event)">
+			<div class="basic-data">
+				<h3 class="text-xl font-semibold text-gray-300">{{ material.title }}</h3>
+				<p class="text-gray-400">{{ material.topic.subject }}</p>
+				<p class="text-gray-400">{{ material.topic }}</p>
+			</div>
+			<hr class="divider" />
+			<div class="description">
+				<p class="text-gray-400">{{ material.short_description }}</p>
+			</div>
+			<hr class="divider" />
+			<div class="additional-data flex justify-between items-center">
+				<span class="text-gray-400 text-sm border-2 py-1 px-2 rounded-full border-gray-400">{{ material.material_type }}</span>
+				<span class="text-gray-500 text-sm">{{ material.uploaded_at|date:'d.m.Y' }}</span>
+			</div>
+		</div>
+	</a>
+	{% endfor %}
+</div>
+<div class="pagination flex justify-center items-center gap-4">
+	{% if page_obj.has_previous %}
+	<a href="#" class="page-link" data-page="{{ page_obj.previous_page_number }}">Previous</a>
+	{% endif %}
+
+	<span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+	{% if page_obj.has_next %}
+	<a href="#" class="page-link" data-page="{{ page_obj.next_page_number }}">Next</a>
+	{% endif %}
+</div>

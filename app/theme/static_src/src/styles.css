@@ -91,8 +91,8 @@
 		@apply inline-link text-sm;
 	}
 
-	.material-card {
-		@apply border-2 border-gray-400 rounded-3xl transition-all hover:border-gray-200;
+	.material-item {
+		@apply border-2 border-gray-400 rounded-3xl transition-all hover:border-gray-200 max-w-96;
 	}
 
 	.tilt-container {

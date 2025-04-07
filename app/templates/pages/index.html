@@ -17,7 +17,7 @@
 			<div class="materials-grid w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 				{% for material in recent_materials %}
 				<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}" class="block max-w-96">
-					<div class="material-card tilt-container cursor-pointer bg-gray-950 p-4 shadow-lg flex flex-col gap-4" onmousemove="updateTilt(event)">
+					<div class="material-item tilt-container cursor-pointer bg-gray-950 p-4 shadow-lg flex flex-col gap-4" onmousemove="updateTilt(event)">
 						<div class="basic-data">
 							<h3 class="text-xl font-semibold text-gray-300">{{ material.title }}</h3>
 							<p class="text-gray-400">{{ material.topic.subject }}</p>

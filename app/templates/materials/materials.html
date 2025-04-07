@@ -9,20 +9,39 @@
 </section>
 <hr class="divider" />
 <section class="materials-section py-12 px-4 md:px-2">
-	<div class="container flex gap-8">
-		<div class="filters w-1/4 max-md:invisible hidden">
-			<h3 class="text-md font-bold text-gray-300 border-2 border-gray-400 p-4 rounded-full">Filtry</h2>
+	<div class="flex gap-8">
+		<div class="filters flex flex-col gap-4 border-2 border-gray-400 p-4 rounded-3xl w-1/4 max-w-md max-lg:invisible max-lg:hidden">
+			<h3 class="text-lg text-center font-bold text-gray-300">Filtry</h2>
+			<input type="text" id="filter-input" class="w-full p-2 rounded-md border-2 border-gray-400" placeholder="Szukaj...">
 		</div>
-		<div class="materials p-4 w-3/4 ">
-			<h3 class="text-lg font-bold text-gray-300 mb-4">Materiały</h2>
-			<div class="materials-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md gap-4 w-3/4">	
-				{% for material in materials %}
-					<div class="material-card">
-						costam
-					</div>
-				{% endfor %}
-			</div>
+		<div class="materials flex flex-col items-center gap-4 flex-grow" id="materials-container">
+			{% include 'partials/materials_list.html' %}
 		</div>
 	</div>
 </section>
+
+<script>
+let currentQuery = '';
+
+function loadMaterials(page = 1, query = '') {
+  fetch(`/materials/ajax/?page=${page}&q=${query}`)
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('materials-container').innerHTML = data.html;
+      currentQuery = query;
+    });
+}
+
+document.getElementById('filter-input').addEventListener('input', function () {
+  loadMaterials(1, this.value);
+});
+
+document.addEventListener('click', function (e) {
+  if (e.target.classList.contains('page-link')) {
+    e.preventDefault();
+    const page = e.target.dataset.page;
+    loadMaterials(page, currentQuery);
+  }
+});
+</script>
 {% endblock content %}

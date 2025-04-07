@@ -5,6 +5,13 @@ from .models import Subject, Topic, Material
 # Create your views here.
 def materials(request):
     """Render subjects list for materials"""
+    subject = get_object_or_404(Subject, slug=subject_slug)
+    topic = get_object_or_404(Topic, slug=topic_slug, subject=subject)
+    material = get_object_or_404(Material, id=material_id, topic=topic)
+
+    context = {
+        'material': material,
+    }
     return render(request, "materials/materials.html")
 
 

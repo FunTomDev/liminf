@@ -15,7 +15,10 @@ module.exports = {
         'mobile-nav__open',
         'mobile-nav__close',
         'bg-curtain__open',
-        'bg-curtain__close'
+        'bg-curtain__close',
+        'material-item__gray',
+        'material-item__orange',
+        'material-item__lime',
     ],
     purge: [
         '../templates/**/*.html',

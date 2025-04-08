@@ -15,9 +15,9 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Material)
 class MaterialAdmin(admin.ModelAdmin):
-    list_display = ('title', 'topic', 'material_type', 'uploaded_at')
+    list_display = ('title', 'topic', 'type', 'uploaded_at')
     search_fields = ('title',)
-    list_filter = ('topic', 'material_type')
+    list_filter = ('topic', 'type')
 
 @admin.register(MathproArticle)
 class MathproArticleAdmin(admin.ModelAdmin):

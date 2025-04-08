@@ -24,11 +24,16 @@ def materials(request):
     """Render subjects list for materials"""
 
     materials_list = Material.objects.all()
+    subjects = {}
+    for topic in Topic.objects.select_related('subject'):
+        if topic.subject.slug not in subjects:
+            subjects[topic.subject.slug] = []
+        subjects[topic.subject.slug].append(topic.slug)
     paginator = Paginator(materials_list, 10)  # 10 materials per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'materials/materials.html', context={'page_obj': page_obj})
+    return render(request, 'materials/materials.html', context={'page_obj': page_obj, 'subjects': subjects})
 
 
 def details(request, subject_slug, topic_slug, material_id):

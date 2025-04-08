@@ -9,28 +9,28 @@
 	</div>
 </section>
 <hr class="divider" />
-<section class="materials-section py-12 px-8 md:px-16">
+<section class="materials-section py-8 px-8 md:px-16">
 	<div>
 		<h2 class="text-3xl font-bold text-gray-300 text-center mb-6">Materiały</h2>
 		{% if recent_materials %}
-		<div class="flex flex-col items-center gap-4">
+		<div class="flex flex-col items-center gap-8">
 			<div class="materials-grid w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 				{% for material in recent_materials %}
 				<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}" class="block max-w-96">
-					<div class="material-item {% if material.material_type == 'official' %} border-gray-400 hover:border-gray-200 {% elif material.material_type == 'student_notes' %} border-orange-400 hover:border-orange-300 {% else %} border-lime-400 hover:border-lime-300 {% endif %} tilt-container cursor-pointer bg-gray-950 p-4 shadow-lg flex flex-col gap-4" onmousemove="updateTilt(event)">
+					<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
 						<div class="basic-data">
-							<h3 class="text-xl font-semibold text-gray-300">{{ material.title }}</h3>
-							<p class="text-gray-400">{{ material.topic.subject }}</p>
-							<p class="text-gray-400">{{ material.topic }}</p>
+							<h3 class="text-xl font-semibold">{{ material.title }}</h3>
+							<p class="">{{ material.topic.subject }}</p>
+							<p class="">{{ material.topic.name }}</p>
 						</div>
 						<hr class="divider" />
-						<div class="description">
-							<p class="text-gray-400">{{ material.short_description }}</p>
+						<div class="description flex-1">
+							<p class="">{{ material.short_description }}</p>
 						</div>
 						<hr class="divider" />
 						<div class="additional-data flex justify-between items-center">
-							<span class="text-gray-400 text-sm border-2 py-1 px-2 rounded-full border-gray-400">{{ material.material_type }}</span>
-							<span class="text-gray-500 text-sm">{{ material.uploaded_at|date:'d.m.Y' }}</span>
+							<span class="text-sm border-2 py-1 px-2 rounded-full">{{ material.get_type_display }}</span>
+							<span class="text-sm">{{ material.uploaded_at|date:'d.m.Y' }}</span>
 						</div>
 					</div>
 				</a>
@@ -46,20 +46,19 @@
 	</div>
 </section>
 <hr class="divider" />
-<section class="problems-section py-12 px-8 md:px-16">
+<section class="problems-section py-8 px-8 md:px-16">
 	<h2 class="text-3xl font-bold text-gray-300 text-center mb-6">Zadania</h2>
-	{% if problems %}
-	<h3>Niedawno dodane</h3>
-	<div class="problems-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-		{% for problem in problems %}
-		<div class="problem-card bg-gray-950 p-4 rounded-lg shadow-lg">
-			<h3 class="text-xl font-semibold text-gray-300">{{ problem.name }}</h3>
-			<p class="text-gray-400">{{ problem.description }}</p>
-			<a href="{% url 'problems:problem-detail' problem.slug %}" class="btn-primary mt-4">Zobacz</a>
+	{% if recent_problems %}
+	<div class="flex flex-col items-center gap-8">
+		<div class="problems-grid w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+			{% for problem in recent_problems %}
+			<!-- Each problem's card placeholder -->
+			{% endfor %}
 		</div>
-		{% endfor %}
+		<div class="flex justify-center">
+			<!-- More button placeholder -->
+		</div>
 	</div>
-	<button class="btn-primary">Zobaczy wszystkie &rarr;</button>
 	{% else %}
 	<p class="text-gray-400 text-center">Brak dodanych zadań</p>
 	{% endif %}

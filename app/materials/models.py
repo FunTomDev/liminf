@@ -45,20 +45,27 @@ class Topic(models.Model):
         return f"{self.subject} > {self.name}"
 class Material(models.Model):
     MATERIAL_TYPES = [
-        ('official', "Official Material"),
-        ('student_notes', "Students' Notes"),
+        ('official', "Oficjalne"),
+        ('student_notes', "Notatki"),
     ]
 
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="materials")
     title = models.CharField(max_length=255)
-    material_type = models.CharField(max_length=20, choices=MATERIAL_TYPES)
+    type = models.CharField(max_length=20, choices=MATERIAL_TYPES)
     short_description = models.CharField(max_length=2048, blank=True)
     content = models.TextField(blank=True)
     file = models.FileField(upload_to=material_upload_path, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.title} ({self.get_material_type_display()})"
+        return f"{self.title}"
+
+    def get_border_style(self):
+        return {
+            'student_notes': 'material-item__orange',
+            'mathpro': 'material-item__lime',
+            'official': 'material-item__gray'
+        }.get(self.type, 'material-item__gray')
 
 @receiver(post_delete, sender=Material)
 def delete_file_on_material_delete(sender, instance, **kwargs):

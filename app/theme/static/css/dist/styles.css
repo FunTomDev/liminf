@@ -1036,16 +1036,9 @@ select {
   max-width: 24rem;
   border-radius: 1.5rem;
   border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgb(156 163 175 / var(--tw-border-opacity, 1));
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-}
-
-.material-item:hover {
-  --tw-border-opacity: 1;
-  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
 }
 
 .tilt-container {
@@ -1157,10 +1150,6 @@ select {
   width: 25%;
 }
 
-.w-3\/4 {
-  width: 75%;
-}
-
 .w-80 {
   width: 20rem;
 }
@@ -1224,10 +1213,6 @@ select {
 
 .grid-cols-\[repeat\(auto-fit\2c minmax\(300px\2c 1fr\)\)\] {
   grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
-}
-
-.grid-cols-\[repeat\(auto-fill\2c minmax\(350px\2c 1fr\)\)\] {
-  grid-template-columns: repeat(auto-fill,minmax(350px,1fr));
 }
 
 .flex-row {
@@ -1330,6 +1315,16 @@ select {
 .border-gray-400 {
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity, 1));
+}
+
+.border-lime-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(163 230 53 / var(--tw-border-opacity, 1));
+}
+
+.border-orange-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(251 146 60 / var(--tw-border-opacity, 1));
 }
 
 .bg-current {
@@ -1519,6 +1514,31 @@ select {
   transition-duration: 300ms;
 }
 
+.hover\:border-gray-200:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
+}
+
+.hover\:border-lime-200:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(217 249 157 / var(--tw-border-opacity, 1));
+}
+
+.hover\:border-orange-200:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(254 215 170 / var(--tw-border-opacity, 1));
+}
+
+.hover\:border-lime-300:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(190 242 100 / var(--tw-border-opacity, 1));
+}
+
+.hover\:border-orange-300:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(253 186 116 / var(--tw-border-opacity, 1));
+}
+
 .hover\:bg-gray-900:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
@@ -1564,10 +1584,6 @@ select {
 
   .max-sm\:flex-col {
     flex-direction: column;
-  }
-
-  .max-sm\:place-items-center {
-    place-items: center;
   }
 
   .max-sm\:items-center {

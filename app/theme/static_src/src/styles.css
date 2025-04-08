@@ -92,7 +92,7 @@
 	}
 
 	.material-item {
-		@apply border-2 border-gray-400 rounded-3xl transition-all hover:border-gray-200 max-w-96;
+		@apply border-2 rounded-3xl transition-all max-w-96;
 	}
 
 	.tilt-container {

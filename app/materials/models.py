@@ -42,8 +42,7 @@ class Topic(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.name}"
-
+        return f"{self.subject} > {self.name}"
 class Material(models.Model):
     MATERIAL_TYPES = [
         ('official', "Official Material"),

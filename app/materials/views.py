@@ -14,7 +14,7 @@ def materials_ajax(request):
     if query:
         materials = materials.filter(title__icontains=query)
 
-    paginator = Paginator(materials, 30)
+    paginator = Paginator(materials, 10)
     page_obj = paginator.get_page(page_number)
 
     html = render_to_string('partials/materials_list.html', {'page_obj': page_obj})
@@ -24,7 +24,7 @@ def materials(request):
     """Render subjects list for materials"""
 
     materials_list = Material.objects.all()
-    paginator = Paginator(materials_list, 30)  # 10 materials per page
+    paginator = Paginator(materials_list, 10)  # 10 materials per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

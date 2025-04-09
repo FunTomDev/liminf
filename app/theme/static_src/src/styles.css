@@ -2,15 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base{
+@layer base {
 	input[type="text"],
 	input[type="password"],
-	input[type="textbox"]{
+	input[type="textbox"] {
 		@apply rounded-full border border-gray-400 px-4 py-2 bg-transparent transition-colors focus:border-gray-200 hover:border-gray-300;
 	}
 	input[type="text"]:focus,
 	input[type="password"]:focus,
-	input[type="textbox"]:focus{
+	input[type="textbox"]:focus {
 		box-shadow: none;
 		outline: none;
 	}
@@ -106,23 +106,23 @@
 		@apply inline-link text-sm;
 	}
 
-	.subject-checkbox-item{
-		@apply min-h-16 border border-gray-400 rounded-3xl p-2 hover:border-gray-300 focus-within:border-gray-200;
+	.subject-checkbox-item {
+		@apply min-h-16 border border-gray-400 rounded-3xl px-4 py-2 hover:border-gray-300 focus-within:border-gray-200;
 	}
 
 	.material-item {
 		@apply h-full border-2 rounded-3xl transition-all max-w-96 cursor-pointer p-4 shadow-lg flex flex-col justify-between gap-4;
 	}
 
-	.material-item__gray{
+	.material-item__gray {
 		@apply bg-gray-900 border-gray-400 hover:border-gray-200 bg-opacity-10 text-gray-400 [&_.divider]:border-gray-400 [&_.header]:text-gray-300 [&_.material-type]:border-gray-400 [&_.upload-date]:text-gray-500 material-item;
 	}
 
-	.material-item__orange{
+	.material-item__orange {
 		@apply bg-orange-900 border-orange-400 hover:border-orange-300 bg-opacity-10 text-orange-400 [&_.divider]:border-orange-400 [&_.header]:text-orange-300 [&_.material-type]:border-orange-400 [&_.upload-date]:text-orange-500 material-item;
 	}
 
-	.material-item__lime{
+	.material-item__lime {
 		@apply bg-lime-900 border-lime-400 hover:border-lime-300 bg-opacity-10 text-lime-400 [&_.divider]:border-lime-400 [&_.header]:text-lime-300 [&_.material-type]:border-lime-400 [&_.upload-date]:text-lime-500 material-item;
 	}
 

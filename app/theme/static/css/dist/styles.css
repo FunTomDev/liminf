@@ -1071,7 +1071,10 @@ input[type="text"]:focus,
   border-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity, 1));
-  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .subject-checkbox-item:focus-within {
@@ -1363,6 +1366,10 @@ input[type="text"]:focus,
   height: 100vh;
 }
 
+.h-14 {
+  height: 3.5rem;
+}
+
 .max-h-0 {
   max-height: 0px;
 }
@@ -1371,12 +1378,16 @@ input[type="text"]:focus,
   max-height: 1000px;
 }
 
+.min-h-16 {
+  min-height: 4rem;
+}
+
 .min-h-12 {
   min-height: 3rem;
 }
 
-.min-h-16 {
-  min-height: 4rem;
+.min-h-14 {
+  min-height: 3.5rem;
 }
 
 .w-1\/3 {

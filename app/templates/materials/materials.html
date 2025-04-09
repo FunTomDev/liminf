@@ -16,8 +16,8 @@
             {% if subjects %}
             <ul class="flex flex-col gap-2">    
             {% for subject, topics in subjects.items %}
-            <div class="subject-checkbox-item text-sm">
-                <div class="flex items-center justify-between cursor-pointer">
+            <div class="subject-checkbox-item text-sm flex flex-col justify-center">
+                <div class="w-full flex items-center justify-between cursor-pointer">
                     <!-- Subject checkbox -->
                     <label class="font-semibold flex items-center space-x-2">
                         <input type="checkbox" class="subject-checkbox rounded-full" data-subject="{{ subject }}" name="subject" value="{{ subject }}">
@@ -31,11 +31,10 @@
                         </svg>
                     </div>
                 </div>
-
-                <hr class="my-2 hidden scale-x-0 transition-transform" id="hr-{{ subject }}">
+                <hr class="divider my-2 hidden scale-x-0 transition-transform" id="hr-{{ subject }}">
 
                 <!-- Hidden topic list -->
-                <div id="topics-{{ subject }}" class="ml-6 mt-1 overflow-hidden max-h-0 flex flex-col gap-2 transition-all duration-300">
+                <div id="topics-{{ subject }}" class="ml-6 my-1 hidden overflow-hidden max-h-0 flex flex-col gap-2 transition-all duration-300">
                     {% for topic in topics %}
                     <label class="block ml-4">
                         <input class="rounded-full" type="checkbox" name="topic" data-parent="{{ subject }}" value="{{ topic.id }}">

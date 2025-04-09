@@ -107,7 +107,7 @@
 	}
 
 	.subject-checkbox-item{
-		@apply border border-gray-400 rounded-3xl p-2 hover:border-gray-300 focus-within:border-gray-200;
+		@apply min-h-16 border border-gray-400 rounded-3xl p-2 hover:border-gray-300 focus-within:border-gray-200;
 	}
 
 	.material-item {

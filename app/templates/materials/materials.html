@@ -1,23 +1,56 @@
 {% extends 'base.html' %} {% block content %}
 <section class="hero-section relative overflow-hidden z-40">
-	<div class="text-center relative z-10 max-w-screen-lg mx-auto">
-		<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">Materiały</h1>
-		<p class="text-gray-400 max-w-2xl mx-auto text-lg">
-			Lista wszystkich dostępnych źródeł do nauki: <em><strong>oficjalnych</strong></em> materiałów z zajęć i udostępnionych przez studentów notatek.
-		</p>
-	</div>
+    <div class="text-center relative z-10 max-w-screen-lg mx-auto">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">Materiały</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+            Lista wszystkich dostępnych źródeł do nauki: <em><strong>oficjalnych</strong></em> materiałów z zajęć i udostępnionych przez studentów notatek.
+        </p>
+    </div>
 </section>
 <hr class="divider" />
 <section class="materials-section py-12 px-4 md:px-2">
-	<div class="flex gap-8">
-		<div class="filters flex flex-col gap-4 border-2 border-gray-400 p-4 rounded-3xl w-1/4 max-w-md max-lg:invisible max-lg:hidden">
-			<h3 class="text-lg text-center font-bold text-gray-300">Filtry</h2>
-			<input type="text" id="filter-input" class="w-full p-2 rounded-md border-2 border-gray-400" placeholder="Szukaj...">
-		</div>
-		<div class="materials flex flex-col items-center gap-4 flex-grow" id="materials-container">
-			{% include 'partials/materials_list.html' %}
-		</div>
-	</div>
+    <div class="flex gap-8">
+        <div class="filters flex flex-col gap-4 border-2 border-gray-400 p-4 rounded-3xl w-1/3 max-w-md max-lg:invisible max-lg:hidden">
+            <h3 class="text-lg text-center font-bold text-gray-300">Filtry</h2>
+            <input type="text" id="filter-input" class="w-full p-2 rounded-md border-2 border-gray-400" placeholder="Szukaj...">
+            {% if subjects %}
+            <ul class="flex flex-col gap-2">    
+            {% for subject, topics in subjects.items %}
+            <div class="subject-checkbox-item text-sm flex flex-col justify-center">
+                <div class="w-full flex items-center justify-between cursor-pointer">
+                    <!-- Subject checkbox -->
+                    <label class="font-semibold flex items-center space-x-2">
+                        <input type="checkbox" class="subject-checkbox rounded-full" data-subject="{{ subject }}" name="subject" value="{{ subject }}">
+                        <span>{{ subject }}</span>
+                    </label>
+
+                    <!-- Arrow Icon -->
+                    <div class="arrow-icon w-8 h-8 flex justify-center items-center" onclick="toggleTopics('{{ subject }}')">
+                        <svg id="arrow-{{ subject }}" class="w-4 h-4 transition-transform duration-300 transform rotate-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                </div>
+                <hr class="divider my-2 hidden scale-x-0 transition-transform" id="hr-{{ subject }}">
+
+                <!-- Hidden topic list -->
+                <div id="topics-{{ subject }}" class="ml-6 my-1 hidden overflow-hidden max-h-0 flex flex-col gap-2 transition-all duration-300">
+                    {% for topic in topics %}
+                    <label class="block ml-4">
+                        <input class="rounded-full" type="checkbox" name="topic" data-parent="{{ subject }}" value="{{ topic.id }}">
+                        {{ topic.name }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="materials flex flex-col items-center gap-4 flex-grow" id="materials-container">
+            {% include 'partials/materials_list.html' %}
+        </div>
+    </div>
 </section>
 
 <script>
@@ -43,5 +76,42 @@ document.addEventListener('click', function (e) {
     loadMaterials(page, currentQuery);
   }
 });
+</script>
+<script>
+  function toggleTopics(subject) {
+    const topicContainer = document.getElementById(`topics-${subject}`);
+    const arrow = document.getElementById(`arrow-${subject}`);
+    const hr = document.getElementById(`hr-${subject}`)
+
+    if (topicContainer.classList.contains('max-h-0')) {
+      topicContainer.classList.remove('max-h-0');
+      topicContainer.classList.add('max-h-[1000px]'); // adjust as needed
+      arrow.classList.add('rotate-180');
+      hr.classList.remove('hidden')
+      setTimeout(() => {
+        hr.classList.add('scale-x-1');
+        hr.classList.remove('scale-x-0');
+      }, 10);
+
+    } else {
+      topicContainer.classList.add('max-h-0');
+      topicContainer.classList.remove('max-h-[1000px]');
+      arrow.classList.remove('rotate-180');
+      hr.classList.add('scale-x-0');
+      hr.classList.remove('scale-x-1');
+      setTimeout(() => {hr.classList.add('hidden')}, 200);
+    }
+  }
+
+  // Auto-check topics when subject is checked
+  document.querySelectorAll('.subject-checkbox').forEach(subjectCheckbox => {
+    subjectCheckbox.addEventListener('change', function () {
+      const subject = this.dataset.subject;
+      const topicCheckboxes = document.querySelectorAll(`input[name="topic"][data-parent="${subject}"]`);
+      topicCheckboxes.forEach(topic => {
+        topic.checked = this.checked;
+      });
+    });
+  });
 </script>
 {% endblock content %}

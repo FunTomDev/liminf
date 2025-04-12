@@ -29,6 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '192.168.22.160', '192.168.0.12']
 
+AUTH_USER_MODEL = 'users.User'
 
 # Application definition
 

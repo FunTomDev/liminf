@@ -3,20 +3,70 @@
 @tailwind utilities;
 
 @layer base {
+	* {
+		@apply !duration-300;
+	}
 	input[type="text"],
 	input[type="password"],
 	input[type="textbox"] {
 		@apply rounded-full border border-gray-400 px-4 py-2 bg-transparent transition-colors focus:border-gray-200 hover:border-gray-300;
 	}
+
+	input[type="checkbox"] {
+		@apply rounded-full border border-gray-400 bg-transparent transition-colors hover:border-gray-300;
+	}
+
 	input[type="text"]:focus,
 	input[type="password"]:focus,
-	input[type="textbox"]:focus {
+	input[type="textbox"]:focus,
+	input[type="checkbox"]:focus {
 		box-shadow: none;
 		outline: none;
 	}
 }
 
 @layer components {
+	.chkbx-primary {
+	}
+
+	.chkbx-primary-label {
+		@apply flex items-center gap-2 cursor-pointer select-none hover:text-gray-200 has-[:checked]:text-gray-200 relative border-gray-400 rounded-full transition-colors;
+	}
+
+	.chkbx-primary-label input[type="checkbox"] {
+		@apply hidden;
+	}
+
+	.chkbx-box {
+		@apply w-4 h-4 rounded-full border-2 border-gray-400 transition-all;
+		content: "";
+		display: inline-block;
+		position: relative;
+	}
+
+	/* Checked = gray background */
+	.peer:checked + .chkbx-box {
+		@apply bg-gray-300 border-gray-300;
+	}
+
+	.chkbx-box::after {
+		@apply transition-opacity opacity-0 duration-300 rounded-full bg-gray-300 w-1.5 h-1.5;
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	/* Indeterminate = small circle inside */
+	.peer:indeterminate + .chkbx-box::after {
+		opacity: 1;
+	}
+
+	.chkbx-primary-label:hover .chkbx-box {
+		@apply border-gray-300;
+	}
+
 	.btn-primary {
 		@apply bg-gray-200 text-gray-800 font-semibold rounded-full px-4 py-2 cursor-pointer transition-colors;
 	}
@@ -104,6 +154,10 @@
 
 	.inline-link__sm {
 		@apply inline-link text-sm;
+	}
+
+	.filter-section {
+		@apply rounded-3xl border-2 border-gray-400 p-4;
 	}
 
 	.subject-checkbox-item {

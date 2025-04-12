@@ -14,7 +14,7 @@ def materials_ajax(request):
     if query:
         materials = materials.filter(title__icontains=query)
 
-    paginator = Paginator(materials, 10)
+    paginator = Paginator(materials, 24)
     page_obj = paginator.get_page(page_number)
 
     html = render_to_string('partials/materials_list.html', {'page_obj': page_obj})
@@ -29,14 +29,9 @@ def materials(request):
         if topic.subject not in subjects:
             subjects[topic.subject] = []
         subjects[topic.subject].append(topic)
-    paginator = Paginator(materials_list, 10)  # 10 materials per page
+    paginator = Paginator(materials_list, 24)  # 24 materials per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
-    for subject, topics in subjects.items():
-        print(subject)
-        for topic in topics:
-            print(topic)
 
     return render(request, 'materials/materials.html', context={'page_obj': page_obj, 'subjects': subjects})
 

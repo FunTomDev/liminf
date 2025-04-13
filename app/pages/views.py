@@ -7,7 +7,7 @@ from materials.models import Material
 # Create your views here.
 def index(request):
     """Displays main page"""
-    recent_materials = Material.objects.order_by('-uploaded_at')[:5]  # Fetch 5 latest materials
+    recent_materials = Material.objects.order_by('-uploaded_at')[:10]  # Fetch 5 latest materials
 
     context = {
         'recent_materials': recent_materials

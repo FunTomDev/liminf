@@ -8,9 +8,9 @@ def generator():
     Generator function to yield a random number of materials.
     """
     # 1. Define sample data
-    material_types = ['official', 'student_notes']
-    subject_names = ['TEST_Matma', 'TEST_Infa', 'TEST_Fizyka']
-    topic_names = ['TEST_Teoria', 'TEST_Zadania', 'TEST_Laboratoria']
+    material_types = ['official', 'student_notes', 'mathpro']
+    subject_names = ['TEST Matma', 'TEST Infa', 'TEST Fizyka']
+    topic_names = ['TEST Teoria', 'TEST Zadania', 'TEST Laboratoria']
 
     # 2. Create test subjects and topics
     subjects = []
@@ -20,15 +20,15 @@ def generator():
         subject, _ = Subject.objects.get_or_create(name=subject_name)
         subjects.append(subject)
         for topic_name in topic_names:
-            full_topic_name = f"{topic_name}_{subject.slug}"
-            topic, _ = Topic.objects.get_or_create(name=full_topic_name, subject=subject)
+            print(f"Creating topic: {topic_name} for subject: {subject_name}")
+            topic, _ = Topic.objects.get_or_create(name=topic_name, subject=subject)
             topics.append(topic)
 
     # 3. Create fake materials
     for i in range(int(input("How many materials do you want to generate?: "))):  # Adjust quantity as needed
         topic = random.choice(topics)
         mat_type = random.choice(material_types)
-        title = f"TEST_Material_{i}_{topic.slug}"
+        title = f"TEST Material {i}"
 
         Material.objects.create(
             topic=topic,
@@ -43,11 +43,11 @@ def generator():
 
 def delete_generated_values():
     # Delete test materials
-    mat_count, _ = Material.objects.filter(title__startswith="TEST_").delete()
+    mat_count, _ = Material.objects.filter(title__startswith="TEST ").delete()
 
     # Delete test topics and subjects
-    topic_count, _ = Topic.objects.filter(name__startswith="TEST_").delete()
-    subj_count, _ = Subject.objects.filter(name__startswith="TEST_").delete()
+    topic_count, _ = Topic.objects.filter(name__startswith="TEST ").delete()
+    subj_count, _ = Subject.objects.filter(name__startswith="TEST ").delete()
 
     print(f"🧼 Deleted {mat_count} materials, {topic_count} topics, and {subj_count} subjects.")
 

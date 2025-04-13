@@ -35,7 +35,12 @@ class Topic(models.Model):
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='topics')
     name = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['subject', 'slug'], name='unique_topic_slug_per_subject')
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -48,7 +53,7 @@ class Material(models.Model):
     MATERIAL_TYPES = [
         ('official', "Oficjalne"),
         ('student_notes', "Notatki"),
-        ('mathpro', "Tłumaczenia MathPro"),
+        ('mathpro', "MathPro"),
     ]
 
     # Relations and metadata

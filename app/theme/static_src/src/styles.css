@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-	* {
-		@apply !duration-300;
-	}
+	/* * {
+		outline: 1px solid yellow !important;
+	} */
 	input[type="text"],
 	input[type="password"],
 	input[type="textbox"] {
@@ -164,8 +164,27 @@
 		@apply min-h-16 border border-gray-400 rounded-3xl px-4 py-2 hover:border-gray-300 focus-within:border-gray-200;
 	}
 
+	.carousel-container {
+		@apply w-full max-w-[2000px] mx-auto py-8 px-4 relative overflow-hidden flex flex-col items-center gap-8;
+	}
+
+	.carousel-track {
+		@apply w-full grid place-items-center grid-flow-col auto-cols-[calc((100%/5)-12px)] gap-4 transition-transform duration-300 ease-in-out;
+	}
+
+	.carousel-item {
+		@apply w-full;
+	}
+
+	.carousel-arrow {
+		@apply absolute top-1/2 transform -translate-y-1/2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-full w-10 h-10 flex items-center justify-center focus:outline-none;
+	}
+	.materials-list {
+		@apply w-full grid grid-flow-row grid-cols-[repeat(auto-fill,minmax(350px,1fr))] items-start gap-4;
+	}
+
 	.material-item {
-		@apply h-full border-2 rounded-3xl transition-all max-w-96 cursor-pointer p-4 shadow-lg flex flex-col justify-between gap-4;
+		@apply h-full min-w-full min-h-96 border-2 rounded-3xl transition-all max-w-96 cursor-pointer p-4 shadow-lg flex flex-col justify-between gap-4;
 	}
 
 	.material-item__gray {
@@ -178,6 +197,13 @@
 
 	.material-item__lime {
 		@apply bg-lime-900 border-lime-400 hover:border-lime-300 bg-opacity-10 text-lime-400 [&_.divider]:border-lime-400 [&_.header]:text-lime-300 [&_.material-type]:border-lime-400 [&_.upload-date]:text-lime-500 material-item;
+	}
+
+	.material-type {
+		@apply text-sm border-2 py-1 px-2 rounded-full;
+	}
+	.upload-date {
+		@apply text-sm;
 	}
 
 	.tilt-container {

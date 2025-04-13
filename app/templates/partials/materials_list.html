@@ -1,7 +1,7 @@
-<div class="materials-list w-full grid grid-flow-row grid-cols-[repeat(auto-fill,minmax(350px,1fr))] items-start gap-4" id="materials-list">
+<div class="materials-list" id="materials-list">
 	{% for material in page_obj %}
 	<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}">
-		<div class="{{ material.get_border_style }} min-w-full min-h-96 tilt-container" onmousemove="updateTilt(event)">
+		<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
 			<div class="basic-data">
 				<h3 class="header text-xl font-semibold">{{ material.title }}</h3>
 				<p class="">{{ material.topic.subject }}</p>
@@ -13,8 +13,8 @@
 			</div>
 			<hr class="divider" />
 			<div class="additional-data flex justify-between items-center">
-				<span class="material-type text-sm border-2 py-1 px-2 rounded-full">{{ material.get_type_display }}</span>
-				<span class="text-sm upload-date">{{ material.uploaded_at|date:'d.m.Y' }}</span>
+				<span class="material-type">{{ material.get_type_display }}</span>
+				<span class="upload-date">{{ material.uploaded_at|date:'d.m.Y' }}</span>
 			</div>
 		</div>
 	</a>

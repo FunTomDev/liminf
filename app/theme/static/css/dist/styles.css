@@ -749,9 +749,9 @@ select {
   outline: 1px auto -webkit-focus-ring-color;
 }
 
-* {
-  outline: 1px solid yellow !important;
-}
+/** {
+		outline: 1px solid yellow !important;
+	}*/
 
 input[type="text"],
 	input[type="password"],
@@ -1216,24 +1216,33 @@ input[type="text"]:focus,
 
 @media (min-width: 768px) {
   .carousel-track {
-    grid-auto-columns: calc((100% / 2) - 8px);
+    grid-auto-columns: calc((100% / 2) - 7.5px);
   }
 }
 
 @media (min-width: 1024px) {
   .carousel-track {
-    grid-auto-columns: calc((100% / 3) - 12px);
+    grid-auto-columns: calc((100% / 3) - 10.3px);
   }
 }
 
 @media (min-width: 1280px) {
   .carousel-track {
-    grid-auto-columns: calc((100% / 4) - 12.9px);
+    grid-auto-columns: calc((100% / 4) - 11.7px);
+  }
+}
+
+@media (min-width: 1536px) {
+  .carousel-track {
+    grid-auto-columns: calc((100% / 5) - 12.9px);
   }
 }
 
 .carousel-item {
-  max-width: 20rem;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .carousel-arrow {

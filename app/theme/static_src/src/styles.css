@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-	 * {
+	/** {
 		outline: 1px solid yellow !important;
-	} 
+	}*/ 
 	input[type="text"],
 	input[type="password"],
 	input[type="textbox"] {
@@ -169,11 +169,11 @@
 	}
 
 	.carousel-track {
-		@apply w-full grid place-items-center grid-flow-col auto-cols-[100%] md:auto-cols-[calc((100%/2)-8px)] lg:auto-cols-[calc((100%/3)-12px)] xl:auto-cols-[calc((100%/4)-12.9px)] gap-4 transition-transform duration-300 ease-in-out;
+		@apply w-full grid place-items-center grid-flow-col auto-cols-[100%] md:auto-cols-[calc((100%/2)-7.5px)] lg:auto-cols-[calc((100%/3)-10.3px)] xl:auto-cols-[calc((100%/4)-11.7px)] 2xl:auto-cols-[calc((100%/5)-12.9px)] gap-4 transition-transform duration-300 ease-in-out;
 	}
 
 	.carousel-item {
-		@apply max-w-80;
+		@apply w-full flex justify-center items-center;
 	}
 
 	.carousel-arrow {

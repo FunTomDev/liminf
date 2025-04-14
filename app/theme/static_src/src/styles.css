@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-	/* * {
+	 * {
 		outline: 1px solid yellow !important;
-	} */
+	} 
 	input[type="text"],
 	input[type="password"],
 	input[type="textbox"] {
@@ -165,15 +165,15 @@
 	}
 
 	.carousel-container {
-		@apply w-full max-w-[2000px] mx-auto py-8 px-4 relative overflow-hidden flex flex-col items-center gap-8;
+		@apply w-full max-w-[150rem] mx-auto py-8 px-4 relative overflow-hidden flex flex-col items-center gap-8;
 	}
 
 	.carousel-track {
-		@apply w-full grid place-items-center grid-flow-col auto-cols-[calc((100%/5)-12px)] gap-4 transition-transform duration-300 ease-in-out;
+		@apply w-full grid place-items-center grid-flow-col auto-cols-[100%] md:auto-cols-[calc((100%/2)-8px)] lg:auto-cols-[calc((100%/3)-12px)] xl:auto-cols-[calc((100%/4)-12.9px)] gap-4 transition-transform duration-300 ease-in-out;
 	}
 
 	.carousel-item {
-		@apply w-full;
+		@apply max-w-80;
 	}
 
 	.carousel-arrow {

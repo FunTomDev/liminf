@@ -37,9 +37,6 @@
 			</div>
 			{% endfor %}
 		</div>
-		{% else %}
-		<p class="text-gray-400 text-center">Brak dodanych materiałów</p>
-		{% endif %}
 		<!-- Navigation Arrows -->
 		<button class="carousel-arrow carousel-prev left-0">
 			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,6 +53,9 @@
 		<div class="flex justify-center">
 			<a href="{% url 'materials:materials-list' %}" class="btn-primary">Zobacz wszystkie &#8594;</a>
 		</div>
+		{% else %}
+		<p class="text-gray-400 text-center">Brak dodanych materiałów</p>
+		{% endif %}
 	</div>
 </section>
 <hr class="divider" />

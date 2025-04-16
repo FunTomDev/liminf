@@ -8,18 +8,22 @@
 	}*/ 
 	input[type="text"],
 	input[type="password"],
-	input[type="textbox"] {
-		@apply rounded-full border border-gray-400 px-4 py-2 bg-transparent transition-colors focus:border-gray-200 hover:border-gray-300;
+	input[type="email"],
+	input[type="textbox"],
+	textarea{
+		@apply bg-gray-950 rounded-full border border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
 	}
 
 	input[type="checkbox"] {
-		@apply rounded-full border border-gray-400 bg-transparent transition-colors hover:border-gray-300;
+		@apply rounded-full border border-gray-400 transition-colors hover:border-gray-300;
 	}
 
 	input[type="text"]:focus,
 	input[type="password"]:focus,
+	input[type="email"]:focus,
 	input[type="textbox"]:focus,
-	input[type="checkbox"]:focus {
+	input[type="checkbox"]:focus,
+	textarea:focus{
 		box-shadow: none;
 		outline: none;
 	}
@@ -139,11 +143,6 @@
 		@apply max-w-sm mx-auto min-w-full flex flex-col gap-4;
 	}
 
-	.main-form input[type="text"],
-	.main-form input[type="email"],
-	.main-form input[type="password"] {
-		@apply w-full px-4 rounded-full border border-gray-300 bg-gray-950;
-	}
 	.main-form input[type="submit"] {
 		@apply btn-primary;
 	}
@@ -177,7 +176,7 @@
 	}
 
 	.carousel-arrow {
-		@apply absolute top-1/2 transform -translate-y-1/2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-full w-10 h-10 flex items-center justify-center focus:outline-none;
+		@apply absolute top-1/2 transform -translate-y-1/2 shadow-md shadow-black bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-full w-10 h-10 flex items-center justify-center focus:outline-none;
 	}
 	.materials-list {
 		@apply w-full grid grid-flow-row grid-cols-[repeat(auto-fill,minmax(350px,1fr))] items-start gap-4;

@@ -10,12 +10,12 @@
 </section>
 <hr class="divider" />
 <section class="materials-section py-8 px-8 md:px-16">
-	<div class="carousel-container">
+	<div class="carousel-container embla">
 		<h2 class="text-3xl font-bold text-gray-300 text-center">Materiały</h2>
 		{% if recent_materials %}
-		<div class="carousel-track" id="carousel-track">
+		<div class="carousel-track embla__container" id="carousel-track">
 			{% for material in recent_materials %}
-			<div class="carousel-item">
+			<div class="carousel-item embla__slide">
 				<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}" class="block max-w-96">
 					<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
 						<div class="basic-data">

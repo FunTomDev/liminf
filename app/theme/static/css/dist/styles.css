@@ -1179,6 +1179,23 @@ input[type="text"]:focus,
   padding: 1rem;
 }
 
+/* Embla carousel styles */
+
+.embla {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+}
+
+.embla__slide {
+  min-width: 0px;
+  flex: 0 0 100%;
+}
+
+/*  */
+
 .carousel-container {
   position: relative;
   margin-left: auto;
@@ -1189,7 +1206,6 @@ input[type="text"]:focus,
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  overflow: hidden;
   padding-top: 2rem;
   padding-bottom: 2rem;
   padding-left: 1rem;
@@ -1197,39 +1213,11 @@ input[type="text"]:focus,
 }
 
 .carousel-track {
-  display: grid;
+  position: relative;
   width: 100%;
-  grid-auto-columns: 100%;
-  grid-auto-flow: column;
-  place-items: center;
-  gap: 1rem;
   transition-property: transform;
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@media (min-width: 768px) {
-  .carousel-track {
-    grid-auto-columns: calc((100% / 2) - 7.5px);
-  }
-}
-
-@media (min-width: 1024px) {
-  .carousel-track {
-    grid-auto-columns: calc((100% / 3) - 10.3px);
-  }
-}
-
-@media (min-width: 1280px) {
-  .carousel-track {
-    grid-auto-columns: calc((100% / 4) - 11.7px);
-  }
-}
-
-@media (min-width: 1536px) {
-  .carousel-track {
-    grid-auto-columns: calc((100% / 5) - 12.9px);
-  }
 }
 
 .carousel-item {

@@ -49,6 +49,7 @@ class Topic(models.Model):
 
     def __str__(self):
         return f"{self.subject} > {self.name}"
+    
 class Material(models.Model):
     MATERIAL_TYPES = [
         ('official', "Oficjalne"),

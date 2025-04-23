@@ -1,18 +1,36 @@
 import os
+import json
+
 from django.shortcuts import render, get_object_or_404
 from .models import Subject, Topic, Material
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.db.models import Q
 
 # Create your views here.
 def materials_ajax(request):
     query = request.GET.get('q', '')
+    subjects = request.GET.get('subjects', '')
+    material_types = request.GET.get('types', '')
     page_number = request.GET.get('page', 1)
+
+    topics = json.loads(request.GET.get('topics', '{}'))
 
     materials = Material.objects.all()
     if query:
         materials = materials.filter(title__icontains=query)
+    if subjects:
+        materials = materials.filter(topic__subject__slug__in=subjects.split(','))
+    if topics:
+        # Filter by topic IDs
+        query = Q()
+        for subject, topics in topics.items():
+            if topics:
+                query |= Q(topic__subject__slug=subject, topic__slug__in=topics)
+        materials = materials.filter(query)
+    if material_types:
+        materials = materials.filter(type__in=material_types.split(','))
 
     paginator = Paginator(materials, 24)
     page_obj = paginator.get_page(page_number)

@@ -10,53 +10,61 @@
 </section>
 <hr class="divider" />
 <section class="materials-section py-8 px-8 md:px-16">
+	<h2 class="text-3xl font-bold text-gray-300 text-center">Materiały</h2>
+	{% if recent_materials %}
 	<div class="carousel-container embla">
-		<h2 class="text-3xl font-bold text-gray-300 text-center">Materiały</h2>
-		{% if recent_materials %}
-		<div class="carousel-track embla__container" id="carousel-track">
-			{% for material in recent_materials %}
-			<div class="carousel-item embla__slide">
-				<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}" class="block max-w-96">
-					<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
-						<div class="basic-data">
-							<h3 class="header text-xl font-semibold">{{ material.title }}</h3>
-							<p class="">{{ material.topic.subject }}</p>
-							<p class="">{{ material.topic.name }}</p>
+		<div class="carousel-track embla__viewport" id="carousel-track">
+			<div class="embla__container">
+				{% for material in recent_materials %}
+				<div class="carousel-item embla__slide">
+					<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}" class="block max-w-96">
+						<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
+							<div class="basic-data">
+								<h3 class="header text-xl font-semibold">{{ material.title }}</h3>
+								<p class="">{{ material.topic.subject }}</p>
+								<p class="">{{ material.topic.name }}</p>
+							</div>
+							<hr class="divider" />
+							<div class="description flex-1">
+								<p class="">{{ material.short_description }}</p>
+							</div>
+							<hr class="divider" />
+							<div class="additional-data flex justify-between items-center">
+								<span class="material-type">{{ material.get_type_display }}</span>
+								<span class="upload-date">{{ material.uploaded_at|date:'d.m.Y' }}</span>
+							</div>
 						</div>
-						<hr class="divider" />
-						<div class="description flex-1">
-							<p class="">{{ material.short_description }}</p>
-						</div>
-						<hr class="divider" />
-						<div class="additional-data flex justify-between items-center">
-							<span class="material-type">{{ material.get_type_display }}</span>
-							<span class="upload-date">{{ material.uploaded_at|date:'d.m.Y' }}</span>
-						</div>
-					</div>
-				</a>
+					</a>
+				</div>
+				{% endfor %}
 			</div>
-			{% endfor %}
 		</div>
 		<!-- Navigation Arrows -->
-		<button class="carousel-arrow carousel-prev left-0">
-			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-			</svg>
-		</button>
+		<div class="embla__controls max-w-96">
+			<div class="embla__buttons">
+				<button class="embla__button embla__button--prev left-0">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+					</svg>
+				</button>
 
-		<button class="carousel-arrow carousel-next right-0">
-			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-			</svg>
-		</button>
+				<!-- Dots Navigation -->
+				<div class="embla__dots"></div>
 
-		<div class="flex justify-center">
-			<a href="{% url 'materials:materials-list' %}" class="btn-primary">Zobacz wszystkie &#8594;</a>
+				<button class="embla__button embla__button--next right-0">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+					</svg>
+				</button>
+			</div>
 		</div>
-		{% else %}
-		<p class="text-gray-400 text-center">Brak dodanych materiałów</p>
-		{% endif %}
 	</div>
+	<div class="flex justify-center">
+		<a href="{% url 'materials:materials-list' %}" class="btn-primary">Zobacz wszystkie &#8594;</a>
+	</div>
+	{% else %}
+	<p class="text-gray-400 text-center">Brak dodanych materiałów</p>
+	{% endif %}
 </section>
 <hr class="divider" />
 <section class="problems-section py-8 px-8 md:px-16">
@@ -77,7 +85,7 @@
 	{% endif %}
 </section>
 <section class="feedback-section py-12 px-8 md:px-16 bg-gray-900">
-	<div class="container grid grid-cols-2 gap-4 max-sm:grid-cols-1 max-sm:gap-12">
+	<div class="container mx-auto grid grid-cols-2 gap-4 max-sm:grid-cols-1 max-sm:gap-12">
 		<div class="info-bar flex flex-col justify-center gap-4">
 			<h2 class="text-3xl font-bold text-gray-300">Podziel się swoją opinią</h2>
 			<p>Napisz co sądzisz o projekcie. Co należy zmienić lub dodać? Jakikolwiek feedback na tym etapie 'produkcji' jest bardzo ważny, więc bardzo zachęcam.</p>

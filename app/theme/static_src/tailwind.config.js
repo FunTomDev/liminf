@@ -19,6 +19,9 @@ module.exports = {
         'material-item__gray',
         'material-item__orange',
         'material-item__lime',
+        'embla__dots',
+        'embla__dot',
+        'embla__dot--selected',
     ],
     purge: [
         '../templates/**/*.html',

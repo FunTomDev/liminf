@@ -8,8 +8,8 @@ from submissions.models import Problem
 # Create your views here.
 def index(request):
     """Displays main page"""
-    recent_materials = Material.objects.order_by('-uploaded_at')[:10]  # Fetch 10 latest materials
-    recent_problems = Problem.objects.order_by('-uploaded_at')[:10]  # Fetch 10 latest problems
+    recent_materials = Material.objects.order_by('-uploaded_at')[:7]  # Fetch 7 latest materials
+    recent_problems = Problem.objects.order_by('-uploaded_at')[:7]  # Fetch 7 latest problems
 
     context = {
         'recent_materials': recent_materials

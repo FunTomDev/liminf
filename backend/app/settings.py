@@ -40,19 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tailwind',
-    'django_browser_reload',
-    'theme.apps.ThemeConfig',
     'pages.apps.PagesConfig',
     'materials.apps.MaterialsConfig',
     'users.apps.UsersConfig',
     'forums.apps.ForumsConfig',
     'submissions.apps.SubmissionsConfig',
-]
-
-TAILWIND_APP_NAME = 'theme'
-INTERNAL_IPS = [
-    "127.0.0.1",
 ]
 
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd" if platform.system() == 'Windows' else '/usr/bin/npm'
@@ -65,7 +57,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -73,7 +64,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, "..", "frontend", 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,7 +131,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, "..", "frontend", "static")
 ]
 
 # Default primary key field type

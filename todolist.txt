@@ -1,0 +1,4 @@
+1. Add all needed utility classes to tailwind v4;
+2. Link my tailwind output file to django backend;
+-- 3. Move templates directory to frontend; --
+-- 4. Move static files from backend to frontend; --

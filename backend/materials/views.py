@@ -41,7 +41,7 @@ def materials_ajax(request):
 def materials(request):
     """Render subjects list for materials"""
 
-    materials_list = Material.objects.all()
+    materials_list = Material.objects.all().order_by("uploaded_at")
     subjects = {}
     for topic in Topic.objects.select_related('subject'):
         if topic.subject not in subjects:

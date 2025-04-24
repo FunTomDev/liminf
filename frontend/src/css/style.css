@@ -1,0 +1,253 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+
+@layer base {
+	/** {
+		outline: 1px solid yellow !important;
+	}*/
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	input[type="textbox"],
+	textarea {
+		@apply rounded-full border border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
+	}
+
+	input[type="checkbox"] {
+		@apply rounded-full border border-gray-400 transition-colors hover:border-gray-300;
+	}
+
+	input[type="text"]:focus,
+	input[type="password"]:focus,
+	input[type="email"]:focus,
+	input[type="textbox"]:focus,
+	input[type="checkbox"]:focus,
+	textarea:focus {
+		box-shadow: none;
+		outline: none;
+	}
+}
+
+@layer components {
+	.chkbx-primary-label {
+		@apply flex items-center gap-2 cursor-pointer select-none hover:text-gray-200 has-[:checked]:text-gray-200 relative border-gray-400 rounded-full transition-colors;
+	}
+
+	.chkbx-primary-label input[type="checkbox"] {
+		@apply hidden;
+	}
+
+	.chkbx-box {
+		@apply size-4 min-w-4 rounded-full border-2 border-gray-400 transition-all;
+		content: "";
+		display: inline-block;
+		position: relative;
+	}
+
+	/* Checked = gray background */
+	.peer:checked + .chkbx-box {
+		@apply bg-gray-300 border-gray-300;
+	}
+
+	.chkbx-box::after {
+		@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity opacity-0 duration-300 rounded-full bg-gray-300 w-1.5 h-1.5;
+		content: "";
+	}
+
+	/* Indeterminate = small circle inside */
+	.peer:indeterminate + .chkbx-box::after {
+		opacity: 1;
+	}
+
+	.chkbx-primary-label:hover .chkbx-box {
+		@apply border-gray-300;
+	}
+
+	.btn-primary {
+		@apply bg-gray-200 text-gray-800 font-semibold rounded-full px-4 py-2 cursor-pointer transition-colors;
+	}
+	.btn-primary:hover {
+		@apply bg-gray-400;
+	}
+	.nav-link {
+		@apply font-semibold transition-colors hover:text-gray-500;
+	}
+
+	.menu-button {
+		@apply fixed top-4 right-4 lg:invisible lg:hidden lg:size-0 z-10;
+	}
+
+	.menu-button__close {
+		@apply static;
+	}
+
+	.menu-button__open {
+		@apply fixed;
+	}
+
+	.menu-icon {
+		@apply flex flex-col justify-center gap-1.5 h-6 w-6;
+	}
+
+	.menu-icon > div {
+		@apply transition-[opacity,transform,transform-origin] duration-300;
+	}
+
+	.menu-icon__open > div:first-child {
+		@apply -rotate-45 origin-right -translate-x-1;
+	}
+	.menu-icon__open > div:nth-child(2) {
+		@apply opacity-0 transform translate-x-2;
+	}
+	.menu-icon__open > div:last-child {
+		@apply rotate-45 origin-right -translate-x-1;
+	}
+
+	.mobile-nav {
+		@apply fixed top-0 right-0 h-screen sm:w-96 max-sm:w-full lg:invisible transition-transform duration-300;
+	}
+
+	.mobile-nav__open {
+		@apply translate-x-0;
+	}
+
+	.mobile-nav__close {
+		@apply translate-x-full;
+	}
+
+	.bg-curtain {
+		@apply absolute top-0 left-0 h-screen w-full bg-gray-950 opacity-0 transition-opacity duration-300 lg:hidden;
+	}
+
+	.bg-curtain__open {
+		@apply !opacity-70;
+	}
+
+	.bg-curtain__close {
+		@apply transition-all duration-300 invisible;
+	}
+
+	.hero-section {
+		@apply py-32 px-4 sm:px-8 md:px-16 text-center z-0;
+	}
+
+	.main-form {
+		@apply max-w-sm mx-auto min-w-full flex flex-col gap-4;
+	}
+
+	.main-form input[type="submit"] {
+		@apply btn-primary;
+	}
+
+	.inline-link {
+		@apply border-b border-dotted transition-colors hover:text-gray-500;
+	}
+
+	.inline-link__sm {
+		@apply inline-link text-sm;
+	}
+
+	.filter-section {
+		@apply rounded-3xl border-2 border-gray-400 p-4;
+	}
+
+	.subject-checkbox-item {
+		@apply min-h-16 border border-gray-400 rounded-3xl px-4 py-2 hover:border-gray-300 focus-within:border-gray-200;
+	}
+
+	/* Embla carousel styles */
+	.embla {
+		--slide-height: 19rem;
+		--slide-spacing: 1.6rem;
+		--slide-size: 100%;
+		--slide-size-lg: 33.3%;
+		--slide-size-xl: 20%;
+		@apply overflow-hidden w-full max-w-[150rem] mx-auto py-8 px-4 relative flex flex-col items-center gap-8;
+	}
+
+	.embla__viewport {
+		@apply relative w-full transition-transform duration-300 ease-in-out;
+	}
+
+	.embla__container {
+		@apply flex touch-pan-y touch-pinch-zoom ml-[calc(var(--slide-spacing)*-1)];
+	}
+
+	.embla__slide {
+		@apply flex-[0_0_var(--slide-size)] lg:flex-[0_0_var(--slide-size-lg)] xl:flex-[0_0_var(--slide-size-xl)] min-w-0 pl-[--slide-spacing] flex justify-center items-center select-none;
+	}
+
+	.embla__controls {
+		@apply w-full flex justify-center;
+	}
+
+	.embla__buttons {
+		@apply flex justify-between gap-2 items-center;
+	}
+
+	.embla__button {
+		-webkit-appearance: none;
+		@apply bg-gray-800 hover:bg-gray-700 appearance-none touch-manipulation cursor-pointer border-none p-0 m-0 w-10 h-10 z-10 rounded-full text-gray-300 flex items-center justify-center focus:outline-none;
+	}
+
+	.embla__dots {
+		@apply flex items-center justify-end gap-2;
+	}
+
+	.embla__dot {
+		@apply touch-manipulation cursor-pointer p-0 m-0 w-4 h-4 flex items-center justify-center rounded-full;
+	}
+
+	.embla__dot:after {
+		content: "";
+		@apply w-3 h-3 rounded-full flex items-center ring-2 ring-gray-500 hover:ring-gray-400 transition-all;
+	}
+
+	.embla__dot--selected:after {
+		@apply bg-gray-200 ring-gray-200 hover:!ring-gray-200 transition-all duration-300;
+	}
+
+	/*  */
+
+	.materials-list {
+		@apply w-full grid grid-flow-row grid-cols-[repeat(auto-fill,minmax(350px,1fr))] items-start gap-4;
+	}
+
+	.material-item {
+		@apply h-full min-w-full min-h-96 border-2 rounded-3xl transition-all max-w-96 cursor-pointer p-4 shadow-lg flex flex-col justify-between gap-4;
+	}
+
+	.material-item__gray {
+		@apply bg-gray-900 border-gray-400 hover:border-gray-200 bg-opacity-10 text-gray-400 [&_.divider]:border-gray-400 [&_.header]:text-gray-300 [&_.material-type]:border-gray-400 [&_.upload-date]:text-gray-500 material-item;
+	}
+
+	.material-item__orange {
+		@apply bg-orange-900 border-orange-400 hover:border-orange-300 bg-opacity-10 text-orange-400 [&_.divider]:border-orange-400 [&_.header]:text-orange-300 [&_.material-type]:border-orange-400 [&_.upload-date]:text-orange-500 material-item;
+	}
+
+	.material-item__lime {
+		@apply bg-lime-900 border-lime-400 hover:border-lime-300 bg-opacity-10 text-lime-400 [&_.divider]:border-lime-400 [&_.header]:text-lime-300 [&_.material-type]:border-lime-400 [&_.upload-date]:text-lime-500 material-item;
+	}
+
+	.material-type {
+		@apply text-sm border-2 py-1 px-2 rounded-full;
+	}
+	.upload-date {
+		@apply text-sm;
+	}
+
+	.tilt-container {
+		transition: transform 0.1s ease-out;
+	}
+
+	.tilt-container:hover {
+		transform: perspective(1000px) rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) scale(1.05);
+	}
+
+	.divider {
+		@apply border-t-2 border-gray-400 rounded-full;
+	}
+}
+
+@tailwind utilities;

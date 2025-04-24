@@ -1,0 +1,39 @@
+{% if page_obj %}
+<div class="materials-list" id="materials-list">
+	{% for material in page_obj %}
+	<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}">
+		<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
+			<div class="basic-data">
+				<h3 class="header text-xl font-semibold">{{ material.title }}</h3>
+				<p class="">{{ material.topic.subject }}</p>
+				<p class="">{{ material.topic.name }}</p>
+			</div>
+			<hr class="divider" />
+			<div class="description flex-1">
+				<p class="">{{ material.short_description }}</p>
+			</div>
+			<hr class="divider" />
+			<div class="additional-data flex justify-between items-center">
+				<span class="material-type">{{ material.get_type_display }}</span>
+				<span class="upload-date">{{ material.uploaded_at|date:'d.m.Y' }}</span>
+			</div>
+		</div>
+	</a>
+	{% endfor %}
+</div>
+<div class="pagination flex justify-center items-center gap-4">
+	{% if page_obj.has_previous %}
+	<a href="#" class="page-link ||" data-page="{{ page_obj.previous_page_number }}">Previous</a>
+	{% endif %}
+
+	<span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+	{% if page_obj.has_next %}
+	<a href="#" class="page-link ||" data-page="{{ page_obj.next_page_number }}">Next</a>
+	{% endif %}
+</div>
+{% else %}
+<div class="no-materials">
+	<p class="text-gray-400">Nie znaleziono materiałów.</p>
+</div>
+{% endif %}

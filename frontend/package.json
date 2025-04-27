@@ -4,7 +4,7 @@
   "description": "",
   "main": "tailwind.config.js",
   "scripts": {
-    "dev": "tailwindcss -i ./src/css/style.css -o ./dist/css/style.css --watch",
+    "dev": "tailwindcss -i ./src/css/style.css -o ./static/css/style.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

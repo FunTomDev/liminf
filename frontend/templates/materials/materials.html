@@ -11,7 +11,7 @@
 <section class="materials-section py-12 px-4 md:px-2">
 	<div class="flex gap-8 max-xl:flex-col max-xl:gap-4 max-xl:justify-center">
 		<div class="filter-wrapper h-min min-w-[350px] w-full xl:max-w-md border-2 border-gray-400 rounded-3xl">
-			<div class="filter-container-title || w-full h-full p-4 flex justify-center items-center gap-2 mx-auto col-span-3 cursor-pointer" onclick="toggleSection(this)">
+			<div class="filter-container-title || w-full h-full p-4 flex justify-center items-center gap-2 mx-auto col-span-3 cursor-pointer select-none" onclick="toggleSection(this)">
 				<!-- Filter icon and title -->
 				<h3 class="text-lg text-center font-bold text-gray-300 md:col-span-3 xl:col-span-1">Filtry</h3>
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="filter-icon || size-6">
@@ -29,7 +29,7 @@
 				<div class="filters py-4 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-1 gap-4 rounded-3xl">
 					<!-- Material name filtering -->
 					<div class="md:col-span-3 xl:col-span-1">
-						<input type="text" id="filter-input" class="w-full p-2 rounded-md border-2 border-gray-400" placeholder="Szukaj po nazwie..." />
+						<input type="text" id="filter-input" class="w-full p-2 rounded-full border-2 border-gray-400" placeholder="Szukaj po nazwie..." />
 					</div>
 
 					<!-- Material subjects and topics filtering -->
@@ -39,7 +39,7 @@
 							{% for subject, topics in subjects.items %}
 							<li class="border rounded-3xl">
 								<!-- Toggle & Subject Checkbox -->
-								<div onclick="toggleSection(this)" class="cursor-pointer p-4 flex justify-between items-center">
+								<div onclick="toggleSection(this)" class="cursor-pointer p-4 flex justify-between items-center select-none">
 									<label class="chkbx-primary-label" onclick="event.stopPropagation()">
 										<input type="checkbox" class="subject-checkbox chkbx-primary peer" data-subject="{{ subject.slug }}" />
 										<span class="chkbx-box"></span>
@@ -226,7 +226,7 @@
 				wrapper.classList.remove("opacity-100", "scale-y-100");
 				wrapper.style.maxHeight = "0px";
 				arrowIcon?.classList.remove("rotate-180");
-				hr?.classList.remove("scale-x-1");
+				hr?.classList.remove("scale-x-100");
 				hr?.classList.add("scale-x-0");
 			});
 		} else {
@@ -236,7 +236,7 @@
 			wrapper.style.maxHeight = scrollHeight + "px";
 			arrowIcon?.classList.add("rotate-180");
 			hr?.classList.remove("scale-x-0");
-			hr?.classList.add("scale-x-1");
+			hr?.classList.add("scale-x-100");
 
 			const timeoutId = setTimeout(() => {
 				wrapper.style.maxHeight = "none";

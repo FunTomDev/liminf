@@ -1,4 +1,17 @@
 1. Add all needed utility classes to tailwind v4;
-2. Link my tailwind output file to django backend;
--- 3. Move templates directory to frontend; --
--- 4. Move static files from backend to frontend; --
+--- 2. Link my tailwind output file to django backend; ---
+--- 3. Move templates directory to frontend; ---
+--- 4. Move static files from backend to frontend; ---
+5. Rename or remove official notes. Those are copyrighted;
+6. Make problems page work;
+Functions:
+	- Upload problem; (outside the problem page)
+	- Share problem;
+	- Submit solution;
+	- Add to favourites (mark to practice in learning session);
+	- Report;
+
+Go to eulers project, leetcode etc. to see how they did it (StackOverflow and other forums);
+
+7. Add forums discussions to new and existing problems and solutions.
+8. Add user registration and login.

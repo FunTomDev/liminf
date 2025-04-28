@@ -16,10 +16,6 @@ def index(request):
     }
     return render(request, 'pages/index.html', context=context)
 
-def problems(request):
-    """Displays problems subpage"""
-    return render(request, 'pages/problems.html')
-
 def about(request):
     """Displays about page"""
     return render(request, 'pages/about.html')

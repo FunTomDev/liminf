@@ -14,7 +14,7 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
-def material_upload_path(instance, filename):
+def material_upload_path(instance, filename)->str:
     """Store files in different directories based on material type."""
     if instance.material_type == 'official':
         return f"materials/official/{instance.topic.subject}/{filename}"

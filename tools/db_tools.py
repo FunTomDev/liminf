@@ -5,10 +5,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = 'liminf_db'
+DB_USER = 'liminf_admin'
+DB_PASSWORD = 'ReHfCrBy05@!'
+DB_HOST = 'localhost'
+DB_PORT = '5432'
 DUMP_FILE = "db.dump"
 
 def export_db():

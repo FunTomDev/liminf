@@ -2,11 +2,13 @@ import os
 import json
 
 from django.shortcuts import render, get_object_or_404
-from .models import Material
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.db.models import Q
+
+from .models import Material
+from curriculum.models import Subject, Topic
 
 # Create your views here.
 def materials_ajax(request):

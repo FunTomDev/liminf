@@ -1,5 +1,6 @@
 from django.test import TestCase
-from .models import Subject, Topic, Material
+from .models import Material
+from curriculum.models import Subject, Topic
 import random
 
 # Create your tests here.

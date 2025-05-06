@@ -8,33 +8,35 @@
 	</div>
 </section>
 <hr class="divider" />
+
 <section class="materials-section py-12 px-4 md:px-2">
-	<div class="flex gap-8 max-xl:flex-col max-xl:gap-4 max-xl:justify-center">
-		<div class="filter-wrapper h-min min-w-[350px] w-full xl:max-w-md border-2 border-gray-400 rounded-3xl">
-			<div class="filter-container-title || w-full h-full p-4 flex justify-center items-center gap-2 mx-auto col-span-3 cursor-pointer select-none" onclick="toggleSection(this)">
-				<!-- Filter icon and title -->
-				<h3 class="text-lg text-center font-bold text-gray-300 md:col-span-3 xl:col-span-1">Filtry</h3>
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="filter-icon || size-6">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
-					/>
-				</svg>
-			</div>
+	<!-- Search bar and filters button row -->
+	<div class="flex justify-between items-center mb-6 gap-4 z-10" id="search-bar">
+		<button id="toggle-filters-btn" class="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-gray-300 py-2 px-4 rounded-full transition-colors">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="filter-icon size-5">
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+				/>
+			</svg>
+			<span>Filtry</span>
+		</button>
+		<div class="flex-grow mx-auto">
+			<input type="text" id="filter-input" class="w-full p-2 rounded-full border-2 border-gray-400" placeholder="Szukaj po nazwie..." />
+		</div>
+		<div class="w-32"><!-- Empty div for layout balance --></div>
+	</div>
 
-			<!-- Hidden filters container -->
-			<div class="filters-container || max-h-0 px-4 overflow-hidden opacity-0 scale-y-0 origin-top transition-all duration-300">
-				<hr class="divider scale-x-0 transition-transform duration-300 origin-center" />
-				<div class="filters py-4 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-1 gap-4 rounded-3xl">
-					<!-- Material name filtering -->
-					<div class="md:col-span-3 xl:col-span-1">
-						<input type="text" id="filter-input" class="w-full p-2 rounded-full border-2 border-gray-400" placeholder="Szukaj po nazwie..." />
-					</div>
-
+	<!-- Main content area with filters and materials -->
+	<div class="flex md:flex-col gap-8 relative">
+		<!-- Filters container - initially hidden on mobile -->
+		<div id="filters-wrapper" class="filter-wrapper border-1 border-grey-400 z-10 h-min min-w-[350px] max-w-[500px] border-2 border-gray-400 rounded-3xl hidden md:block absolute md:relative left-0 top-0 bg-gray-900 z-20">
+			<div class="filters-container px-4 py-4">
+				<div class="filters grid grid-cols-1 gap-4 rounded-3xl">
 					<!-- Material subjects and topics filtering -->
 					{% if subjects %}
-					<div class="md:col-span-2 xl:col-span-1">
+					<div class="w-full">
 						<ul class="flex flex-col gap-2">
 							{% for subject, topics in subjects.items %}
 							<li class="border rounded-3xl">
@@ -107,7 +109,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="materials flex flex-col items-center gap-4 flex-grow" id="materials-container">{% include 'partials/materials_list.html' %}</div>
+
+		<!-- Materials container - will expand to full width when filters are hidden -->
+		<div class="materials flex flex-col items-center gap-4 flex-grow transition-all duration-300" id="materials-container">
+			{% include 'partials/materials_list.html' %}
+		</div>
 	</div>
 </section>
 
@@ -204,7 +210,50 @@
 			fetchMaterials();
 		});
 	});
+
+	// Toggle filters visibility
+	document.getElementById('toggle-filters-btn').addEventListener('click', function() {
+		const filtersWrapper = document.getElementById('filters-wrapper');
+		filtersWrapper.classList.toggle('hidden');
+		
+		// When filters are visible, push content to the right (on mobile)
+		const isMobile = window.innerWidth < 768; // md breakpoint
+		if (isMobile) {
+			filtersWrapper.classList.toggle('absolute');
+			filtersWrapper.classList.toggle('relative');
+		}
+	});
+
+	// Sticky filters on scroll
+	function handleStickyFilters() {
+		const filtersWrapper = document.getElementById('filters-wrapper');
+		const searchInput = document.getElementById('search-bar');
+
+		const scrollTop = window.scrollY;
+		filtersWrapper.style.position = 'sticky';
+		searchInput.style.position = 'sticky';
+		filtersWrapper.style.top = '168px'; // Add a small margin from the top
+		searchInput.style.top = '100px'; // Add a small margin from the top
+
+	}
+
+	// Check screen size on resize and update filters visibility
+	window.addEventListener('resize', function() {
+		const filtersWrapper = document.getElementById('filters-wrapper');
+		if (window.innerWidth >= 768) { // md breakpoint
+			filtersWrapper.classList.remove('hidden');
+			filtersWrapper.classList.remove('absolute');
+			filtersWrapper.classList.add('relative');
+		} else {
+			filtersWrapper.classList.add('hidden');
+		}
+	});
+
+	// Initialize sticky scroll behavior
+	window.addEventListener('scroll', handleStickyFilters);
+	window.addEventListener('load', handleStickyFilters);
 </script>
+
 <script>
 	function toggleSection(headerDiv) {
 		const wrapper = headerDiv.nextElementSibling;

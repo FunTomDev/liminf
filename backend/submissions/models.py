@@ -23,10 +23,17 @@ def solution_file_upload_path(instance, filename):
 # Create your models here.
 
 class Problem(models.Model):
+    PROBLEM_TYPES = [
+        ('unsolved', "Nierozwiązane"),
+        ('solved', "Rozwiązane"),
+        ('verified', "Sprawdzone"),
+    ]
+
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=256)
     content = models.TextField(blank=True, null=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='topic_problems')
+    type = models.CharField(max_length=16, choices=PROBLEM_TYPES, default='unsolved')
 
     file = models.FileField(upload_to='problems/', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)

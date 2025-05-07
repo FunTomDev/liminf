@@ -12,6 +12,8 @@ from curriculum.models import Subject, Topic
 
 # Create your views here.
 def materials_ajax(request):
+    """Ajax materials filtering"""
+    
     query = request.GET.get('q', '')
     subjects = request.GET.get('subjects', '')
     material_types = request.GET.get('types', '')

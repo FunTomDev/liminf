@@ -2,14 +2,15 @@
 <section class="hero-section relative overflow-hidden z-40">
 	<div class="text-center relative z-10 max-w-screen-lg mx-auto">
 		<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">Materiały</h1>
-		<p class="text-gray-400 max-w-2xl mx-auto text-lg">
-			Lista wszystkich dostępnych źródeł do nauki: <em><strong>oficjalnych</strong></em> materiałów z zajęć i udostępnionych przez studentów notatek.
+		<p class="text-gray-400 max-w-2xl mx-auto text-lg">Lista materiałów do nauki: pisane przez studentów notatki, przepisane materiały udostępniane przez prowadzących* oraz źródła zewnętrzne.</p>
+		<p class="text-gray-500 max-w-2xl mx-auto text-md">
+			<em>* Ze względu na to, że niektóre notatki (a zapewne wszystkie) udostępniane przez prowadzących są strzeżone prawem autorskim, zaleca się wysyłanie jedynie swoich notatek lub przepisywanie oficjalnych materiałów własnymi słowami.</em>
 		</p>
 	</div>
 </section>
 <hr class="divider" />
 
-<section class="materials-section py-12 px-4 md:px-2">
+<section class="problems-section py-12 px-4 md:px-2">
 	<!-- Search bar and filters button row -->
 	<div class="flex justify-between items-center mb-6 gap-4 z-10" id="search-bar">
 		<button id="toggle-filters-btn" class="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-gray-300 py-2 px-4 rounded-full transition-colors">
@@ -31,7 +32,7 @@
 	<!-- Main content area with filters and materials -->
 	<div class="flex md:flex-col gap-8 relative">
 		<!-- Filters container - initially hidden on mobile -->
-		<div id="filters-wrapper" class="filter-wrapper border-1 border-grey-400 z-10 h-min min-w-[350px] max-w-[500px] border-2 border-gray-400 rounded-3xl hidden md:block absolute md:relative left-0 top-0 bg-gray-900 z-20">
+		<div id="filters-wrapper" class="filter-wrapper border-1 border-grey-400 h-min min-w-[350px] max-w-[500px] border-2 border-gray-400 rounded-3xl hidden md:block absolute md:relative left-0 top-0 bg-gray-900 z-20">
 			<div class="filters-container px-4 py-4">
 				<div class="filters grid grid-cols-1 gap-4 rounded-3xl">
 					<!-- Material subjects and topics filtering -->
@@ -111,9 +112,7 @@
 		</div>
 
 		<!-- Materials container - will expand to full width when filters are hidden -->
-		<div class="materials flex flex-col items-center gap-4 flex-grow transition-all duration-300" id="materials-container">
-			{% include 'partials/materials_list.html' %}
-		</div>
+		<div class="materials flex flex-col items-center gap-4 flex-grow transition-all duration-300" id="materials-container">{% include 'partials/materials_list.html' %}</div>
 	</div>
 </section>
 
@@ -128,7 +127,7 @@
 		types: [], // types array
 	};
 
-	function fetchMaterials() {
+	function fetchMaterials(signal) {
 		const params = new URLSearchParams();
 
 		if (selectedFilters.page) params.append("page", selectedFilters.page);
@@ -147,10 +146,17 @@
 
 		console.log("Request issued with params:", params.toString()); // Debugging line
 
-		fetch(`/materials/ajax/?${params.toString()}`)
+		fetch(`/materials/ajax/?${params.toString()}`, { signal })
 			.then((response) => response.json())
 			.then((data) => {
 				document.getElementById("materials-container").innerHTML = data.html;
+			})
+			.catch((error) => {
+				if (error.name === "AbortError") {
+					// Żądanie zostało anulowane — ignorujemy
+					return;
+				}
+				console.error("Fetch error:", error);
 			});
 	}
 
@@ -167,9 +173,29 @@
 	// Event listeners for filters
 
 	// Name filtering
+	let debounceTimeout;
+	let currentAbortController = null;
+
 	document.getElementById("filter-input").addEventListener("input", function () {
-		selectedFilters.q = this.value;
-		fetchMaterials();
+		clearTimeout(debounceTimeout);
+		const value = this.value;
+
+		debounceTimeout = setTimeout(function () {
+			selectedFilters.q = value;
+
+			// Anuluj poprzedni request
+			if (currentAbortController) {
+				currentAbortController.abort();
+			}
+
+			// Stwórz nowy AbortController
+			currentAbortController = new AbortController();
+			console.log("AbortController created:", currentAbortController);
+			const signal = currentAbortController.signal;
+
+			// Wywołaj fetch z obsługą sygnału
+			fetchMaterials(signal);
+		}, 300);
 	});
 
 	// Topic filtering
@@ -212,46 +238,46 @@
 	});
 
 	// Toggle filters visibility
-	document.getElementById('toggle-filters-btn').addEventListener('click', function() {
-		const filtersWrapper = document.getElementById('filters-wrapper');
-		filtersWrapper.classList.toggle('hidden');
-		
+	document.getElementById("toggle-filters-btn").addEventListener("click", function () {
+		const filtersWrapper = document.getElementById("filters-wrapper");
+		filtersWrapper.classList.toggle("hidden");
+
 		// When filters are visible, push content to the right (on mobile)
 		const isMobile = window.innerWidth < 768; // md breakpoint
 		if (isMobile) {
-			filtersWrapper.classList.toggle('absolute');
-			filtersWrapper.classList.toggle('relative');
+			filtersWrapper.classList.toggle("absolute");
+			filtersWrapper.classList.toggle("relative");
 		}
 	});
 
 	// Sticky filters on scroll
 	function handleStickyFilters() {
-		const filtersWrapper = document.getElementById('filters-wrapper');
-		const searchInput = document.getElementById('search-bar');
+		const filtersWrapper = document.getElementById("filters-wrapper");
+		const searchInput = document.getElementById("search-bar");
 
 		const scrollTop = window.scrollY;
-		filtersWrapper.style.position = 'sticky';
-		searchInput.style.position = 'sticky';
-		filtersWrapper.style.top = '168px'; // Add a small margin from the top
-		searchInput.style.top = '100px'; // Add a small margin from the top
-
+		filtersWrapper.style.position = "sticky";
+		searchInput.style.position = "sticky";
+		filtersWrapper.style.top = "168px"; // Add a small margin from the top
+		searchInput.style.top = "100px"; // Add a small margin from the top
 	}
 
 	// Check screen size on resize and update filters visibility
-	window.addEventListener('resize', function() {
-		const filtersWrapper = document.getElementById('filters-wrapper');
-		if (window.innerWidth >= 768) { // md breakpoint
-			filtersWrapper.classList.remove('hidden');
-			filtersWrapper.classList.remove('absolute');
-			filtersWrapper.classList.add('relative');
+	window.addEventListener("resize", function () {
+		const filtersWrapper = document.getElementById("filters-wrapper");
+		if (window.innerWidth >= 768) {
+			// md breakpoint
+			filtersWrapper.classList.remove("hidden");
+			filtersWrapper.classList.remove("absolute");
+			filtersWrapper.classList.add("relative");
 		} else {
-			filtersWrapper.classList.add('hidden');
+			filtersWrapper.classList.add("hidden");
 		}
 	});
 
 	// Initialize sticky scroll behavior
-	window.addEventListener('scroll', handleStickyFilters);
-	window.addEventListener('load', handleStickyFilters);
+	window.addEventListener("scroll", handleStickyFilters);
+	window.addEventListener("load", handleStickyFilters);
 </script>
 
 <script>

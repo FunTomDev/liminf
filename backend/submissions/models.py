@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from materials.models import Topic
+from curriculum.models import Topic
 
 import os
 

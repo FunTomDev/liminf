@@ -6,15 +6,27 @@
 
 /* Custom utility classes */
 
+@utility bg-blur {
+	@apply bg-gray-950/40 backdrop-blur-sm;
+}
+
+@utility btn {
+	@apply font-semibold rounded-full px-4 py-2 cursor-pointer transition-colors;
+}
+
 @utility btn-primary {
-	@apply bg-gray-300 text-gray-800 font-semibold rounded-full px-4 py-2 cursor-pointer transition-colors hover:bg-gray-400;
+	@apply btn bg-gray-300 text-gray-800 hover:bg-gray-400;
+}
+
+@utility btn-transparent {
+	@apply btn text-gray-300 hover:border-gray-300;
 }
 
 @utility inline-link {
 	@apply border-b border-dotted transition-colors hover:text-gray-500;
 }
 
-@utility material-item {
+@utility card-item {
 	@apply h-full min-w-full min-h-96 border-2 rounded-3xl transition-all max-w-96 cursor-pointer p-4 shadow-lg flex flex-col justify-between gap-4;
 }
 
@@ -29,7 +41,7 @@
 	input[type="email"],
 	input[type="textbox"],
 	textarea {
-		@apply bg-gray-950 rounded-full border border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
+		@apply bg-gray-950 rounded-full border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
 	}
 
 	input[type="checkbox"] {
@@ -69,7 +81,7 @@
 	}
 
 	.chkbx-box::after {
-		@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity opacity-0 duration-300 rounded-full bg-gray-300 w-1.5 h-1.5;
+		@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity opacity-0  rounded-full bg-gray-300 w-1.5 h-1.5;
 		content: "";
 	}
 
@@ -103,7 +115,7 @@
 	}
 
 	.menu-icon > div {
-		@apply transition-[opacity,transform,transform-origin] duration-300;
+		@apply transition-[opacity,transform,transform-origin];
 	}
 
 	.menu-icon__open > div:first-child {
@@ -117,7 +129,7 @@
 	}
 
 	.mobile-nav {
-		@apply fixed top-0 right-0 h-screen sm:w-96 max-sm:w-full lg:invisible transition-transform duration-300;
+		@apply fixed top-0 right-0 h-screen sm:w-96 max-sm:w-full lg:invisible transition-transform;
 	}
 
 	.mobile-nav__open {
@@ -129,7 +141,7 @@
 	}
 
 	.bg-curtain {
-		@apply absolute top-0 left-0 h-screen w-full bg-gray-950 opacity-0 transition-opacity duration-300 lg:hidden;
+		@apply absolute top-0 left-0 h-screen w-full bg-gray-950 opacity-0 transition-opacity  lg:hidden;
 	}
 
 	.bg-curtain__open {
@@ -137,7 +149,7 @@
 	}
 
 	.bg-curtain__close {
-		@apply transition-all duration-300 invisible;
+		@apply transition-all  invisible;
 	}
 
 	.hero-section {
@@ -157,7 +169,7 @@
 	}
 
 	.filter-section {
-		@apply rounded-3xl border-2 border-gray-400 p-4;
+		@apply rounded-3xl border-1 border-gray-400 p-4;
 	}
 
 	.subject-checkbox-item {
@@ -175,7 +187,7 @@
 	}
 
 	.embla__viewport {
-		@apply relative w-full transition-transform duration-300 ease-in-out;
+		@apply relative w-full transition-transform  ease-in-out;
 	}
 
 	.embla__container {
@@ -183,7 +195,7 @@
 	}
 
 	.embla__slide {
-		@apply flex-[0_0_var(--slide-size)] lg:flex-[0_0_var(--slide-size-lg)] xl:flex-[0_0_var(--slide-size-xl)] min-w-0 pl-[--slide-spacing] flex justify-center items-center select-none;
+		@apply flex-[0_0_var(--slide-size)] lg:flex-[0_0_var(--slide-size-lg)] xl:flex-[0_0_var(--slide-size-xl)] min-w-0 pl-(--slide-spacing) flex justify-center items-center select-none;
 	}
 
 	.embla__controls {
@@ -213,30 +225,35 @@
 	}
 
 	.embla__dot--selected:after {
-		@apply bg-gray-200 ring-gray-200 hover:!ring-gray-200 transition-all duration-300;
+		@apply bg-gray-200 ring-gray-200 hover:!ring-gray-200 transition-all;
+	}
+
+	.card-items-list {
+		@apply w-full grid grid-flow-row grid-cols-[repeat(auto-fill,minmax(350px,1fr))] items-start gap-4;
+	}
+
+	/* Materials cards */
+
+	.card-item__gray {
+		@apply bg-gray-900/10 border-gray-400 hover:border-gray-200 text-gray-400 [&_.divider]:border-gray-400 [&_.header]:text-gray-300 [&_.material-type]:border-gray-400 [&_.upload-date]:text-gray-500 card-item;
+	}
+
+	.card-item__sky {
+		@apply bg-sky-900/10 border-sky-400 hover:border-sky-300 text-sky-400 [&_.divider]:border-sky-400 [&_.header]:text-sky-300 [&_.material-type]:border-sky-400 [&_.upload-date]:text-sky-500 card-item;
+	}
+
+	.card-item__violet {
+		@apply bg-violet-900/10 border-violet-400 hover:border-violet-300 text-violet-400 [&_.divider]:border-violet-400 [&_.header]:text-violet-300 [&_.material-type]:border-violet-400 [&_.upload-date]:text-violet-500 card-item;
+	}
+
+	.card-type {
+		@apply text-sm border-2 py-1 px-2 rounded-full;
 	}
 
 	/*  */
 
-	.materials-list {
-		@apply w-full grid grid-flow-row grid-cols-[repeat(auto-fill,minmax(350px,1fr))] items-start gap-4;
-	}
+	/* Problems cards */
 
-	.material-item__gray {
-		@apply bg-gray-900/10 border-gray-400 hover:border-gray-200 text-gray-400 [&_.divider]:border-gray-400 [&_.header]:text-gray-300 [&_.material-type]:border-gray-400 [&_.upload-date]:text-gray-500 material-item;
-	}
-
-	.material-item__orange {
-		@apply bg-orange-900/10 border-orange-400 hover:border-orange-300 text-orange-400 [&_.divider]:border-orange-400 [&_.header]:text-orange-300 [&_.material-type]:border-orange-400 [&_.upload-date]:text-orange-500 material-item;
-	}
-
-	.material-item__lime {
-		@apply bg-lime-900/10 border-lime-400 hover:border-lime-300 text-lime-400 [&_.divider]:border-lime-400 [&_.header]:text-lime-300 [&_.material-type]:border-lime-400 [&_.upload-date]:text-lime-500 material-item;
-	}
-
-	.material-type {
-		@apply text-sm border-2 py-1 px-2 rounded-full;
-	}
 	.upload-date {
 		@apply text-sm;
 	}

@@ -47,10 +47,10 @@ class Material(models.Model):
 
     def get_border_style(self):
         return {
-            'student_notes': 'material-item__orange',
-            'mathpro': 'material-item__lime',
-            'official': 'material-item__gray'
-        }.get(self.type, 'material-item__gray')
+            'student_notes': 'card-item__sky',
+            'mathpro': 'card-item__violet',
+            'official': 'card-item__gray'
+        }.get(self.type, 'card-item__gray')
 
 @receiver(post_delete, sender=Material)
 def delete_file_on_material_delete(sender, instance, **kwargs):

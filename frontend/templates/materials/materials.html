@@ -10,11 +10,11 @@
 </section>
 <hr class="divider" />
 
-<section class="problems-section py-12 px-4 md:px-2">
-	<!-- Search bar and filters button row -->
-	<div class="flex justify-between items-center mb-6 gap-4 z-10" id="search-bar">
-		<button id="toggle-filters-btn" class="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-gray-300 py-2 px-4 rounded-full transition-colors">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="filter-icon size-5">
+<section class="materials-section py-12 px-4 md:sm-2">
+	<div class="flex justify-between items-center mb-6 gap-0 z-10 rounded-full border border-gray-400 bg-gray-950/40 backdrop-blur-sm p-2" id="search-bar">
+		<!-- Filter Button -->
+		<button id="toggle-filters-btn" class="btn-transparent h-12 flex items-center gap-2 py-2 px-4 transition-colors">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-300">
 				<path
 					stroke-linecap="round"
 					stroke-linejoin="round"
@@ -23,16 +23,37 @@
 			</svg>
 			<span>Filtry</span>
 		</button>
-		<div class="flex-grow mx-auto">
-			<input type="text" id="filter-input" class="w-full p-2 rounded-full border-2 border-gray-400" placeholder="Szukaj po nazwie..." />
+
+		<!-- Divider before dropdown -->
+		<div class="h-8 border-l border-gray-400 self-center"></div>
+
+		<!-- Search Input -->
+		<div class="flex-grow px-4 flex items-center">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-500">
+				<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+			</svg>
+			<input type="text" id="filter-input" class="w-full p-2 rounded-full h-12 bg-transparent placeholder-gray-500" placeholder="Szukaj po nazwie..." />
 		</div>
-		<div class="w-32"><!-- Empty div for layout balance --></div>
+
+		<!-- Divider before dropdown -->
+		<div class="h-8 border-l border-gray-400 self-center"></div>
+
+		<!-- Sort Dropdown -->
+		<div class="h-12 flex items-center gap-2 btn-transparent">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-300">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
+			</svg>
+			<select id="sort-dropdown" class="appearance-none bg-transparent text-gray-300 cursor-pointer">
+				<option value="newest">Data</option>
+				<option value="oldest">Nazwa</option>
+			</select>
+		</div>
 	</div>
 
 	<!-- Main content area with filters and materials -->
-	<div class="flex md:flex-col gap-8 relative">
+	<div class="flex max-md:flex-col gap-8 relative">
 		<!-- Filters container - initially hidden on mobile -->
-		<div id="filters-wrapper" class="filter-wrapper border-1 border-grey-400 h-min min-w-[350px] max-w-[500px] border-2 border-gray-400 rounded-3xl hidden md:block absolute md:relative left-0 top-0 bg-gray-900 z-20">
+		<div id="filters-wrapper" class="filter-wrapper border-grey-400 h-min min-w-[350px] max-w-[500px] border-1 border-gray-400 rounded-4xl hidden md:block absolute md:relative left-0 top-0 bg-gray-950/40 z-10">
 			<div class="filters-container px-4 py-4">
 				<div class="filters grid grid-cols-1 gap-4 rounded-3xl">
 					<!-- Material subjects and topics filtering -->
@@ -40,7 +61,7 @@
 					<div class="w-full">
 						<ul class="flex flex-col gap-2">
 							{% for subject, topics in subjects.items %}
-							<li class="border rounded-3xl">
+							<li class="border border-gray-400 rounded-3xl">
 								<!-- Toggle & Subject Checkbox -->
 								<div onclick="toggleSection(this)" class="cursor-pointer p-4 flex justify-between items-center select-none">
 									<label class="chkbx-primary-label" onclick="event.stopPropagation()">
@@ -76,10 +97,10 @@
 					{% endif %}
 
 					<!-- Materials type filtering -->
-					<div class="filter-section || max-h-min">
+					<div class="filter-section || max-h-min hover:border-gray-300 transition-colors">
 						<h4 class="text-gray-300 font-semibold mb-2">Typ materiału</h4>
 						<ul class="flex flex-col gap-2" id="type-filter">
-							<!-- Gray type -->
+							<!-- Official (grey) type -->
 							<li>
 								<label class="flex items-center gap-2 cursor-pointer select-none group">
 									<input type="checkbox" name="official" id="official" class="hidden peer material-type-checkbox" data-type="official" />
@@ -88,21 +109,21 @@
 								</label>
 							</li>
 
-							<!-- Orange type -->
+							<!-- Students' (sky) type -->
 							<li>
 								<label class="flex items-center gap-2 cursor-pointer select-none group">
 									<input type="checkbox" name="student_notes" id="student_notes" class="hidden peer material-type-checkbox" data-type="student_notes" />
-									<span class="w-4 h-4 rounded-full border-2 border-orange-400 inline-block relative transition-colors group-hover:border-orange-500 peer-checked:bg-orange-400 peer-checked:border-orange-400"></span>
-									<span class="text-gray-400 transition-colors group-hover:text-orange-500 peer-checked:text-orange-400">Notatki studentów</span>
+									<span class="w-4 h-4 rounded-full border-2 border-sky-400 inline-block relative transition-colors group-hover:border-sky-500 peer-checked:bg-sky-400 peer-checked:border-sky-400"></span>
+									<span class="text-gray-400 transition-colors group-hover:text-sky-500 peer-checked:text-sky-400">Notatki studentów</span>
 								</label>
 							</li>
 
-							<!-- Lime type -->
+							<!-- MathPro (violet) type -->
 							<li>
 								<label class="flex items-center gap-2 cursor-pointer select-none group">
 									<input type="checkbox" name="mathpro" id="mathpro" class="hidden peer material-type-checkbox" data-type="mathpro" />
-									<span class="w-4 h-4 rounded-full border-2 border-lime-400 inline-block relative transition-colors group-hover:border-lime-500 peer-checked:bg-lime-400 peer-checked:border-lime-400"></span>
-									<span class="text-gray-400 transition-colors group-hover:text-lime-600 peer-checked:text-lime-300">Artykuły z MathPro</span>
+									<span class="w-4 h-4 rounded-full border-2 border-violet-400 inline-block relative transition-colors group-hover:border-violet-500 peer-checked:bg-violet-400 peer-checked:border-violet-400"></span>
+									<span class="text-gray-400 transition-colors group-hover:text-violet-600 peer-checked:text-violet-300">Artykuły z MathPro</span>
 								</label>
 							</li>
 						</ul>
@@ -258,8 +279,8 @@
 		const scrollTop = window.scrollY;
 		filtersWrapper.style.position = "sticky";
 		searchInput.style.position = "sticky";
-		filtersWrapper.style.top = "168px"; // Add a small margin from the top
-		searchInput.style.top = "100px"; // Add a small margin from the top
+		filtersWrapper.style.top = "188px"; // Add a small margin from the top
+		searchInput.style.top = "98px"; // Add a small margin from the top
 	}
 
 	// Check screen size on resize and update filters visibility

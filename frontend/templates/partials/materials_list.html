@@ -1,5 +1,5 @@
 {% if page_obj %}
-<div class="materials-list" id="materials-list">
+<div class="card-items-list" id="materials-list">
 	{% for material in page_obj %}
 	<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}">
 		<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">

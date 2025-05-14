@@ -5,11 +5,18 @@ from django.dispatch import receiver
 from django.db.models.signals import post_delete
 from django.core.exceptions import ValidationError
 
-from curriculum.models import Topic, material_upload_path
+from curriculum.models import Topic
 
 import os
 
-# Signal to delete file from filesystem when Material is deleted
+# Specify the upload path for materials based on their type
+def material_upload_path(instance, filename)->str:
+    """Store files in different directories based on material type."""
+    if instance.material_type == 'official':
+        return f"materials/official/{instance.topic.subject}/{filename}"
+    elif instance.material_type == 'student_notes':
+        return f"materials/student_notes/{instance.topic.subject}/{filename}"
+    return f"materials/{filename}"
 
 # Create your models here.
 class Material(models.Model):

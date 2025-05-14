@@ -1,8 +1,8 @@
 {% if page_obj %}
 <div class="card-items-list" id="problems-list">
 	{% for problem in page_obj %}
-	<a href="{% url 'problem:details' problem.topic.subject.slug problem.topic.slug problem.id %}">
-		<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
+	<a href="{% url 'problems:details' problem.topic.subject.slug problem.topic.slug problem.id %}">
+		<div class="{{ problem.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
 			<div class="basic-data">
 				<h3 class="header text-xl font-semibold">{{ problem.title }}</h3>
 				<p class="">{{ problem.topic.subject }}</p>
@@ -10,7 +10,7 @@
 			</div>
 			<hr class="divider" />
 			<div class="description flex-1">
-				<p class="">{{ problem.short_description }}</p>
+				<p class="">{{ problem.description }}</p>
 			</div>
 			<hr class="divider" />
 			<div class="additional-data flex justify-between items-center">

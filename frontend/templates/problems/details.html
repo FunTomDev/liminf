@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% block content %}
+
+<section class="p-4">
+	<div class="title flex flex-col items-center gap-4 max-w-2xl mx-auto py-10">
+		<h1 class="text-2xl font-bold text-center text-gray-300">{{ problem.title }}</h1>
+		<p class="text-gray-400 text-center">{{ problem.description }}</p>
+	</div>
+</section>
+<hr class="divider" />
+<section class="p-4">
+	{% if problem.content %}
+	<div class="details flex flex-col items-center gap-4 max-w-2xl mx-auto">
+		<h2 class="text-xl font-bold text-center text-gray-300">Treść</h2>
+		<p class="text-gray-400 text-center">{{ problem.content|safe }}</p>
+	</div>
+	{% endif %}
+</section>
+<hr class="divider" />
+{% if problem.file %}
+<section class="p-4">
+	<div class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
+		<h2 class="text-xl font-bold text-center text-gray-300">Pliki</h2>
+		<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
+			<a href="{{ problem.file.url }}" target="_blank" class="p-4 border-2 border-gray-300 text-gray-300 rounded-full w-min hover:bg-gray-900 transition-all duration-300"> {{ file_name }} </a>
+		</div>
+	</div>
+</section>
+{% endif %}
+
+<section class="p-4">
+	<div class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
+		{% if problem.solution_count == 0 %}
+		<h2 class="text-xl font-bold text-center text-gray-300">Rozwiązania</h2>
+		<p class="text-gray-400 text-center">Brak rozwiązań do tego zadania</p>
+
+		{% elif problem.solution_count == 1 %}
+		<h2 class="text-xl font-bold text-center text-gray-300">Solution</h2>
+		{% with solution=problem.solutions.first %}
+		<div class="solution">{{ solution.content }}</div>
+		{% endwith %} {% else %}
+		<h2 class="text-xl font-bold text-center text-gray-300">Recommended Solution</h2>
+		{% with rec=problem.recommended_solution %}
+		<div class="solution recommended">{{ rec.content }}</div>
+		{% endwith %}
+
+		<h2 class="text-xl font-bold text-center text-gray-300">All Solutions</h2>
+		{% for sol in problem.solutions %}
+		<div class="solution">{{ sol.content }}</div>
+		{% endfor %} {% endif %}
+		<a href="#" class="btn-primary">+ Dodaj rozwiązanie</a>
+	</div>
+</section>
+{% endblock content %}

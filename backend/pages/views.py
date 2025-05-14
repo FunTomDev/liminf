@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 from materials.models import Material
-from submissions.models import Problem
+from problems.models import Problem
 
 # Create your views here.
 def index(request):
@@ -12,7 +12,8 @@ def index(request):
     recent_problems = Problem.objects.order_by('-uploaded_at')[:7]  # Fetch 7 latest problems
 
     context = {
-        'recent_materials': recent_materials
+        'recent_materials': recent_materials,
+        'recent_problems': recent_problems,
     }
     return render(request, 'pages/index.html', context=context)
 

@@ -1,0 +1,394 @@
+{% extends 'base.html' %} {% block content %}
+<section class="hero-section relative overflow-hidden z-40">
+	<div class="text-center relative z-10 max-w-screen-lg mx-auto">
+		<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">Materiały</h1>
+		<p class="text-gray-400 max-w-2xl mx-auto text-lg">Lista materiałów do nauki: pisane przez studentów notatki, przepisane materiały udostępniane przez prowadzących* oraz źródła zewnętrzne.</p>
+		<p class="text-gray-500 max-w-2xl mx-auto text-md">
+			<em>* Ze względu na to, że niektóre notatki (a zapewne wszystkie) udostępniane przez prowadzących są strzeżone prawem autorskim, zaleca się wysyłanie jedynie swoich notatek lub przepisywanie oficjalnych materiałów własnymi słowami.</em>
+		</p>
+	</div>
+</section>
+<hr class="divider" />
+
+<section class="materials-section py-12 px-4 md:sm-2">
+	<div class="flex justify-between items-center mb-6 gap-0 z-10 rounded-full border border-gray-400 bg-gray-950/40 backdrop-blur-sm p-2" id="search-bar">
+		<!-- Filter Button -->
+		<button id="toggle-filters-btn" class="btn-transparent h-12 flex items-center gap-2 py-2 px-4 transition-colors">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-300">
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+				/>
+			</svg>
+			<span>Filtry</span>
+		</button>
+
+		<!-- Divider before dropdown -->
+		<div class="h-8 border-l border-gray-400 self-center"></div>
+
+		<!-- Search Input -->
+		<div class="flex-grow px-4 flex items-center">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-500">
+				<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+			</svg>
+			<input type="text" id="filter-input" class="w-full p-2 rounded-full h-12 bg-transparent placeholder-gray-500" placeholder="Szukaj po nazwie..." />
+		</div>
+
+		<!-- Divider before dropdown -->
+		<div class="h-8 border-l border-gray-400 self-center"></div>
+
+		<!-- Sort Dropdown -->
+		<div class="h-12 flex items-center gap-2 btn-transparent">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-300">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
+			</svg>
+			<select id="sort-dropdown" class="appearance-none bg-transparent text-gray-300 cursor-pointer">
+				<option value="newest">Data</option>
+				<option value="oldest">Nazwa</option>
+			</select>
+		</div>
+	</div>
+
+	<!-- Main content area with filters and materials -->
+	<div class="flex max-md:flex-col gap-8 relative">
+		<!-- Filters container - initially hidden on mobile -->
+		<div id="filters-wrapper" class="filter-wrapper border-grey-400 h-min min-w-[350px] max-w-[500px] border-1 border-gray-400 rounded-4xl hidden md:block absolute md:relative left-0 top-0 bg-gray-950/40 z-10">
+			<div class="filters-container px-4 py-4">
+				<div class="filters grid grid-cols-1 gap-4 rounded-3xl">
+					<!-- Material subjects and topics filtering -->
+					{% if subjects %}
+					<div class="w-full">
+						<ul class="flex flex-col gap-2">
+							{% for subject, topics in subjects.items %}
+							<li class="border border-gray-400 rounded-3xl">
+								<!-- Toggle & Subject Checkbox -->
+								<div onclick="toggleSection(this)" class="cursor-pointer p-4 flex justify-between items-center select-none">
+									<label class="chkbx-primary-label" onclick="event.stopPropagation()">
+										<input type="checkbox" class="subject-checkbox chkbx-primary peer" data-subject="{{ subject.slug }}" />
+										<span class="chkbx-box"></span>
+										<span class="font-semibold">{{ subject }}</span>
+									</label>
+									<svg class="arrow-icon || w-4 h-4 transform transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+									</svg>
+								</div>
+
+								<!-- Hidden Section -->
+								<div class="max-h-0 px-4 overflow-hidden opacity-0 scale-y-0 origin-top transition-all duration-300" data-section>
+									<!-- Divider -->
+									<hr class="divider scale-x-0 transition-transform duration-300 origin-center" id="hr-{{ subject.slug }}" />
+									<ul class="topic-filter || flex flex-col py-4 px-8 gap-2">
+										{% for topic in topics %}
+										<li data-topic="{{ topic.slug }}">
+											<label class="chkbx-primary-label text-sm">
+												<input type="checkbox" name="topic" data-parent="{{ subject.slug }}" data-topic="{{ topic.slug }}" class="chkbx-primary peer" />
+												<span class="chkbx-box"></span>
+												<span>{{ topic.name }}</span>
+											</label>
+										</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+					{% endif %}
+
+					<!-- Materials type filtering -->
+					<div class="filter-section || max-h-min hover:border-gray-300 transition-colors">
+						<h4 class="text-gray-300 font-semibold mb-2">Typ materiału</h4>
+						<ul class="flex flex-col gap-2" id="type-filter">
+							<!-- Official (grey) type -->
+							<li>
+								<label class="flex items-center gap-2 cursor-pointer select-none group">
+									<input type="checkbox" name="official" id="official" class="hidden peer material-type-checkbox" data-type="official" />
+									<span class="w-4 h-4 rounded-full border-2 border-gray-400 inline-block relative transition-colors group-hover:border-gray-300 peer-checked:bg-gray-200 peer-checked:border-gray-200"></span>
+									<span class="text-gray-400 transition-colors group-hover:text-gray-300 peer-checked:text-gray-200">Oficjalne materiały</span>
+								</label>
+							</li>
+
+							<!-- Students' (sky) type -->
+							<li>
+								<label class="flex items-center gap-2 cursor-pointer select-none group">
+									<input type="checkbox" name="student_notes" id="student_notes" class="hidden peer material-type-checkbox" data-type="student_notes" />
+									<span class="w-4 h-4 rounded-full border-2 border-sky-400 inline-block relative transition-colors group-hover:border-sky-500 peer-checked:bg-sky-400 peer-checked:border-sky-400"></span>
+									<span class="text-gray-400 transition-colors group-hover:text-sky-500 peer-checked:text-sky-400">Notatki studentów</span>
+								</label>
+							</li>
+
+							<!-- MathPro (violet) type -->
+							<li>
+								<label class="flex items-center gap-2 cursor-pointer select-none group">
+									<input type="checkbox" name="mathpro" id="mathpro" class="hidden peer material-type-checkbox" data-type="mathpro" />
+									<span class="w-4 h-4 rounded-full border-2 border-violet-400 inline-block relative transition-colors group-hover:border-violet-500 peer-checked:bg-violet-400 peer-checked:border-violet-400"></span>
+									<span class="text-gray-400 transition-colors group-hover:text-violet-600 peer-checked:text-violet-300">Artykuły z MathPro</span>
+								</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Materials container - will expand to full width when filters are hidden -->
+		<div class="materials flex flex-col items-center gap-4 flex-grow transition-all duration-300" id="materials-container">{% include 'partials/materials_list.html' %}</div>
+	</div>
+</section>
+
+<script>
+	let selectedFilters = {
+		page: 1, // current page number
+		q: "",
+		topics: {
+			// topics dictionary
+			// Example: "subject_slug": ["topic1", "topic2"]
+		},
+		types: [], // types array
+	};
+
+	function fetchMaterials(signal) {
+		const params = new URLSearchParams();
+
+		if (selectedFilters.page) params.append("page", selectedFilters.page);
+		if (selectedFilters.q) params.append("q", selectedFilters.q);
+		if (Object.keys(selectedFilters.topics).length > 0) {
+			for (const subject in selectedFilters.topics) {
+				console.log("Subject:", subject, "Topics:", selectedFilters.topics[subject]); // Debugging line
+				if (selectedFilters.topics[subject].length > 0) {
+					params.append(`topics`, JSON.stringify(selectedFilters.topics));
+				}
+			}
+		}
+		if (selectedFilters.types.length > 0) {
+			params.append("types", selectedFilters.types.join(","));
+		}
+
+		console.log("Request issued with params:", params.toString()); // Debugging line
+
+		fetch(`/materials/ajax/?${params.toString()}`, { signal })
+			.then((response) => response.json())
+			.then((data) => {
+				document.getElementById("materials-container").innerHTML = data.html;
+			})
+			.catch((error) => {
+				if (error.name === "AbortError") {
+					// Żądanie zostało anulowane — ignorujemy
+					return;
+				}
+				console.error("Fetch error:", error);
+			});
+	}
+
+	// Pagination event listener
+	document.addEventListener("click", function (e) {
+		if (e.target.classList.contains("page-link")) {
+			e.preventDefault();
+			const page = e.target.dataset.page;
+			selectedFilters.page = page;
+			fetchMaterials();
+		}
+	});
+
+	// Event listeners for filters
+
+	// Name filtering
+	let debounceTimeout;
+	let currentAbortController = null;
+
+	document.getElementById("filter-input").addEventListener("input", function () {
+		clearTimeout(debounceTimeout);
+		const value = this.value;
+
+		debounceTimeout = setTimeout(function () {
+			selectedFilters.q = value;
+
+			// Anuluj poprzedni request
+			if (currentAbortController) {
+				currentAbortController.abort();
+			}
+
+			// Stwórz nowy AbortController
+			currentAbortController = new AbortController();
+			console.log("AbortController created:", currentAbortController);
+			const signal = currentAbortController.signal;
+
+			// Wywołaj fetch z obsługą sygnału
+			fetchMaterials(signal);
+		}, 300);
+	});
+
+	// Topic filtering
+	document.querySelectorAll(".topic-filter label").forEach((label) => {
+		const input = label.querySelector("input");
+
+		input.addEventListener("change", () => {
+			const topic = input.dataset.topic;
+			const subject = input.dataset.parent; // Get the subject from the data attribute
+			if (!selectedFilters.topics[subject]) {
+				selectedFilters.topics[subject] = []; // Initialize if not already done
+			}
+			const index = selectedFilters.topics[subject].indexOf(topic);
+			if (index > -1) {
+				// Already selected, deselect it
+				selectedFilters.topics[subject].splice(index, 1);
+			} else {
+				// Add new selection
+				selectedFilters.topics[subject].push(topic);
+			}
+			fetchMaterials();
+		});
+	});
+
+	// Type filtering
+	document.querySelectorAll("#type-filter label").forEach((label) => {
+		const input = label.querySelector("input");
+		input.addEventListener("change", () => {
+			const type = input.dataset.type;
+			const index = selectedFilters.types.indexOf(type);
+			if (index > -1) {
+				selectedFilters.types.splice(index, 1);
+				input.checked = false;
+			} else {
+				selectedFilters.types.push(type);
+				input.checked = true;
+			}
+			fetchMaterials();
+		});
+	});
+
+	// Toggle filters visibility
+	document.getElementById("toggle-filters-btn").addEventListener("click", function () {
+		const filtersWrapper = document.getElementById("filters-wrapper");
+		filtersWrapper.classList.toggle("hidden");
+
+		// When filters are visible, push content to the right (on mobile)
+		const isMobile = window.innerWidth < 768; // md breakpoint
+		if (isMobile) {
+			filtersWrapper.classList.toggle("absolute");
+			filtersWrapper.classList.toggle("relative");
+		}
+	});
+
+	// Sticky filters on scroll
+	function handleStickyFilters() {
+		const filtersWrapper = document.getElementById("filters-wrapper");
+		const searchInput = document.getElementById("search-bar");
+
+		const scrollTop = window.scrollY;
+		filtersWrapper.style.position = "sticky";
+		searchInput.style.position = "sticky";
+		filtersWrapper.style.top = "188px"; // Add a small margin from the top
+		searchInput.style.top = "98px"; // Add a small margin from the top
+	}
+
+	// Check screen size on resize and update filters visibility
+	window.addEventListener("resize", function () {
+		const filtersWrapper = document.getElementById("filters-wrapper");
+		if (window.innerWidth >= 768) {
+			// md breakpoint
+			filtersWrapper.classList.remove("hidden");
+			filtersWrapper.classList.remove("absolute");
+			filtersWrapper.classList.add("relative");
+		} else {
+			filtersWrapper.classList.add("hidden");
+		}
+	});
+
+	// Initialize sticky scroll behavior
+	window.addEventListener("scroll", handleStickyFilters);
+	window.addEventListener("load", handleStickyFilters);
+</script>
+
+<script>
+	function toggleSection(headerDiv) {
+		const wrapper = headerDiv.nextElementSibling;
+		const arrowIcon = headerDiv.querySelector(".arrow-icon");
+		const hr = wrapper.querySelector("hr");
+
+		// Cancel timeout if exists
+		if (wrapper.dataset.timeoutId) {
+			clearTimeout(wrapper.dataset.timeoutId);
+			wrapper.dataset.timeoutId = null;
+		}
+
+		const isOpen = wrapper.classList.contains("opacity-100");
+
+		if (isOpen) {
+			wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+			requestAnimationFrame(() => {
+				wrapper.classList.add("max-h-0", "opacity-0", "scale-y-0");
+				wrapper.classList.remove("opacity-100", "scale-y-100");
+				wrapper.style.maxHeight = "0px";
+				arrowIcon?.classList.remove("rotate-180");
+				hr?.classList.remove("scale-x-100");
+				hr?.classList.add("scale-x-0");
+			});
+		} else {
+			const scrollHeight = wrapper.scrollHeight;
+			wrapper.classList.remove("max-h-0", "opacity-0", "scale-y-0");
+			wrapper.classList.add("opacity-100", "scale-y-100");
+			wrapper.style.maxHeight = scrollHeight + "px";
+			arrowIcon?.classList.add("rotate-180");
+			hr?.classList.remove("scale-x-0");
+			hr?.classList.add("scale-x-100");
+
+			const timeoutId = setTimeout(() => {
+				wrapper.style.maxHeight = "none";
+				wrapper.dataset.timeoutId = null;
+			}, 300);
+			wrapper.dataset.timeoutId = timeoutId;
+		}
+	}
+
+	// Subject checkbox controls all child topics
+	document.querySelectorAll(".subject-checkbox").forEach((subjectCheckbox) => {
+		subjectCheckbox.addEventListener("change", function () {
+			const subject = this.dataset.subject;
+			const topicCheckboxes = document.querySelectorAll(`input[name="topic"][data-parent="${subject}"]`);
+			if (!selectedFilters.topics[subject]) {
+				selectedFilters.topics[subject] = []; // Initialize if not already done
+			}
+			topicCheckboxes.forEach((topic) => {
+				topic.checked = this.checked;
+				if (this.checked) {
+					// If the subject is checked, add all topics to the selected filters
+					if (!selectedFilters.topics[subject].includes(topic.dataset.topic)) {
+						selectedFilters.topics[subject].push(topic.dataset.topic);
+					}
+				} else {
+					// If unchecked, remove all topics from the selected filters
+					const index = selectedFilters.topics[subject].indexOf(topic.dataset.topic);
+					if (index > -1) {
+						selectedFilters.topics[subject].splice(index, 1);
+					}
+				}
+			});
+			fetchMaterials();
+		});
+	});
+
+	// Individual topic changes may affect the subject checkbox
+	document.querySelectorAll('input[name="topic"]').forEach((topicCheckbox) => {
+		topicCheckbox.addEventListener("change", function () {
+			const subject = this.dataset.parent;
+			const all = document.querySelectorAll(`input[name="topic"][data-parent="${subject}"]`);
+			const checked = [...all].filter((cb) => cb.checked);
+			const subjectBox = document.querySelector(`.subject-checkbox[data-subject="${subject}"]`);
+
+			// Checkbox state logic
+			if (checked.length === all.length) {
+				subjectBox.checked = true;
+				subjectBox.indeterminate = false;
+			} else if (checked.length > 0) {
+				subjectBox.checked = false;
+				subjectBox.indeterminate = true;
+			} else {
+				subjectBox.checked = false;
+				subjectBox.indeterminate = false;
+			}
+		});
+	});
+</script>
+{% endblock content %}

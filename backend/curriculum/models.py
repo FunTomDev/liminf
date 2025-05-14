@@ -14,14 +14,6 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
-def material_upload_path(instance, filename)->str:
-    """Store files in different directories based on material type."""
-    if instance.material_type == 'official':
-        return f"materials/official/{instance.topic.subject}/{filename}"
-    elif instance.material_type == 'student_notes':
-        return f"materials/student_notes/{instance.topic.subject}/{filename}"
-    return f"materials/{filename}"
-
 class Topic(models.Model):
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='topics')

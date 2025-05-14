@@ -52,11 +52,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages.apps.PagesConfig',
+    'curriculum.apps.CurriculumConfig',
     'materials.apps.MaterialsConfig',
+    'problems.apps.ProblemsConfig',
+    'submissions.apps.SubmissionsConfig',
     'users.apps.UsersConfig',
     'forums.apps.ForumsConfig',
-    'submissions.apps.SubmissionsConfig',
-    'curriculum.apps.CurriculumConfig',
 ]
 
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd" if platform.system() == 'Windows' else '/usr/bin/npm'

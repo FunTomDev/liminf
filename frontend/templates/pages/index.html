@@ -17,7 +17,7 @@
 			<div class="embla__container">
 				{% for material in recent_materials %}
 				<div class="carousel-item embla__slide">
-					<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}" class="block max-w-96">
+					<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}" class="block max-w-96 w-full">
 						<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
 							<div class="basic-data">
 								<h3 class="header text-xl font-semibold">{{ material.title }}</h3>
@@ -70,15 +70,55 @@
 <section class="problems-section py-8 px-8 md:px-16">
 	<h2 class="text-3xl font-bold text-gray-300 text-center">Zadania</h2>
 	{% if recent_problems %}
-	<div class="flex flex-col items-center gap-8">
-		<div class="problems-grid w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-			{% for problem in recent_problems %}
-			<!-- Each problem's card placeholder -->
-			{% endfor %}
+	<div class="carousel-container embla">
+		<div class="carousel-track embla__viewport" id="carousel-track">
+			<div class="embla__container">
+				{% for problem in recent_problems %}
+				<div class="carousel-item embla__slide">
+					<a href="{% url 'problems:details' problem.topic.subject.slug problem.topic.slug problem.id %}" class="block max-w-96 w-full">
+						<div class="{{ problem.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
+							<div class="basic-data">
+								<h3 class="header text-xl font-semibold">{{ problem.title }}</h3>
+								<p class="">{{ problem.topic.subject }}</p>
+								<p class="">{{ problem.topic.name }}</p>
+							</div>
+							<hr class="divider" />
+							<div class="description flex-1">
+								<p class="">{{ problem.short_description }}</p>
+							</div>
+							<hr class="divider" />
+							<div class="additional-data flex justify-between items-center">
+								<span class="problem-type">{{ problem.get_type_display }}</span>
+								<span class="upload-date">{{ problem.uploaded_at|date:'d.m.Y' }}</span>
+							</div>
+						</div>
+					</a>
+				</div>
+				{% endfor %}
+			</div>
 		</div>
-		<div class="flex justify-center">
-			<!-- More button placeholder -->
+		<!-- Navigation Arrows -->
+		<div class="embla__controls max-w-96">
+			<div class="embla__buttons">
+				<button class="embla__button embla__button--prev left-0">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+					</svg>
+				</button>
+
+				<!-- Dots Navigation -->
+				<div class="embla__dots"></div>
+
+				<button class="embla__button embla__button--next right-0">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+					</svg>
+				</button>
+			</div>
 		</div>
+	</div>
+	<div class="flex justify-center">
+		<a href="{% url 'problems:list' %}" class="btn-primary">Zobacz wszystkie &#8594;</a>
 	</div>
 	{% else %}
 	<p class="text-gray-400 text-center">Brak dodanych zadań</p>

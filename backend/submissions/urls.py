@@ -3,9 +3,7 @@ from . import views
 
 app_name = "submissions"
 urlpatterns = [
-
-	path("", views.problems, name="problems-list"),
-	path("<slug:subject_slug>/<slug:topic_slug>/<int:problem_id>/", views.details, name="details"),
-    path('ajax/', views.problems_ajax, name='problem_ajax'),
+    
+	path("<slug:subject_slug>/<slug:topic_slug>/<int:problem_id>/solution/<int:solution_id>", views.solution, name="solution-details"),
 
 ]

@@ -1,0 +1,200 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container min-w-full p-4 flex flex-col sm:flex-row gap-8">
+	<div class="sidebar || min-h-full flex-1/4 min-w-3xs max-w-sm flex flex-col gap-4 max-lg:w-full">
+		<div class="user-info || p-4 flex-grow flex flex-col items-center gap-2 border border-gray-400 hover:border-gray-300 rounded-4xl transition-colors">
+			<div class="user-info || text-xl font-semibold">
+				<span class="user-name">{{ user.first_name }}</span>
+				<span class="user-surname">{{ user.last_name }}</span>
+			</div>
+		</div>
+		<div class="logout-button">
+			<form action="{% url 'users:logout' %}" method="post">
+				{% csrf_token %}
+				<button type="submit" class="w-full py-2 px-4 text-red-500 border border-red-500 rounded-full bg-red-900/10 hover:bg-red-900/20 cursor-pointer transition-colors">Wyloguj się</button>
+			</form>
+		</div>
+	</div>
+	<div class="main || flex-3/4 flex flex-col gap-4 max-lg:w-full">
+		<div class="uploaded-materials">
+			<h2 class="text-2xl font-bold text-gray-300">Twoje materiały</h2>
+			<div class="flex flex-col gap-2 items-center">
+				{% if recent_materials %}
+				<div class="carousel-container embla">
+					<div class="carousel-track embla__viewport" id="carousel-track">
+						<div class="embla__container">
+							{% for material in recent_materials %}
+							<div class="carousel-item embla__slide">
+								<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}" class="block max-w-96 w-full">
+									<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
+										<div class="basic-data">
+											<h3 class="header text-xl font-semibold">{{ material.title }}</h3>
+											<p class="">{{ material.topic.subject }}</p>
+											<p class="">{{ material.topic.name }}</p>
+										</div>
+										<hr class="divider" />
+										<div class="description flex-1">
+											<p class="">{{ material.short_description }}</p>
+										</div>
+										<hr class="divider" />
+										<div class="additional-data flex justify-between items-center">
+											<span class="material-type">{{ material.get_type_display }}</span>
+											<span class="upload-date">{{ material.uploaded_at|date:'d.m.Y' }}</span>
+										</div>
+									</div>
+								</a>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					<!-- Navigation Arrows -->
+					<div class="embla__controls max-w-96">
+						<div class="embla__buttons">
+							<button class="embla__button embla__button--prev left-0">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+								</svg>
+							</button>
+
+							<!-- Dots Navigation -->
+							<div class="embla__dots"></div>
+
+							<button class="embla__button embla__button--next right-0">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				{% else %}
+				<p class="text-center text-gray-500">Nie masz jeszcze żadnych materiałów.</p>
+				{% endif %}
+				<a href="" class="btn-primary flex items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+					</svg>
+					Dodaj materiał
+				</a>
+			</div>
+		</div>
+		<div class="uploaded-problems">
+			<h2 class="text-2xl font-bold text-gray-300">Twoje zadania</h2>
+			<div class="flex flex-col gap-2 items-center">
+				{% if recent_problems %}
+				<div class="carousel-container embla">
+					<div class="carousel-track embla__viewport" id="carousel-track">
+						<div class="embla__container">
+							{% for problem in recent_problems %}
+							<div class="carousel-item embla__slide">
+								<a href="{% url 'problems:details' problem.topic.subject.slug problem.topic.slug problem.id %}" class="block max-w-96 w-full">
+									<div class="{{ problem.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
+										<div class="basic-data">
+											<h3 class="header text-xl font-semibold">{{ problem.title }}</h3>
+											<p class="">{{ problem.topic.subject }}</p>
+											<p class="">{{ problem.topic.name }}</p>
+										</div>
+										<hr class="divider" />
+										<div class="description flex-1">
+											<p class="">{{ problem.short_description }}</p>
+										</div>
+										<hr class="divider" />
+										<div class="additional-data flex justify-between items-center">
+											<span class="problem-type">{{ problem.get_type_display }}</span>
+											<span class="upload-date">{{ problem.uploaded_at|date:'d.m.Y' }}</span>
+										</div>
+									</div>
+								</a>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					<!-- Navigation Arrows -->
+					<div class="embla__controls max-w-96">
+						<div class="embla__buttons">
+							<button class="embla__button embla__button--prev left-0">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+								</svg>
+							</button>
+
+							<!-- Dots Navigation -->
+							<div class="embla__dots"></div>
+
+							<button class="embla__button embla__button--next right-0">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				{% else %}
+				<p class="text-center text-gray-500">Nie masz jeszcze żadnych zadań.</p>
+				{% endif %}
+				<a href="" class="btn-primary flex items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+					</svg>
+					Dodaj zadanie
+				</a>
+			</div>
+		</div>
+		<div class="uploaded-solutions">
+			<h2 class="text-2xl font-bold text-gray-300">Twoje rozwiązania</h2>
+			<div class="flex flex-col gap-2 items-center">
+				{% if recent_solutions %}
+				<div class="carousel-container embla">
+					<div class="carousel-track embla__viewport" id="carousel-track">
+						<div class="embla__container">
+							{% for solution in recent_solutions %}
+							<div class="carousel-item embla__slide">
+								<a href="{% url 'solutions:details' solution.topic.subject.slug solution.topic.slug solution.id %}" class="block max-w-96 w-full">
+									<div class="{{ solution.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
+										<div class="basic-data">
+											<h3 class="header text-xl font-semibold">{{ solution.title }}</h3>
+											<p class="">{{ solution.topic.subject }}</p>
+											<p class="">{{ solution.topic.name }}</p>
+										</div>
+										<hr class="divider" />
+										<div class="description flex-1">
+											<p class="">{{ solution.short_description }}</p>
+										</div>
+										<hr class="divider" />
+										<div class="additional-data flex justify-between items-center">
+											<span class="solution-type">{{ solution.get_type_display }}</span>
+											<span class="upload-date">{{ solution.uploaded_at|date:'d.m.Y' }}</span>
+										</div>
+									</div>
+								</a>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					<!-- Navigation Arrows -->
+					<div class="embla__controls max-w-96">
+						<div class="embla__buttons">
+							<button class="embla__button embla__button--prev left-0">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+								</svg>
+							</button>
+
+							<!-- Dots Navigation -->
+							<div class="embla__dots"></div>
+
+							<button class="embla__button embla__button--next right-0">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				{% else %}
+				<p class="text-center text-gray-500">Nie masz jeszcze żadnych rozwiązań. Twoje rozwiązania pojawią się tutaj po przesłaniu ich do któregoś z <a href="{% url 'problems:list' %}" class="inline-link text-inherit">zadań</a>.</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

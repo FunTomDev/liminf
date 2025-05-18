@@ -36,3 +36,13 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+class Semester(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    position = models.PositiveSmallIntegerField(unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['position']

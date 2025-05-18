@@ -5,7 +5,7 @@
 			<ul class="flex flex-row gap-8 justify-end w-full ml-auto">
 				<li><a class="nav-link" href="{% url 'home' %}">Start</a></li>
 				<li>
-					<a class="nav-link" href="{% url 'materials:materials-list' %}">Materiały</a>
+					<a class="nav-link" href="{% url 'materials:list' %}">Materiały</a>
 				</li>
 				<li>
 					<a class="nav-link" href="{% url 'problems:list' %}">Zadania</a>
@@ -18,10 +18,18 @@
 				</li>
 			</ul>
 		</nav>
+		{% if user.is_authenticated %}
+		<a class="px-4 py-2 font-semibold transition-colors hover:text-gray-500 max-lg:invisible max-lg:absolute max-lg:size-0" href="{% url 'users:profile' %}">
+			<div class="user-menu flex flex-row gap-2 px-2 py-2">
+				<span>Cześć, {{ user.username }}</span>
+			</div>
+		</a>
+		{% else %}
 		<div class="login gap-2 px-2 py-2 max-lg:invisible max-lg:absolute max-lg:size-0">
 			<a class="px-4 py-2 font-semibold transition-colors hover:text-gray-500" href="{% url 'users:login' %}">Zaloguj się</a>
 			<a class="btn-primary" href="{% url 'users:register' %}">Zarejestruj się</a>
 		</div>
+		{% endif %}
 		<div class="menu-button menu-button__close">
 			<button class="p-4 rounded-lg">
 				<div class="menu-icon menu-icon__close">
@@ -40,7 +48,7 @@
 					<a class="nav-link block text-lg" href="{% url 'home' %}">Start</a>
 				</li>
 				<li>
-					<a class="nav-link block text-lg" href="{% url 'materials:materials-list' %}">Materiały</a>
+					<a class="nav-link block text-lg" href="{% url 'materials:list' %}">Materiały</a>
 				</li>
 				<li>
 					<a class="nav-link block text-lg" href="{% url 'problems:list' %}">Zadania</a>
@@ -51,11 +59,18 @@
 				<li>
 					<a class="nav-link block text-lg" href="{% url 'donate' %}">Podziękować</a>
 				</li>
+				{% if user.is_authenticated %}
+				<li>
+					<a class="nav-link block text-lg" href="{% url 'users:profile' %}">Profil</a>
+				</li>
+				{% endif %}
 			</ul>
+			{% if not user.is_authenticated %}
 			<div class="flex flex-row gap-4 mt-8 items-center justify-between max-sm:flex-col w-full border-t border-gray-400 pt-4">
 				<a class="text-lg font-semibold transition-colors hover:text-gray-500 order-last max-sm:order-first" href="{% url 'users:login' %}">Zaloguj się</a>
 				<a class="btn-primary" href="{% url 'users:register' %}">Zarejestruj się</a>
 			</div>
+			{% endif %}
 		</div>
 	</nav>
 </header>

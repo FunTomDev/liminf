@@ -23,7 +23,7 @@
 }
 
 @utility inline-link {
-	@apply border-b border-dotted transition-colors hover:text-gray-500;
+	@apply border-b border-dotted transition-colors text-gray-400 hover:text-gray-300;
 }
 
 @utility card-item {
@@ -41,7 +41,7 @@
 	input[type="email"],
 	input[type="textbox"],
 	textarea {
-		@apply bg-gray-950 rounded-full border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
+		@apply bg-gray-950 rounded-full border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
 	}
 
 	input[type="checkbox"] {
@@ -60,6 +60,34 @@
 }
 
 @layer components {
+	.form-primary {
+		@apply flex flex-col gap-4 border-2 border-gray-400 rounded-4xl p-4 sm:p-8 transition-colors;
+		div {
+			@apply flex flex-col gap-2;
+			input[type="submit"] {
+				@apply btn-primary;
+			}
+		}
+		.error {
+			@apply text-red-500 text-sm;
+			ul {
+				@apply flex flex-col gap-2;
+				li {
+					@apply border-1 border-red-500 rounded-lg px-4 py-2 bg-red-900/10;
+				}
+			}
+		}
+		.success {
+			@apply text-green-500 text-sm;
+			ul {
+				@apply flex flex-col gap-2;
+				li {
+					@apply border-1 border-green-500 rounded-lg px-4 py-2 bg-green-900/10;
+				}
+			}
+		}
+	}
+
 	.chkbx-primary-label {
 		@apply flex items-center gap-2 cursor-pointer select-none hover:text-gray-200 has-[:checked]:text-gray-200 relative border-gray-400 rounded-full transition-colors;
 	}
@@ -115,7 +143,7 @@
 	}
 
 	.menu-icon > div {
-		@apply transition-[opacity,transform,transform-origin];
+		@apply transition-[opacity,translate,rotate,transform-origin];
 	}
 
 	.menu-icon__open > div:first-child {

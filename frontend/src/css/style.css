@@ -39,9 +39,12 @@
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
-	input[type="textbox"],
-	textarea {
+	input[type="textbox"] {
 		@apply bg-gray-950 rounded-full border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
+	}
+
+	textarea {
+		@apply bg-gray-950 rounded-4xl border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
 	}
 
 	input[type="checkbox"] {

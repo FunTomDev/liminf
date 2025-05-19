@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container min-w-full p-4 flex justify-center gap-8">
+	<form class="form-primary [&_textarea]:rounded-4xl" action="{% url 'materials:add' %}" method="post">
+		{% if form.non_field_errors %}
+		<div>
+			<div class="error">{{ form.non_field_errors}}</div>
+		</div>
+		{% endif %} {% csrf_token %}
+		<div>
+			<label for="{{ form.title.id_for_label }}">{{ form.title.label }}:</label>
+			{{ form.title }}
+		</div>
+		<div>
+			<label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
+			{{ form.description }}
+		</div>
+		<div>
+			<label for="{{ form.content.id_for_label }}">{{ form.content.label }}:</label>
+			{{ form.content }}
+		</div>
+		<div>
+			<label for="{{ form.file.id_for_label }}">{{ form.file.label }}:</label>
+			{{ form.file }}
+		</div>
+		<div>
+			<label for="{{ form.topic.id_for_label }}">{{ form.topic.label }}:</label>
+			{{ form.topic }}
+		</div>
+		<button class="btn-primary">Dodaj</button>
+	</form>
+</div>
+
+{% endblock %}

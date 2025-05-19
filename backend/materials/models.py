@@ -4,6 +4,7 @@ from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_delete
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from curriculum.models import Topic
 
@@ -29,10 +30,10 @@ class Material(models.Model):
     # Relations and metadata
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="materials")
     title = models.CharField(max_length=255)
-    type = models.CharField(max_length=20, choices=MATERIAL_TYPES)
+    type = models.CharField(max_length=20, choices=MATERIAL_TYPES, default='student_notes')
 
     # Material content
-    short_description = models.CharField(max_length=2048, blank=True)
+    description = models.CharField(max_length=2048, blank=True)
     content = models.TextField(blank=True)
     file = models.FileField(upload_to=material_upload_path, blank=True, null=True)
     url = models.URLField(blank=True, null=True)
@@ -45,11 +46,12 @@ class Material(models.Model):
     def clean(self):
         if self.type == "mathpro":
             if not self.url:
-                raise ValidationError("MathPro articles must have a URL.")
+                raise ValidationError("Artykuły muszą mieć link URL.")
             if self.file:
-                raise ValidationError("MathPro articles cannot have a file.")
+                raise ValidationError("Artykuły nie mogą mieć załączonego pliku.")
         if self.type != "mathpro" and not self.file and not self.content:
-            raise ValidationError("Materials must have content or file.")
+            print(_("Materials must have content or file."))
+            raise ValidationError("Materiały muszą mieć treść albo załączony plik.")
         super().clean()
 
     def get_border_style(self):

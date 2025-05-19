@@ -1,7 +1,7 @@
 import os
 import json
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -9,6 +9,8 @@ from django.db.models import Q
 
 from .models import Material
 from curriculum.models import Subject, Topic
+
+from .forms import MaterialForm
 
 # Create your views here.
 def materials_ajax(request):
@@ -70,3 +72,18 @@ def details(request, subject_slug, topic_slug, material_id):
     }
 
     return render(request, 'materials/details.html', context=context)
+
+def add_material(request):
+    """Add new material"""
+    if request.method == 'POST':
+        form = MaterialForm(request.POST, request.FILES)
+        if form.is_valid():
+            print("Form is valid")
+            material = form.save(commit=False)
+            material.uploaded_by = request.user
+            material.save()
+            return redirect('materials:details', subject_slug=material.topic.subject.slug, topic_slug=material.topic.slug, material_id=material.id)
+    else:
+        form = MaterialForm()
+    
+    return render(request, 'materials/add_material.html', {'form': form})

@@ -18,11 +18,11 @@
 		<div class="uploaded-materials">
 			<h2 class="text-2xl font-bold text-gray-300">Twoje materiały</h2>
 			<div class="flex flex-col gap-2 items-center">
-				{% if recent_materials %}
+				{% if uploaded_materials %}
 				<div class="carousel-container embla">
 					<div class="carousel-track embla__viewport" id="carousel-track">
 						<div class="embla__container">
-							{% for material in recent_materials %}
+							{% for material in uploaded_materials %}
 							<div class="carousel-item embla__slide">
 								<a href="{% url 'materials:details' material.topic.subject.slug material.topic.slug material.id %}" class="block max-w-96 w-full">
 									<div class="{{ material.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
@@ -33,7 +33,7 @@
 										</div>
 										<hr class="divider" />
 										<div class="description flex-1">
-											<p class="">{{ material.short_description }}</p>
+											<p class="">{{ material.description }}</p>
 										</div>
 										<hr class="divider" />
 										<div class="additional-data flex justify-between items-center">
@@ -69,7 +69,7 @@
 				{% else %}
 				<p class="text-center text-gray-500">Nie masz jeszcze żadnych materiałów.</p>
 				{% endif %}
-				<a href="" class="btn-primary flex items-center">
+				<a href="{% url 'materials:add' %}" class="btn-primary flex items-center">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 					</svg>
@@ -80,11 +80,11 @@
 		<div class="uploaded-problems">
 			<h2 class="text-2xl font-bold text-gray-300">Twoje zadania</h2>
 			<div class="flex flex-col gap-2 items-center">
-				{% if recent_problems %}
+				{% if uploaded_problems %}
 				<div class="carousel-container embla">
 					<div class="carousel-track embla__viewport" id="carousel-track">
 						<div class="embla__container">
-							{% for problem in recent_problems %}
+							{% for problem in uploaded_problems %}
 							<div class="carousel-item embla__slide">
 								<a href="{% url 'problems:details' problem.topic.subject.slug problem.topic.slug problem.id %}" class="block max-w-96 w-full">
 									<div class="{{ problem.get_border_style }} tilt-container" onmousemove="updateTilt(event)">

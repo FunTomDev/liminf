@@ -7,10 +7,22 @@ from django.views.decorators.http import require_POST
 
 from .forms import StudentCreationForm, StudentLoginForm
 
+from materials.models import Material
+from problems.models import Problem
+
 # Create your views here.
 def profile_view(request):
     """Used to display user profile"""
-    return render(request, 'users/profile.html')
+
+    uploaded_materials = Material.objects.filter(uploaded_by=request.user).order_by('-uploaded_at')
+    uploaded_problems = Problem.objects.filter(uploaded_by=request.user).order_by('-uploaded_at')
+
+    context = {
+        'uploaded_materials': uploaded_materials,
+        'uploaded_problems': uploaded_problems,
+    }
+
+    return render(request, 'users/profile.html', context=context)
 
 def login_view(request):
     """Used for user authentication"""

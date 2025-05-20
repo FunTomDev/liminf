@@ -36,9 +36,6 @@ class Problem(models.Model):
     @property
     def subject(self):
         return self.topic.subject
-    
-    def solutions(self):
-        return self.solutions.all()
 
     def solution_count(self):
         return self.solutions.count()
@@ -47,12 +44,12 @@ class Problem(models.Model):
         solutions = self.solutions.all()
         if not solutions.exists():
             return None
-        return solutions.order_by('-likes').first()
+        return solutions.order_by('-votes').first()
     
     def clean(self):
         # Validate that at least one of content or file exists
         if not self.content and not self.file:
-            raise ValidationError("Either content or file must be provided.")
+            raise ValidationError("Zadanie musi zawierać treść albo załączony plik.")
 
     def save(self, *args, **kwargs):
         is_new = self.pk is None

@@ -24,7 +24,7 @@ class Material(models.Model):
     MATERIAL_TYPES = [
         ('official', "Oficjalne"),
         ('student_notes', "Notatki"),
-        ('mathpro', "MathPro"),
+        ('article', "Artykuł"),
     ]
 
     # Relations and metadata
@@ -44,12 +44,12 @@ class Material(models.Model):
         return f"{self.title}"
 
     def clean(self):
-        if self.type == "mathpro":
+        if self.type == "article":
             if not self.url:
                 raise ValidationError("Artykuły muszą mieć link URL.")
             if self.file:
                 raise ValidationError("Artykuły nie mogą mieć załączonego pliku.")
-        if self.type != "mathpro" and not self.file and not self.content:
+        if self.type != "article" and not self.file and not self.content:
             print(_("Materials must have content or file."))
             raise ValidationError("Materiały muszą mieć treść albo załączony plik.")
         super().clean()
@@ -57,7 +57,7 @@ class Material(models.Model):
     def get_border_style(self):
         return {
             'student_notes': 'card-item__sky',
-            'mathpro': 'card-item__violet',
+            'article': 'card-item__violet',
             'official': 'card-item__gray'
         }.get(self.type, 'card-item__gray')
 

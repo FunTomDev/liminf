@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %}{% block content %}
 <section class="hero-section relative overflow-hidden z-40">
 	<div class="text-center relative z-10 max-w-screen-lg mx-auto">
 		<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">liminf - centrum materiałów z zajęć i pomocy z zadaniami</h1>
@@ -142,8 +142,19 @@
 					<textarea class="resize-none h-32 w-full px-4 rounded-lg" name="message" id="message" required></textarea>
 				</div>
 			</div>
+			{% if messages %} {% for message in messages %}
+			<div class="alert-{{ message.tags }} flex justify-between items-center">
+				<div class="alert-text">{{ message }}</div>
+				<button type="button" class="alert-close cursor-pointer" onclick="this.parentElement.style.display='none';">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+			{% endfor %} {% endif %}
 			<input type="submit" value="Wyślij" />
 		</form>
 	</div>
 </section>
-{% endblock content %}.
+<script src="{% static 'js/carousel-main.js' %}"></script>
+{% endblock content %}

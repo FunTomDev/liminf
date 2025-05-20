@@ -9,9 +9,9 @@ class MaterialForm(forms.ModelForm):
         labels = {
             'title': 'Tutuł',
             'description': 'Opis',
+            'topic': 'Temat',
             'content': 'Treść (opcjonalnie, jeśli załączono plik)',
             'file': 'Plik (opcjonalnie, jeśli dodano treść)',
-            'topic': 'Temat',
         }
         widgets = {
             'content': forms.Textarea(attrs={'cols': 120, 'rows': 40, 'class': 'form-control'}),

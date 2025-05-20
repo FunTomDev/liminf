@@ -1,10 +1,13 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container min-w-full p-4 flex flex-col sm:flex-row gap-8">
-	<div class="sidebar || min-h-full flex-1/4 min-w-3xs max-w-sm flex flex-col gap-4 max-lg:w-full">
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="container min-w-full p-4 flex flex-col sm:flex-row items-center sm:items-start gap-8">
+	<div class="sidebar || static min-h-96 flex-1/4 min-w-3xs max-w-sm flex flex-col gap-4 max-lg:w-full">
 		<div class="user-info || p-4 flex-grow flex flex-col items-center gap-2 border border-gray-400 hover:border-gray-300 rounded-4xl transition-colors">
 			<div class="user-info || text-xl font-semibold">
 				<span class="user-name">{{ user.first_name }}</span>
 				<span class="user-surname">{{ user.last_name }}</span>
+			</div>
+			<div class="bg-blue-900/5 border border-blue-400 rounded-md p-4">
+				<span class="text-blue-400">Kiedyś coś tu będzie ;-;</span>
 			</div>
 		</div>
 		<div class="logout-button">
@@ -15,11 +18,11 @@
 		</div>
 	</div>
 	<div class="main || flex-3/4 flex flex-col gap-4 max-lg:w-full">
-		<div class="uploaded-materials">
-			<h2 class="text-2xl font-bold text-gray-300">Twoje materiały</h2>
-			<div class="flex flex-col gap-2 items-center">
+		<div class="uploaded-materials || border border-gray-400 hover:border-gray-300 rounded-4xl p-4">
+			<h2 class="text-2xl font-bold text-gray-300 text-center">Twoje materiały</h2>
+			<div class="flex flex-col items-center {% if not uploaded_materials %}p-4{% endif %}">
 				{% if uploaded_materials %}
-				<div class="carousel-container embla">
+				<div class="carousel-container embla relative">
 					<div class="carousel-track embla__viewport" id="carousel-track">
 						<div class="embla__container">
 							{% for material in uploaded_materials %}
@@ -47,8 +50,8 @@
 						</div>
 					</div>
 					<!-- Navigation Arrows -->
-					<div class="embla__controls max-w-96">
-						<div class="embla__buttons">
+					<div class="embla__controls absolute justify-between w-full top-1/2 -translate-y-1/2">
+						<div class="embla__buttons w-full">
 							<button class="embla__button embla__button--prev left-0">
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -77,11 +80,11 @@
 				</a>
 			</div>
 		</div>
-		<div class="uploaded-problems">
-			<h2 class="text-2xl font-bold text-gray-300">Twoje zadania</h2>
-			<div class="flex flex-col gap-2 items-center">
+		<div class="uploaded-problems || border border-gray-400 hover:border-gray-300 rounded-4xl p-4">
+			<h2 class="text-2xl font-bold text-gray-300 text-center">Twoje zadania</h2>
+			<div class="flex flex-col items-center {% if not uploaded_problems %}p-4{% endif %}">
 				{% if uploaded_problems %}
-				<div class="carousel-container embla">
+				<div class="carousel-container embla relative">
 					<div class="carousel-track embla__viewport" id="carousel-track">
 						<div class="embla__container">
 							{% for problem in uploaded_problems %}
@@ -109,29 +112,21 @@
 						</div>
 					</div>
 					<!-- Navigation Arrows -->
-					<div class="embla__controls max-w-96">
-						<div class="embla__buttons">
-							<button class="embla__button embla__button--prev left-0">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-								</svg>
-							</button>
-
-							<!-- Dots Navigation -->
-							<div class="embla__dots"></div>
-
-							<button class="embla__button embla__button--next right-0">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-								</svg>
-							</button>
-						</div>
-					</div>
+					<button class="embla__button embla__button--prev absolute left-0 top-1/2 -translate-y-1/2">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+						</svg>
+					</button>
+					<button class="embla__button embla__button--next absolute right-0 top-1/2 -translate-y-1/2">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+						</svg>
+					</button>
 				</div>
 				{% else %}
 				<p class="text-center text-gray-500">Nie masz jeszcze żadnych zadań.</p>
 				{% endif %}
-				<a href="" class="btn-primary flex items-center">
+				<a href="{% url 'problems:add' %}" class="btn-primary flex items-center">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 					</svg>
@@ -139,29 +134,29 @@
 				</a>
 			</div>
 		</div>
-		<div class="uploaded-solutions">
-			<h2 class="text-2xl font-bold text-gray-300">Twoje rozwiązania</h2>
-			<div class="flex flex-col gap-2 items-center">
-				{% if recent_solutions %}
-				<div class="carousel-container embla">
+		<div class="uploaded-solutions || border border-gray-400 hover:border-gray-300 rounded-4xl p-4">
+			<h2 class="text-2xl font-bold text-gray-300 text-center">Twoje rozwiązania</h2>
+			<div class="flex flex-col items-center {% if not uploaded_solutions %}p-4{% endif %}">
+				{% if uploaded_solutions %}
+				<div class="carousel-container embla relative">
 					<div class="carousel-track embla__viewport" id="carousel-track">
 						<div class="embla__container">
-							{% for solution in recent_solutions %}
+							{% for solution in uploaded_solutions %}
 							<div class="carousel-item embla__slide">
-								<a href="{% url 'solutions:details' solution.topic.subject.slug solution.topic.slug solution.id %}" class="block max-w-96 w-full">
-									<div class="{{ solution.get_border_style }} tilt-container" onmousemove="updateTilt(event)">
+								<a href="" class="block max-w-96 w-full">
+									<div class="card-item__gray tilt-container" onmousemove="updateTilt(event)">
 										<div class="basic-data">
 											<h3 class="header text-xl font-semibold">{{ solution.title }}</h3>
-											<p class="">{{ solution.topic.subject }}</p>
-											<p class="">{{ solution.topic.name }}</p>
+											<p class="">{{ solution.problem.topic.subject }}</p>
+											<p class="">{{ solution.problem.topic.name }}</p>
 										</div>
 										<hr class="divider" />
 										<div class="description flex-1">
-											<p class="">{{ solution.short_description }}</p>
+											<p class="">{{ solution.description }}</p>
 										</div>
 										<hr class="divider" />
 										<div class="additional-data flex justify-between items-center">
-											<span class="solution-type">{{ solution.get_type_display }}</span>
+											<span class="solution-votes font-semibold {% if solution.votes > 0 %}text-green-400 {% endif %}">{{ solution.votes }}</span>
 											<span class="upload-date">{{ solution.uploaded_at|date:'d.m.Y' }}</span>
 										</div>
 									</div>
@@ -171,16 +166,13 @@
 						</div>
 					</div>
 					<!-- Navigation Arrows -->
-					<div class="embla__controls max-w-96">
-						<div class="embla__buttons">
+					<div class="embla__controls absolute justify-between w-full top-1/2 -translate-y-1/2">
+						<div class="embla__buttons w-full">
 							<button class="embla__button embla__button--prev left-0">
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 								</svg>
 							</button>
-
-							<!-- Dots Navigation -->
-							<div class="embla__dots"></div>
 
 							<button class="embla__button embla__button--next right-0">
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -190,6 +182,12 @@
 						</div>
 					</div>
 				</div>
+				<a href="{% url 'problems:list' %}" class="btn-primary flex items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+					</svg>
+					Dodaj rozwiązanie
+				</a>
 				{% else %}
 				<p class="text-center text-gray-500">Nie masz jeszcze żadnych rozwiązań. Twoje rozwiązania pojawią się tutaj po przesłaniu ich do któregoś z <a href="{% url 'problems:list' %}" class="inline-link text-inherit">zadań</a>.</p>
 				{% endif %}
@@ -197,4 +195,7 @@
 		</div>
 	</div>
 </div>
+
+<script src="{% static 'js/carousel-profile.js' %}"></script>
+
 {% endblock content %}

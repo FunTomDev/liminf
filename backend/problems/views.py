@@ -1,14 +1,17 @@
 import os
 import json
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 from curriculum.models import Subject, Topic
 from .models import Problem
+
+from .forms import ProblemForm
 
 # Create your views here.
 def problems_ajax(request):
@@ -59,7 +62,7 @@ def problems(request):
     return render(request, 'problems/problems.html', context={'page_obj': page_obj, 'subjects': subjects})
 
 def details(request, subject_slug, topic_slug, problem_id):
-    """Display details material"""
+    """Display details for a problem"""
     subject = get_object_or_404(Subject, slug=subject_slug)
     topic = get_object_or_404(Topic, slug=topic_slug, subject=subject)
     problem = get_object_or_404(Problem, id=problem_id, topic=topic)
@@ -70,3 +73,18 @@ def details(request, subject_slug, topic_slug, problem_id):
     }
 
     return render(request, 'problems/details.html', context=context)
+
+@login_required
+def add_problem(request):
+    """Add a new problem"""
+    if request.method == "POST":
+        form = ProblemForm(request.POST, request.FILES)
+        if form.is_valid():
+            problem = form.save(commit=False)
+            problem.uploaded_by = request.user
+            problem.save()
+            return redirect('problems:details', subject_slug=problem.topic.subject.slug, topic_slug=problem.topic.slug, problem_id=problem.id)
+    else:
+        form = ProblemForm()
+
+    return render(request, 'problems/add_problem.html', {'form': form})

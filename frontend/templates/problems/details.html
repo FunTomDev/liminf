@@ -2,7 +2,7 @@
 
 <section class="p-4">
 	<div class="title flex flex-col items-center gap-4 max-w-2xl mx-auto py-10">
-		<h1 class="text-2xl font-bold text-center text-gray-300">{{ problem.title }}</h1>
+		<h1 class="text-3xl font-bold text-center text-gray-300">{{ problem.title }}</h1>
 		<p class="text-gray-400 text-center">{{ problem.description }}</p>
 	</div>
 </section>
@@ -10,7 +10,7 @@
 <section class="p-4">
 	{% if problem.content %}
 	<div class="details flex flex-col items-center gap-4 max-w-2xl mx-auto">
-		<h2 class="text-xl font-bold text-center text-gray-300">Treść</h2>
+		<h2 class="text-2xl font-bold text-center text-gray-300">Treść</h2>
 		<p class="text-gray-400 text-center">{{ problem.content|safe }}</p>
 	</div>
 	{% endif %}
@@ -19,35 +19,116 @@
 {% if problem.file %}
 <section class="p-4">
 	<div class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
-		<h2 class="text-xl font-bold text-center text-gray-300">Pliki</h2>
+		<h2 class="text-2xl font-bold text-center text-gray-300">Pliki</h2>
 		<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
 			<a href="{{ problem.file.url }}" target="_blank" class="p-4 border-2 border-gray-300 text-gray-300 rounded-full w-min hover:bg-gray-900 transition-all duration-300"> {{ file_name }} </a>
 		</div>
 	</div>
 </section>
-{% endif %}
-
-<section class="p-4">
+{% endif %} {% if problem.solution_count == 0 %}
+<section class="solutions || p-4">
 	<div class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
-		{% if problem.solution_count == 0 %}
-		<h2 class="text-xl font-bold text-center text-gray-300">Rozwiązania</h2>
+		<h2 class="text-2xl font-bold text-center text-gray-300">Rozwiązania</h2>
 		<p class="text-gray-400 text-center">Brak rozwiązań do tego zadania</p>
-
-		{% elif problem.solution_count == 1 %}
-		<h2 class="text-xl font-bold text-center text-gray-300">Solution</h2>
+		<a href="{% url 'problems:solutions:add' problem.subject.slug problem.topic.slug problem.id %}" class="btn-primary">+ Dodaj rozwiązanie</a>
+	</div>
+</section>
+{% elif problem.solution_count == 1 %}
+<section class="solutions || p-4">
+	<div class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
+		<h2 class="text-2xl font-bold text-center text-gray-300">Rozwiązanie</h2>
 		{% with solution=problem.solutions.first %}
 		<div class="solution">{{ solution.content }}</div>
-		{% endwith %} {% else %}
-		<h2 class="text-xl font-bold text-center text-gray-300">Recommended Solution</h2>
+		{% endwith %}
+		<a href="{% url 'problems:solutions:add' problem.subject.slug problem.topic.slug problem.id %}" class="btn-primary">+ Dodaj rozwiązanie</a>
+	</div>
+</section>
+{% else %}
+<section class="recommended-solution || p-4">
+	<div id="dynamic-solution-detail" class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
+		<h2 class="text-2xl font-bold text-center text-gray-300">Polecane rozwiązanie</h2>
 		{% with rec=problem.recommended_solution %}
 		<div class="solution recommended">{{ rec.content }}</div>
 		{% endwith %}
-
-		<h2 class="text-xl font-bold text-center text-gray-300">All Solutions</h2>
-		{% for sol in problem.solutions %}
-		<div class="solution">{{ sol.content }}</div>
-		{% endfor %} {% endif %}
-		<a href="#" class="btn-primary">+ Dodaj rozwiązanie</a>
 	</div>
 </section>
+<hr class="divider" />
+<section class="solutions || p-4">
+	<div class="flex flex-col items-center gap-4 px-8 mx-auto">
+		<h2 class="text-2xl font-bold text-center text-gray-300">Wszystkie rozwiązania</h2>
+		<div class="other-solutions card-items-list">
+			{% for sol in problem.solutions.all %}
+			<div class="flex flex-col items-center gap-4">
+				<a class="w-full" href="javascript:void(0);" onclick="showSolutionDetail({{ sol.id }})">
+					<div class="card-item__gray tilt-container" onmousemove="updateTilt(event)">
+						<div class="basic-data">
+							<h3 class="header text-xl font-semibold">{{ sol.title }}</h3>
+							<p class="text-gray-500">#{{ sol.id }}</p>
+						</div>
+						<hr class="divider" />
+						<div class="description flex-1">
+							<p class="">{{ sol.description }}</p>
+						</div>
+						<hr class="divider" />
+						<div class="additional-data flex justify-between items-center">
+							<div class="votes-data || flex gap-2 items-center">
+								<button class="vote-button || btn-primary p-2 w-8 h-8 flex items-center justify-center text-xl">+</button>
+								<span class="solution-votes font-semibold {% if sol.votes > 0 %}text-green-400 {% endif %}">{{ sol.votes }}</span>
+								<button class="vote-button || btn-primary p-2 w-8 h-8 flex items-center justify-center text-xl">-</button>
+							</div>
+							<span class="author-name">{{ sol.uploaded_by.username }}</span>
+							<span class="upload-date">{{ sol.uploaded_at|date:'d.m.Y' }}</span>
+						</div>
+					</div>
+				</a>
+				{% if request.user == problem.uploaded_by %}
+				<button onclick="toggleHelpful({{ sol.id }})" class="btn-primary">{% if sol.helpful %}Oznacz jako nieprzydatne{% else %}Oznacz jako przydatne{% endif %}</button>
+				{% endif %}
+			</div>
+			{% endfor %}
+		</div>
+		<a href="{% url 'problems:solutions:add' problem.subject.slug problem.topic.slug problem.id %}" class="btn-primary">+ Dodaj rozwiązanie</a>
+	</div>
+</section>
+{% endif %}
+<script>
+	function toggleHelpful(solutionId) {
+		fetch("{% url 'problems:solutions:toggle-helpful' problem.subject.slug problem.topic.slug problem.id %}", {
+			method: "POST",
+			headers: {
+				"X-CSRFToken": "{{ csrf_token }}",
+				"Content-Type": "application/x-www-form-urlencoded",
+			},
+			body: `solution_id=${solutionId}`,
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.status === "ok") {
+					location.reload(); // or dynamically update the button
+				} else {
+					alert(data.message);
+				}
+			});
+	}
+</script>
+<script>
+	function showSolutionDetail(solutionId) {
+		fetch(`/problems/{{ problem.subject.slug }}/{{ problem.topic.slug }}/{{ problem.id }}/solutions/ajax/${solutionId}/`)
+			.then((response) => {
+				if (!response.ok) throw new Error("Błąd ładowania rozwiązania");
+				return response.json();
+			})
+			.then((data) => {
+				const yOffset = -100;
+				const container = document.getElementById("dynamic-solution-detail");
+				container.innerHTML = data.html;
+				const y = container.getBoundingClientRect().top + window.scrollY + yOffset;
+				console.log(y);
+				window.scrollTo({ top: y, behavior: "smooth" });
+			})
+			.catch((error) => {
+				alert(error.message);
+			});
+	}
+</script>
 {% endblock content %}

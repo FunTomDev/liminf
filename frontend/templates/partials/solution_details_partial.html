@@ -1,0 +1,8 @@
+<h2 class="text-2xl font-semibold">{{ solution.title }}</h2>
+{% if solution.content %}
+<p class="mb-4">{{ solution.content }}</p>
+{% endif %} {% if solution.file %}
+<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
+	<a href="{{ solution.file.url }}" target="_blank" class="p-4 border-2 border-gray-300 text-gray-300 rounded-full w-min hover:bg-gray-900 transition-all duration-300"> {{ filename }} </a>
+</div>
+{% endif %}

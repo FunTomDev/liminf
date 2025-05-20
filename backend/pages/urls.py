@@ -8,7 +8,6 @@ urlpatterns = [
 	path('', include('users.urls')),
 	path('problems/', include("problems.urls"), name = 'problems'),
 	path('about/', views.about, name = 'about'),
-	path('donate/', views.donate, name = 'donate'),
 	path('feedback/', views.feedback, name = 'feedback'),
 
 ]

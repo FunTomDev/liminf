@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -9,6 +9,7 @@ from .forms import StudentCreationForm, StudentLoginForm
 
 from materials.models import Material
 from problems.models import Problem
+from submissions.models import Solution
 
 # Create your views here.
 def profile_view(request):
@@ -16,10 +17,12 @@ def profile_view(request):
 
     uploaded_materials = Material.objects.filter(uploaded_by=request.user).order_by('-uploaded_at')
     uploaded_problems = Problem.objects.filter(uploaded_by=request.user).order_by('-uploaded_at')
+    uploaded_solutions = Solution.objects.filter(uploaded_by=request.user).order_by('-uploaded_at')
 
     context = {
         'uploaded_materials': uploaded_materials,
         'uploaded_problems': uploaded_problems,
+        'uploaded_solutions': uploaded_solutions,
     }
 
     return render(request, 'users/profile.html', context=context)
@@ -30,12 +33,14 @@ def login_view(request):
     if request.method == 'POST':
         form = StudentLoginForm(request, data=request.POST)
         if form.is_valid():
+            next_url = request.POST.get('next') or reverse('home')
             login(request, form.get_user())
-            return HttpResponseRedirect(reverse('home'))
+            return redirect(next_url)
     else:
         form = StudentLoginForm()
+        next_url = request.GET.get('next', None)
     
-    return render(request, 'users/login.html', {'form': form})
+    return render(request, 'users/login.html', {'form': form, 'next': next_url})
 
 @require_POST
 def logout_view(request):

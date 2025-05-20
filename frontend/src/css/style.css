@@ -40,11 +40,19 @@
 	input[type="password"],
 	input[type="email"],
 	input[type="textbox"] {
-		@apply bg-gray-950 rounded-full border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
+		@apply bg-gray-950 rounded-full border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300 placeholder:text-gray-500 placeholder:bg-gray-900;
+	}
+
+	input[type="file"] {
+		@apply block h-[42px] border border-gray-400 hover:border-gray-300 cursor-pointer file:cursor-pointer rounded-full w-full text-sm text-gray-500
+        file:mr-4 file:h-full file:py-2 file:px-4 file:rounded-l-full
+        file:border-0 file:text-sm file:font-semibold
+        file:bg-gray-900 file:text-gray-300
+        hover:file:bg-gray-800 transition-colors file:transition-colors;
 	}
 
 	textarea {
-		@apply bg-gray-950 rounded-4xl border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300;
+		@apply bg-gray-950 min-h-48 rounded-4xl border-1 border-gray-400 p-4 transition-colors focus:border-gray-200 hover:border-gray-300;
 	}
 
 	input[type="checkbox"] {
@@ -63,6 +71,19 @@
 }
 
 @layer components {
+	.alert-success {
+		@apply bg-green-900/10 text-green-500 border-1 border-green-500 rounded-lg px-4 py-2;
+	}
+	.alert-error {
+		@apply bg-red-900/10 text-red-500 border-1 border-red-500 rounded-lg px-4 py-2;
+	}
+	.alert-warning {
+		@apply bg-yellow-900/10 text-yellow-500 border-1 border-yellow-500 rounded-lg px-4 py-2;
+	}
+	.alert-info {
+		@apply bg-blue-900/10 text-blue-500 border-1 border-blue-500 rounded-lg px-4 py-2;
+	}
+
 	.form-primary {
 		@apply flex flex-col gap-4 border-2 border-gray-400 rounded-4xl p-4 sm:p-8 transition-colors;
 		div {
@@ -239,7 +260,11 @@
 
 	.embla__button {
 		-webkit-appearance: none;
-		@apply bg-gray-800 hover:bg-gray-700 appearance-none touch-manipulation cursor-pointer border-none p-0 m-0 w-10 h-10 z-10 rounded-full text-gray-300 flex items-center justify-center focus:outline-none;
+		@apply bg-gray-800 hover:bg-gray-700 appearance-none touch-manipulation cursor-pointer border-none p-0 m-0 w-10 h-10 z-10 rounded-full text-gray-300 flex items-center justify-center focus:outline-none shadow-md/50 transition-colors;
+
+		&:disabled {
+			@apply invisible cursor-not-allowed;
+		}
 	}
 
 	.embla__dots {

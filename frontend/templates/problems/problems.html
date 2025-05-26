@@ -32,20 +32,6 @@
 			</svg>
 			<input type="text" id="filter-input" class="w-full p-2 border-none rounded-full h-12 bg-transparent placeholder-gray-500" placeholder="Szukaj po nazwie..." />
 		</div>
-
-		<!-- Divider before dropdown -->
-		<div class="h-8 border-l border-gray-400 self-center"></div>
-
-		<!-- Sort Dropdown -->
-		<div class="h-12 flex items-center gap-2 btn-transparent">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-300">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
-			</svg>
-			<select id="sort-dropdown" class="appearance-none bg-transparent text-gray-300 cursor-pointer">
-				<option value="newest">Data</option>
-				<option value="oldest">Nazwa</option>
-			</select>
-		</div>
 	</div>
 
 	<!-- Main content area with filters and problems -->
@@ -148,7 +134,8 @@
 
 	function fetchProblems(signal) {
 		const params = new URLSearchParams();
-		console.log(signal);
+		container = document.getElementById("problems-container");
+		container.classList.add("loading");
 
 		if (selectedFilters.page) params.append("page", selectedFilters.page);
 		if (selectedFilters.q) params.append("q", selectedFilters.q);
@@ -169,7 +156,7 @@
 		fetch(`/problems/ajax/?${params.toString()}`)
 			.then((response) => response.json())
 			.then((data) => {
-				document.getElementById("problems-container").innerHTML = data.html;
+				container.innerHTML = data.html;
 			})
 			.catch((error) => {
 				if (error.name === "AbortError") {
@@ -177,6 +164,9 @@
 					return;
 				}
 				console.error("Fetch error:", error);
+			})
+			.finally(() => {
+				container.classList.remove("loading");
 			});
 	}
 

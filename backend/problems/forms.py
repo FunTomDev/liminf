@@ -15,7 +15,7 @@ class ProblemForm(forms.ModelForm):
             'file': 'Plik (opcjonalnie, jeśli dodano treść)',
         }
         widgets = {
-            'content': forms.Textarea(attrs={'rows': 30, 'cols': 90}),
+            'content': forms.Textarea(attrs={'rows': 10, 'cols': 90, 'class': 'w-full'}),
             'file': forms.ClearableFileInput(attrs={'multiple': False}),
             'topic': forms.Select(attrs={'class': 'form-control'}),
         }

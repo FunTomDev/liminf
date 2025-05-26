@@ -16,7 +16,6 @@ def solution_file_upload_path(instance, filename):
     return os.path.join('solutions', filename)
 
 def update_problem_status(self):
-    print("function run")
     problem = self.problem
 
     if problem.type != 'verified':  # Only downgrade/upgrade if not verified
@@ -24,7 +23,6 @@ def update_problem_status(self):
         votes_threshold = problem.solutions.filter(votes__gte=10).exists()
 
         if helpful_exists or votes_threshold:
-            print("Problem", problem.id, "is now solved!")
             problem.type = 'solved'
         else:
             problem.type = 'unsolved'

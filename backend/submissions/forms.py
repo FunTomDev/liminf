@@ -16,7 +16,7 @@ class SolutionForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'rows': 30, 'cols': 90}),
+            'content': forms.Textarea(attrs={'rows': 10, 'cols': 90, 'class': 'w-full'}),
             'file': forms.ClearableFileInput(attrs={'multiple': False}),
         }
 

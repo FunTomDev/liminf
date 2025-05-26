@@ -18,17 +18,24 @@
 			<label for="{{ form.topic.id_for_label }}">{{ form.topic.label }}:</label>
 			<div class="custom-select-wrapper relative">
 				<!-- Hidden original select to maintain form submission -->
-				<div class="hidden">{{ form.topic }}</div>
+				<div class="opacity-0 absolute w-full min-h-full flex flex-row [&>select]:w-full" aria-hidden="true">{{ form.topic }}</div>
 
 				<!-- Custom select UI -->
-				<div class="custom-select relative">
-					<button type="button" id="topicButton" class="select-btn w-full text-left flex items-center justify-between bg-white border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+				<div class="custom-select min-w-[200px] relative">
+					<button
+						type="button"
+						id="topicButton"
+						class="select-btn cursor-pointer w-full text-left flex items-center justify-between bg-blur border border-gray-400 hover:border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-gray-300"
+					>
 						<span id="selectedTopic">Select a topic</span>
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
 							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
 						</svg>
 					</button>
-					<div id="topicDropdown" class="dropdown-menu absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto hidden opacity-0 transform scale-95 transition-all duration-200 ease-in-out">
+					<div
+						id="topicDropdown"
+						class="dropdown-menu absolute z-10 w-full mt-[42px] bg-blur border border-gray-300 rounded-md max-h-60 overflow-y-auto overflow-x-hidden hidden opacity-0 transform scale-95 transition-all duration-200 ease-in-out"
+					>
 						<ul class="py-1">
 							<!-- Options will be populated by JavaScript -->
 						</ul>
@@ -62,11 +69,11 @@
 			const li = document.createElement("li");
 			li.textContent = option.text;
 			li.dataset.value = option.value;
-			li.classList.add("px-4", "py-2", "hover:bg-blue-50", "cursor-pointer");
+			li.classList.add("px-4", "py-2", "hover:bg-gray-900", "cursor-pointer");
 
 			// Mark as selected if it's the currently selected option
 			if (option.selected) {
-				li.classList.add("bg-blue-100");
+				li.classList.add("bg-gray-900");
 				selectedText.textContent = option.text;
 			}
 
@@ -75,8 +82,13 @@
 				originalSelect.value = this.dataset.value;
 
 				// Trigger change event on the original select
-				const event = new Event("change", { bubbles: true });
-				originalSelect.dispatchEvent(event);
+				originalSelect.value = this.dataset.value;
+
+				// Trigger both 'change' and 'input' events
+				["change", "input"].forEach((eventName) => {
+					const event = new Event(eventName, { bubbles: true });
+					originalSelect.dispatchEvent(event);
+				});
 
 				// Update the button text
 				selectedText.textContent = this.textContent;
@@ -90,9 +102,9 @@
 
 				// Update selected visual state
 				dropdownList.querySelectorAll("li").forEach((item) => {
-					item.classList.remove("bg-blue-100");
+					item.classList.remove("bg-gray-900");
 				});
-				this.classList.add("bg-blue-100");
+				this.classList.add("bg-gray-900");
 			});
 
 			dropdownList.appendChild(li);
@@ -137,26 +149,11 @@
 
 <style>
 	/* Custom styles for animations and appearance */
-	.custom-select-wrapper {
-		min-width: 200px;
-	}
-
-	.select-btn {
-		transition: all 0.2s ease;
-	}
-
-	.select-btn:hover {
-		border-color: #4299e1;
-	}
-
-	.select-btn:focus {
-		box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
-	}
 
 	.dropdown-menu {
 		max-height: 250px;
 		scrollbar-width: thin;
-		scrollbar-color: #cbd5e0 #f7fafc;
+		scrollbar-color: var(--color-gray-400) transparent;
 		transform-origin: top;
 		backface-visibility: hidden;
 	}
@@ -179,8 +176,10 @@
 	}
 
 	.dropdown-menu ul li:hover {
-		background-color: #ebf5ff;
-		transform: translateX(2px);
+		background-color: color-mix(in oklab, var(--color-gray-900) /* oklch(87.2% 0.01 258.338) = #d1d5dc */ 40%, transparent);
+		backdrop-filter: blur(8px);
+		transform: translateX(4px);
+		transition: transform 0.2s ease;
 	}
 
 	@keyframes pulse {

@@ -23,13 +23,21 @@
 </div>
 <div class="pagination flex justify-center items-center gap-4">
 	{% if page_obj.has_previous %}
-	<a href="#" class="page-link ||" data-page="{{ page_obj.previous_page_number }}">Previous</a>
+	<button type="button" class="page-link btn-transparent || p-2 border border-gray-400 hover:border-gray-300 active:border-gray-200" data-page="{{ page_obj.previous_page_number }}">
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+		</svg>
+	</button>
 	{% endif %}
 
-	<span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+	<span>Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span>
 
 	{% if page_obj.has_next %}
-	<a href="#" class="page-link ||" data-page="{{ page_obj.next_page_number }}">Next</a>
+	<button type="button" class="page-link btn-transparent || p-2 border border-gray-400 hover:border-gray-300 active:border-gray-200" data-page="{{ page_obj.next_page_number }}">
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+		</svg>
+	</button>
 	{% endif %}
 </div>
 {% else %}

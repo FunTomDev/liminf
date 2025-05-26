@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.conf import settings
 
 from materials.models import Material
 from problems.models import Problem
@@ -37,7 +38,19 @@ def feedback(request):
             messages.error(request, "Wypełnij wszystkie pola.")
             return HttpResponseRedirect(reverse('home'))
 
-        messages.success(request, "Wiadomość została pomyślnie wysłana. Dziękuję!")
+        try:
+            send_mail(
+                subject=f"Nowy feedback od {email}!",
+                message=message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.FEEDBACK_RECEIVER_EMAIL],
+                fail_silently=False,
+            )
+            messages.success(request, "Wiadomość została pomyślnie wysłana. Dziękuję!")
+        except Exception as e:
+            messages.error(request, "Wystąpił błąd podczas wysyłania wiadomości.")
+            # Optional: log error or re-raise
+
         return HttpResponseRedirect(reverse('home'))
 
     return HttpResponseRedirect(reverse('home'))

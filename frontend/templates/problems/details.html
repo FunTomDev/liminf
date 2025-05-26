@@ -25,45 +25,86 @@
 		</div>
 	</div>
 </section>
-{% endif %} {% if problem.solution_count == 0 %}
+{% endif %}
+
 <section class="solutions || p-4">
+	{% if problem.solution_count == 0 %}
 	<div class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
 		<h2 class="text-2xl font-bold text-center text-gray-300">Rozwiązania</h2>
 		<p class="text-gray-400 text-center">Brak rozwiązań do tego zadania</p>
 		<a href="{% url 'problems:solutions:add' problem.subject.slug problem.topic.slug problem.id %}" class="btn-primary">+ Dodaj rozwiązanie</a>
 	</div>
-</section>
-{% elif problem.solution_count == 1 %}
-<section class="solutions || p-4">
-	<div class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
-		<h2 class="text-2xl font-bold text-center text-gray-300">Rozwiązanie</h2>
-		{% with solution=problem.solutions.first %}
-		<div class="solution">{{ solution.content }}</div>
-		{% endwith %}
-		<a href="{% url 'problems:solutions:add' problem.subject.slug problem.topic.slug problem.id %}" class="btn-primary">+ Dodaj rozwiązanie</a>
-	</div>
-</section>
-{% else %}
-<section class="recommended-solution || p-4">
+	{% else %}
 	<div id="dynamic-solution-detail" class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
-		<h2 class="text-2xl font-bold text-center text-gray-300">Polecane rozwiązanie</h2>
-		{% with rec=problem.recommended_solution %}
-		<div class="solution recommended">{{ rec.content }}</div>
-		{% endwith %}
+		{% if problem.solution_count == 1 %}
+		<h2 class="text-2xl font-bold text-center text-gray-300">Rozwiązanie</h2>
+		{% else %}
+		<h2 class="text-2xl font-bold text-center text-gray-300">Polecane rozwiazanie</h2>
+		{% endif %} {% with solution=problem.solutions.first %}
+		<div class="solution || w-full flex flex-col gap-4 border border-gray-400 p-4 rounded-4xl">
+			<div class="solution-content">
+				{% if solution.content %}
+				<p>{{ solution.content }}</p>
+				{% endif %} {% if solution.file %}
+				<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
+					<a href="{{ solution.file.url }}" target="_blank" class="p-4 border-2 border-gray-300 text-gray-300 rounded-full w-min hover:bg-gray-900 transition-all duration-300"> {{ filename }} </a>
+				</div>
+				{% endif %}
+			</div>
+			<hr class="divider" />
+			<div class="flex justify-center items-center">
+				{% if user == solution.problem.uploaded_by %}
+				<button
+					onclick="toggleHelpful('{{ solution.id }}')"
+					class="py-2 px-4 {% if solution.helpful %}text-red-500 border-red-500 bg-red-900/10 hover:bg-red-900/20 {% else %} text-green-500 border-green-500 bg-green-900/10 hover:bg-green-900/20 {% endif %} border rounded-full cursor-pointer transition-colors"
+				>
+					{% if solution.helpful %}Oznacz jako nieprzydatne{% else %}Oznacz jako przydatne{% endif %}
+				</button>
+				{% else %}
+				<div class="votes flex gap-2 items-center">
+					<button class="{% if solution.user_vote_type == 1 %} btn-primary {% else %} btn-transparent {% endif %} p-2 w-8 h-8 flex items-center justify-center" id="vote-button-up" onclick="voteSolution('{{ solution.id }}', 'up')">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 stroke-4">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+						</svg>
+					</button>
+					<span id="solution-vote-display-{{ solution.id }}" class="solution-votes font-semibold">{{ solution.votes_total }}</span>
+					<button class="{% if solution.user_vote_type == -1 %} btn-primary {% else %} btn-transparent {% endif %} p-2 w-8 h-8 flex justify-center items-center" id="vote-button-down" onclick="voteSolution('{{ solution.id }}', 'down')">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 stroke-4">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+						</svg>
+					</button>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		{% endwith %} {% if problem.solution_count == 1 %}
+		<a href="{% url 'problems:solutions:add' problem.subject.slug problem.topic.slug problem.id %}" class="btn-primary">+ Dodaj rozwiązanie</a>
+		{% endif %}
 	</div>
+	{% endif %}
 </section>
+{% if problem.solution_count > 1 %}
 <hr class="divider" />
 <section class="solutions || p-4">
 	<div class="flex flex-col items-center gap-4 px-8 mx-auto">
 		<h2 class="text-2xl font-bold text-center text-gray-300">Wszystkie rozwiązania</h2>
 		<div class="other-solutions card-items-list">
 			{% for sol in problem.solutions.all %}
-			<div class="flex flex-col items-center gap-4">
-				<a class="w-full" href="javascript:void(0);" onclick="showSolutionDetail({{ sol.id }})">
+			<div class="flex flex-col justify-center items-center gap-4">
+				<a class="w-full max-w-96" href="javascript:void(0);" onclick="showSolutionDetail('{{ sol.id }}')">
 					<div class="card-item__gray tilt-container" onmousemove="updateTilt(event)">
-						<div class="basic-data">
-							<h3 class="header text-xl font-semibold">{{ sol.title }}</h3>
-							<p class="text-gray-500">#{{ sol.id }}</p>
+						<div class="flex flex-row gap-4 items-center justify-between">
+							<div class="basic-data">
+								<h3 class="header text-xl font-semibold">{{ sol.title }}</h3>
+								<p class="text-gray-500">#{{ sol.id }}</p>
+							</div>
+							{% if sol.helpful %}
+							<div class="helpful-mark || border border-green-500 bg-green-900/10 text-green-500 rounded-full p-2">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+									<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+								</svg>
+							</div>
+							{% endif %}
 						</div>
 						<hr class="divider" />
 						<div class="description flex-1">
@@ -71,19 +112,12 @@
 						</div>
 						<hr class="divider" />
 						<div class="additional-data flex justify-between items-center">
-							<div class="votes-data || flex gap-2 items-center">
-								<button class="vote-button || btn-primary p-2 w-8 h-8 flex items-center justify-center text-xl">+</button>
-								<span class="solution-votes font-semibold {% if sol.votes > 0 %}text-green-400 {% endif %}">{{ sol.votes }}</span>
-								<button class="vote-button || btn-primary p-2 w-8 h-8 flex items-center justify-center text-xl">-</button>
-							</div>
-							<span class="author-name">{{ sol.uploaded_by.username }}</span>
+							<span id="solution-vote-count-{{ sol.id }}" class="solution-votes font-semibold {% if sol.votes_total > 0 %}text-green-400 {% elif sol.votes_total < 0 %} text-red-400 {% endif %}">{{ sol.votes_total }}</span>
+							<span class="author-name || max-sm:hidden">{{ sol.uploaded_by.username }}</span>
 							<span class="upload-date">{{ sol.uploaded_at|date:'d.m.Y' }}</span>
 						</div>
 					</div>
 				</a>
-				{% if request.user == problem.uploaded_by %}
-				<button onclick="toggleHelpful({{ sol.id }})" class="btn-primary">{% if sol.helpful %}Oznacz jako nieprzydatne{% else %}Oznacz jako przydatne{% endif %}</button>
-				{% endif %}
 			</div>
 			{% endfor %}
 		</div>
@@ -91,6 +125,7 @@
 	</div>
 </section>
 {% endif %}
+
 <script>
 	function toggleHelpful(solutionId) {
 		fetch("{% url 'problems:solutions:toggle-helpful' problem.subject.slug problem.topic.slug problem.id %}", {
@@ -128,6 +163,73 @@
 			})
 			.catch((error) => {
 				alert(error.message);
+			});
+	}
+</script>
+<script>
+	function updateVoteButtons(solutionId, voteType) {
+		const upButton = document.getElementById(`vote-button-up`);
+		const downButton = document.getElementById(`vote-button-down`);
+
+		if (!upButton || !downButton) return;
+
+		// Reset both to transparent by default
+		upButton.classList.remove("btn-primary");
+		upButton.classList.add("btn-transparent");
+
+		downButton.classList.remove("btn-primary");
+		downButton.classList.add("btn-transparent");
+
+		// Apply primary style only to the selected vote type
+		if (voteType === "up") {
+			upButton.classList.remove("btn-transparent");
+			upButton.classList.add("btn-primary");
+		} else if (voteType === "down") {
+			downButton.classList.remove("btn-transparent");
+			downButton.classList.add("btn-primary");
+		}
+	}
+
+	function voteSolution(solutionId, voteType) {
+		fetch(`/problems/{{ problem.subject.slug }}/{{ problem.topic.slug }}/{{ problem.id }}/solutions/ajax/${solutionId}/vote`, {
+			method: "POST",
+			headers: {
+				"X-CSRFToken": "{{ csrf_token }}",
+				"Content-Type": "application/x-www-form-urlencoded",
+			},
+			body: `vote_type=${voteType}`,
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.status === "ok") {
+					const voteCountSpan = document.getElementById(`solution-vote-count-${solutionId}`);
+					const voteDisplay = document.getElementById(`solution-vote-display-${solutionId}`);
+
+					updateVoteButtons(solutionId, data.vote_type);
+
+					// Update the vote count display
+					if (voteDisplay) {
+						voteDisplay.textContent = data.total_votes;
+					}
+					if (voteCountSpan) {
+						voteCountSpan.textContent = data.total_votes;
+						if (data.total_votes > 0) {
+							voteCountSpan.classList.add("text-green-400");
+							voteCountSpan.classList.remove("text-red-400");
+						} else if (data.total_votes < 0) {
+							voteCountSpan.classList.add("text-red-400");
+							voteCountSpan.classList.remove("text-green-400");
+						} else {
+							voteCountSpan.classList.remove("text-green-400", "text-red-400");
+						}
+					}
+				} else {
+					alert(data.message);
+				}
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+				alert("Voting failed.");
 			});
 	}
 </script>

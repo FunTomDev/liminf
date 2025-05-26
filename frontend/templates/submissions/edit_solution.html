@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container min-w-full p-4 flex flex-col items-center gap-2">
+	<form class="form-primary [&_textarea]:rounded-4xl" enctype="multipart/form-data" method="post">
+		{% csrf_token %} {% if form.non_field_errors %}
+		<div>
+			<div class="error">{{ form.non_field_errors}}</div>
+		</div>
+		{% endif %} {% csrf_token %}
+		<div>
+			<label for="{{ form.title.id_for_label }}">{{ form.title.label }}:</label>
+			{{ form.title }}
+		</div>
+		<div>
+			<label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
+			{{ form.description }}
+		</div>
+		<div>
+			<label for="{{ form.content.id_for_label }}">{{ form.content.label }}:</label>
+			{{ form.content }}
+		</div>
+		<div>
+			<label for="{{ form.file.id_for_label }}">{{ form.file.label }}:</label>
+			{{ form.file }}
+		</div>
+		<div class="buttons || flex flex-row gap-2">
+			<button type="submit" class="btn-primary">Zapisz</button>
+			<button onclick="submitDelete()" type="button" class="py-2 px-4 border text-red-500 hover:text-red-600 border-red-500 hover:border-red-600 bg-red-900/10 hover:bg-red-900/20 rounded-full cursor-pointer transition-colors">Usuń</button>
+		</div>
+	</form>
+</div>
+
+<script>
+	function submitDelete() {
+		if (!confirm("Czy na pewno chcesz usunąć to rozwiązanie?")) return;
+
+		fetch("{% url 'problems:solutions:delete' solution.problem.subject.slug solution.problem.topic.slug solution.problem.id solution.id %}", {
+			method: "POST",
+			headers: {
+				"X-CSRFToken": "{{ csrf_token }}",
+				"Content-Type": "application/json",
+			},
+			credentials: "same-origin",
+		})
+			.then((response) => {
+				if (response.redirected) {
+					window.location.href = response.url;
+				} else if (response.ok) {
+					alert("Usunięto pomyślnie.");
+					window.location.reload();
+				} else {
+					alert("Wystąpił błąd podczas usuwania.");
+				}
+			})
+			.catch((err) => {
+				console.error("Delete failed", err);
+				alert("Wystąpił błąd po stronie klienta.");
+			});
+	}
+</script>
+
+{% endblock %}

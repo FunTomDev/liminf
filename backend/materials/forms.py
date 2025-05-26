@@ -14,7 +14,7 @@ class MaterialForm(forms.ModelForm):
             'file': 'Plik (opcjonalnie, jeśli dodano treść)',
         }
         widgets = {
-            'content': forms.Textarea(attrs={'cols': 120, 'rows': 40, 'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'cols': 120, 'rows': 10, 'class': 'w-full'}),
             'file': forms.ClearableFileInput(attrs={'multiple': False}),
             'topic': forms.Select(attrs={'class': 'form-control'}),
         }

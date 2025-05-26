@@ -16,13 +16,15 @@ def solution_file_upload_path(instance, filename):
     return os.path.join('solutions', filename)
 
 def update_problem_status(self):
+    print("function run")
     problem = self.problem
 
     if problem.type != 'verified':  # Only downgrade/upgrade if not verified
-        helpful_exists = problem.solutions.filter(is_helpful=True).exists()
+        helpful_exists = problem.solutions.filter(helpful=True).exists()
         votes_threshold = problem.solutions.filter(votes__gte=10).exists()
 
         if helpful_exists or votes_threshold:
+            print("Problem", problem.id, "is now solved!")
             problem.type = 'solved'
         else:
             problem.type = 'unsolved'
@@ -37,7 +39,6 @@ class Solution(models.Model):
     title = models.CharField(max_length=255, default="Rozwiązanie")
     description = models.TextField(blank=True, null=True)
 
-    votes = models.IntegerField(default=0)
     helpful = models.BooleanField(default=False)
 
     content = models.TextField(blank=True, null=True)
@@ -65,6 +66,27 @@ class Solution(models.Model):
             else:
                 raise ValidationError(f"File {temp_file.path} does not exist.")
             super().save(update_fields=['file'])
+    
+    @property
+    def votes_total(self):
+        return self.votes.aggregate(total=models.Sum('value'))['total'] or 0
 
     def __str__(self):
         return f"Solution #{self.id} for {self.problem.title}"
+
+class SolutionVote(models.Model):
+    """Model to track votes on solutions"""
+    VOTE_CHOICES = (
+        (1, 'up'),
+        (-1, 'down'),
+    )
+
+    solution = models.ForeignKey(Solution, on_delete=models.CASCADE, related_name='votes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    value = models.SmallIntegerField(choices=VOTE_CHOICES, null=True)
+
+    class Meta:
+        unique_together = ('solution', 'user')
+
+    def __str__(self):
+        return f'{self.user.username} voted {self.value} on {self.solution.id}'

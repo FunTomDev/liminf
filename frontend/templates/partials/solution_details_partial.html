@@ -1,8 +1,37 @@
 <h2 class="text-2xl font-semibold">{{ solution.title }}</h2>
-{% if solution.content %}
-<p class="mb-4">{{ solution.content }}</p>
-{% endif %} {% if solution.file %}
-<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
-	<a href="{{ solution.file.url }}" target="_blank" class="p-4 border-2 border-gray-300 text-gray-300 rounded-full w-min hover:bg-gray-900 transition-all duration-300"> {{ filename }} </a>
+<div class="solution || w-full flex flex-col gap-4 border border-gray-400 p-4 rounded-4xl">
+	<div class="solution-content">
+		{% if solution.content %}
+		<p>{{ solution.content }}</p>
+		{% endif %} {% if solution.file %}
+		<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
+			<a href="{{ solution.file.url }}" target="_blank" class="p-4 border-2 border-gray-300 text-gray-300 rounded-full w-min hover:bg-gray-900 transition-all duration-300"> {{ filename }} </a>
+		</div>
+		{% endif %}
+	</div>
+	<hr class="divider" />
+	<div class="flex justify-center items-center">
+		{% if user == solution.problem.uploaded_by %}
+		<button
+			onclick="toggleHelpful('{{ solution.id }}')"
+			class="py-2 px-4 {% if solution.helpful %}text-red-500 border-red-500 bg-red-900/10 hover:bg-red-900/20 {% else %} text-green-500 border-green-500 bg-green-900/10 hover:bg-green-900/20 {% endif %} border rounded-full cursor-pointer transition-colors"
+		>
+			{% if solution.helpful %}Oznacz jako nieprzydatne{% else %}Oznacz jako przydatne{% endif %}
+		</button>
+		{% else %}
+		<div class="votes flex gap-2 items-center">
+			<button class="{% if solution.user_vote_type == 1 %} btn-primary {% else %} btn-transparent {% endif %} p-2 w-8 h-8 flex items-center justify-center" id="vote-button-up" onclick="voteSolution('{{ solution.id }}', 'up')">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 stroke-4">
+					<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+				</svg>
+			</button>
+			<span id="solution-vote-display-{{ solution.id }}" class="solution-votes font-semibold">{{ solution.votes_total }}</span>
+			<button class="{% if solution.user_vote_type == -1 %} btn-primary {% else %} btn-transparent {% endif %} p-2 w-8 h-8 flex justify-center items-center" id="vote-button-down" onclick="voteSolution('{{ solution.id }}', 'down')">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 stroke-4">
+					<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+				</svg>
+			</button>
+		</div>
+		{% endif %}
+	</div>
 </div>
-{% endif %}

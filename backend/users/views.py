@@ -33,7 +33,9 @@ def login_view(request):
     if request.method == 'POST':
         form = StudentLoginForm(request, data=request.POST)
         if form.is_valid():
-            next_url = request.POST.get('next') or reverse('home')
+            next_url = request.POST.get('next')
+            if not next_url or next_url == 'None':
+                next_url = reverse('home')
             login(request, form.get_user())
             return redirect(next_url)
     else:

@@ -3,6 +3,7 @@
 	<div class="text-center relative z-10 max-w-screen-lg mx-auto">
 		<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">Materiały</h1>
 		<p class="text-gray-400 max-w-2xl mx-auto text-lg">Lista materiałów do nauki: pisane przez studentów notatki, przepisane materiały udostępniane przez prowadzących* oraz źródła zewnętrzne.</p>
+		<br />
 		<p class="text-gray-500 max-w-2xl mx-auto text-md">
 			<em>* Ze względu na to, że niektóre notatki (a zapewne wszystkie) udostępniane przez prowadzących są strzeżone prawem autorskim, zaleca się wysyłanie jedynie swoich notatek lub przepisywanie oficjalnych materiałów własnymi słowami.</em>
 		</p>
@@ -13,7 +14,7 @@
 <section class="materials-section py-12 px-4 md:sm-2">
 	<div class="flex justify-between items-center mb-6 gap-0 z-10 rounded-full border border-gray-400 bg-gray-950/40 backdrop-blur-sm p-2" id="search-bar">
 		<!-- Filter Button -->
-		<button id="toggle-filters-btn" class="btn-transparent h-12 flex items-center gap-2 py-2 px-4 transition-colors">
+		<button id="toggle-filters-btn" class="btn-transparent border-0 h-12 flex items-center gap-2 py-2 px-4 transition-colors">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-300">
 				<path
 					stroke-linecap="round"
@@ -33,20 +34,6 @@
 				<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
 			</svg>
 			<input type="text" id="filter-input" class="w-full p-2 rounded-full border-none h-12 bg-transparent placeholder-gray-500" placeholder="Szukaj po nazwie..." />
-		</div>
-
-		<!-- Divider before dropdown -->
-		<div class="h-8 border-l border-gray-400 self-center"></div>
-
-		<!-- Sort Dropdown -->
-		<div class="h-12 flex items-center gap-2 btn-transparent">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-300">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
-			</svg>
-			<select id="sort-dropdown" class="appearance-none bg-transparent text-gray-300 cursor-pointer">
-				<option value="newest">Data</option>
-				<option value="oldest">Nazwa</option>
-			</select>
 		</div>
 	</div>
 
@@ -150,6 +137,8 @@
 
 	function fetchMaterials(signal) {
 		const params = new URLSearchParams();
+		const container = document.getElementById("materials-container");
+		container.classList.add("loading");
 
 		if (selectedFilters.page) params.append("page", selectedFilters.page);
 		if (selectedFilters.q) params.append("q", selectedFilters.q);
@@ -167,10 +156,10 @@
 
 		console.log("Request issued with params:", params.toString()); // Debugging line
 
-		fetch(`/materials/ajax/?${params.toString()}`, { signal })
+		return fetch(`/materials/ajax/?${params.toString()}`, { signal })
 			.then((response) => response.json())
 			.then((data) => {
-				document.getElementById("materials-container").innerHTML = data.html;
+				container.innerHTML = data.html;
 			})
 			.catch((error) => {
 				if (error.name === "AbortError") {
@@ -178,45 +167,54 @@
 					return;
 				}
 				console.error("Fetch error:", error);
+			})
+			.finally(() => {
+				container.classList.remove("loading");
 			});
 	}
 
 	// Pagination event listener
 	document.addEventListener("click", function (e) {
-		if (e.target.classList.contains("page-link")) {
-			e.preventDefault();
-			const page = e.target.dataset.page;
-			selectedFilters.page = page;
-			fetchMaterials();
+		let target = e.target;
+
+		while (target && target !== document) {
+			if (target.classList.contains("page-link") && target.dataset.page !== undefined) {
+				e.preventDefault();
+				const page = target.dataset.page;
+				selectedFilters.page = page;
+				fetchMaterials();
+				break;
+			}
+			target = target.parentElement;
 		}
 	});
+
+	// Debounce function for filters
+	let debounceTimeout;
+	let currentAbortController = null;
+
+	function debounceFetch() {
+		clearTimeout(debounceTimeout);
+		debounceTimeout = setTimeout(() => {
+			// Cancel previous fetch
+			if (currentAbortController) currentAbortController.abort();
+
+			const controller = new AbortController();
+			currentAbortController = controller;
+			console.log("Fetching materials with filters:", selectedFilters); // Debugging line
+			fetchMaterials(controller.signal).finally(() => {
+				if (currentAbortController === controller) currentAbortController = null;
+			});
+		}, 300);
+	}
 
 	// Event listeners for filters
 
 	// Name filtering
-	let debounceTimeout;
-	let currentAbortController = null;
 
 	document.getElementById("filter-input").addEventListener("input", function () {
-		clearTimeout(debounceTimeout);
-		const value = this.value;
-
-		debounceTimeout = setTimeout(function () {
-			selectedFilters.q = value;
-
-			// Anuluj poprzedni request
-			if (currentAbortController) {
-				currentAbortController.abort();
-			}
-
-			// Stwórz nowy AbortController
-			currentAbortController = new AbortController();
-			console.log("AbortController created:", currentAbortController);
-			const signal = currentAbortController.signal;
-
-			// Wywołaj fetch z obsługą sygnału
-			fetchMaterials(signal);
-		}, 300);
+		selectedFilters.q = this.value;
+		debounceFetch();
 	});
 
 	// Topic filtering
@@ -237,7 +235,7 @@
 				// Add new selection
 				selectedFilters.topics[subject].push(topic);
 			}
-			fetchMaterials();
+			debounceFetch();
 		});
 	});
 
@@ -254,7 +252,7 @@
 				selectedFilters.types.push(type);
 				input.checked = true;
 			}
-			fetchMaterials();
+			debounceFetch();
 		});
 	});
 
@@ -365,7 +363,7 @@
 					}
 				}
 			});
-			fetchMaterials();
+			debounceFetch();
 		});
 	});
 

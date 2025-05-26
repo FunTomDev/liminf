@@ -5,11 +5,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-from django.db.models import Q
+from django.db.models import Q, Prefetch, Sum, IntegerField, Value
+from django.db.models.functions import Coalesce
 from django.contrib.auth.decorators import login_required
 
 from curriculum.models import Subject, Topic
 from .models import Problem
+from submissions.models import Solution
 
 from .forms import ProblemForm
 
@@ -65,7 +67,22 @@ def details(request, subject_slug, topic_slug, problem_id):
     """Display details for a problem"""
     subject = get_object_or_404(Subject, slug=subject_slug)
     topic = get_object_or_404(Topic, slug=topic_slug, subject=subject)
-    problem = get_object_or_404(Problem, id=problem_id, topic=topic)
+
+    solutions_qs = Solution.objects.annotate(
+        votes_value=Coalesce(Sum('votes__value'), Value(0), output_field=IntegerField())
+    ).order_by('-helpful', '-votes_value', '-uploaded_at')
+
+    problem = get_object_or_404(Problem.objects.prefetch_related(
+        Prefetch(
+            'solutions',
+            queryset=solutions_qs.prefetch_related('votes')
+        )
+    ), id=problem_id, topic=topic)
+
+    # Attach user-specific vote info to each solution (temporarily)
+    for sol in problem.solutions.all():
+        vote = next((v for v in sol.votes.all() if v.user_id == request.user.id), None)
+        sol.user_vote_type = vote.value if vote else None
 
     context = {
         'problem': problem,
@@ -88,3 +105,31 @@ def add_problem(request):
         form = ProblemForm()
 
     return render(request, 'problems/add_problem.html', {'form': form})
+
+@login_required
+def edit_problem(request, problem_id):
+    """Edit an existing problem"""
+    problem = get_object_or_404(Problem, id=problem_id, uploaded_by=request.user)
+
+    if request.method == 'POST':
+        form = ProblemForm(request.POST, request.FILES, instance=problem)
+        if form.is_valid():
+            form.save()
+            return redirect('users:profile')
+    else:
+        form = ProblemForm(instance=problem)
+
+    return render(request, 'problems/edit_problem.html', {'form': form, 'problem': problem})
+
+@login_required
+def delete_problem(request, problem_id):
+    """Delete a problem"""
+    problem = get_object_or_404(Problem, id=problem_id)
+    if request.method == 'POST':
+        if problem.uploaded_by == request.user:
+            problem.delete()
+            return redirect('users:profile')
+        else:
+            return JsonResponse({'status': 'error', 'message': 'No permission'}, status=403)
+
+    return render(request, 'problems/delete_problem.html', {'problem': problem})

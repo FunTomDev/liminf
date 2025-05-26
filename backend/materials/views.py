@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 from .models import Material
 from curriculum.models import Subject, Topic
@@ -73,6 +74,7 @@ def details(request, subject_slug, topic_slug, material_id):
 
     return render(request, 'materials/details.html', context=context)
 
+@login_required
 def add_material(request):
     """Add new material"""
     if request.method == 'POST':
@@ -87,3 +89,31 @@ def add_material(request):
         form = MaterialForm()
     
     return render(request, 'materials/add_material.html', {'form': form})
+
+@login_required
+def edit_material(request, material_id):
+    """Edit existing material"""
+    material = get_object_or_404(Material, id=material_id, uploaded_by=request.user)
+
+    if request.method == 'POST':
+        form = MaterialForm(request.POST, request.FILES, instance=material)
+        if form.is_valid():
+            form.save()
+            return redirect('users:profile')
+    else:
+        form = MaterialForm(instance=material)
+
+    return render(request, 'materials/edit_material.html', {'form': form, 'material': material})
+
+@login_required
+def delete_material(request, material_id):
+    """Delete a material"""
+    material = get_object_or_404(Material, id=material_id)
+    if request.method == 'POST':
+        if material.uploaded_by == request.user:
+            material.delete()
+            return redirect('users:profile')
+        else:
+            return JsonResponse({'status': 'error', 'message': 'No permission'}, status=403)
+    
+    return render(request, 'materials/delete_material.html', {'material': material})

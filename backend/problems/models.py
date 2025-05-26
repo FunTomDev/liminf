@@ -27,6 +27,10 @@ class Problem(models.Model):
     description = models.CharField(max_length=256)
     content = models.TextField(blank=True, null=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='topic_problems')
+
+    SEMESTER_CHOICES = [(i, f"Semestr {i}") for i in range(1, 9)]
+    semester = models.PositiveSmallIntegerField(choices=SEMESTER_CHOICES, null=True, blank=True)
+    
     type = models.CharField(max_length=16, choices=PROBLEM_TYPES, default='unsolved')
 
     file = models.FileField(upload_to='problems/', blank=True, null=True)

@@ -30,6 +30,10 @@ class Material(models.Model):
     # Relations and metadata
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="materials")
     title = models.CharField(max_length=255)
+
+    SEMESTER_CHOICES = [(i, f"Semestr {i}") for i in range(1, 9)]
+    semester = models.PositiveSmallIntegerField(choices=SEMESTER_CHOICES, null=True, blank=True)
+    
     type = models.CharField(max_length=20, choices=MATERIAL_TYPES, default='student_notes')
 
     # Material content

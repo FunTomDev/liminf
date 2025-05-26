@@ -19,7 +19,7 @@
 }
 
 @utility btn-transparent {
-	@apply btn text-gray-300 hover:border-gray-300;
+	@apply btn text-gray-300 border border-gray-400 hover:text-gray-200 hover:border-gray-300 active:border-gray-200;
 }
 
 @utility inline-link {
@@ -27,20 +27,25 @@
 }
 
 @utility card-item {
-	@apply h-full min-w-full min-h-96 border-2 rounded-3xl transition-colors max-w-96 cursor-pointer p-4 shadow-lg flex flex-col justify-between gap-4;
+	@apply min-w-[max(212px,100%)] h-min aspect-square border-2 rounded-3xl transition-colors max-w-96 cursor-pointer p-4 shadow-lg flex flex-col justify-between gap-4;
 }
 
 /*  */
 
 @layer base {
-	/** {
-		outline: 1px solid yellow !important;
-	}*/
+	/* * {
+		outline: 1px solid red !important;
+	} */
+
+	section {
+		@apply max-w-[3000px] mx-auto;
+	}
+
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
 	input[type="textbox"] {
-		@apply bg-gray-950 rounded-full border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300 placeholder:text-gray-500 placeholder:bg-gray-900;
+		@apply bg-gray-950 rounded-full border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300 placeholder:text-gray-500;
 	}
 
 	input[type="file"] {
@@ -71,6 +76,9 @@
 }
 
 @layer components {
+	.loading {
+		@apply opacity-20 pointer-events-none;
+	}
 	.alert-success {
 		@apply bg-green-900/10 text-green-500 border-1 border-green-500 rounded-lg px-4 py-2;
 	}
@@ -234,7 +242,8 @@
 		--slide-spacing: 1.6rem;
 		--slide-size: 100%;
 		--slide-size-lg: 33.3%;
-		--slide-size-xl: 20%;
+		--slide-size-xl: 25%;
+		--slide-size-xxl: 20%;
 		@apply overflow-hidden w-full max-w-[150rem] mx-auto py-8 px-4 relative flex flex-col items-center gap-8;
 	}
 
@@ -247,7 +256,10 @@
 	}
 
 	.embla__slide {
-		@apply flex-[0_0_var(--slide-size)] lg:flex-[0_0_var(--slide-size-lg)] xl:flex-[0_0_var(--slide-size-xl)] min-w-0 pl-(--slide-spacing) flex justify-center items-center select-none;
+		@apply flex-[0_0_var(--slide-size)] lg:flex-[0_0_var(--slide-size-lg)] xl:flex-[0_0_var(--slide-size-xl)] 2xl:flex-[0_0_var(--slide-size-xxl)] min-w-0 pl-(--slide-spacing) flex justify-center items-center select-none;
+	}
+	.embla__slide__profile {
+		@apply flex-[0_0_var(--slide-size)] lg:flex-[0_0_var(--slide-size-lg)] 2xl:flex-[0_0_var(--slide-size-xl)] min-w-0 pl-(--slide-spacing) flex justify-center items-center select-none;
 	}
 
 	.embla__controls {
@@ -285,7 +297,8 @@
 	}
 
 	.card-items-list {
-		@apply w-full grid grid-flow-row grid-cols-[repeat(auto-fill,minmax(350px,1fr))] items-start gap-4;
+		@apply w-full grid grid-flow-row items-start gap-4;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));
 	}
 
 	/* Materials cards */

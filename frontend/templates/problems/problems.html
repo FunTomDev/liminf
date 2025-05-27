@@ -11,7 +11,7 @@
 	<!-- Search bar and filters button row -->
 	<div class="flex justify-between items-center mb-6 gap-0 z-10 rounded-full border border-gray-400 bg-gray-950/40 backdrop-blur-sm p-2" id="search-bar">
 		<!-- Filter Button -->
-		<button id="toggle-filters-btn" class="btn-transparent h-12 flex items-center gap-2 py-2 px-4 transition-colors">
+		<button id="toggle-filters-btn" class="btn-transparent border-0 h-12 flex items-center gap-2 py-2 px-4 transition-colors">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-300">
 				<path
 					stroke-linecap="round"
@@ -268,8 +268,8 @@
 		const scrollTop = window.scrollY;
 		filtersWrapper.style.position = "sticky";
 		searchInput.style.position = "sticky";
-		filtersWrapper.style.top = "168px"; // Add a small margin from the top
-		searchInput.style.top = "100px"; // Add a small margin from the top
+		filtersWrapper.style.top = "188px"; // Add a small margin from the top
+		searchInput.style.top = "98px"; // Add a small margin from the top
 	}
 
 	// Check screen size on resize and update filters visibility

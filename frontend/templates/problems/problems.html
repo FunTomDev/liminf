@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <section class="hero-section relative overflow-hidden z-40">
 	<div class="text-center relative z-10 max-w-screen-lg mx-auto">
 		<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">Zadania</h1>
@@ -35,9 +35,9 @@
 	</div>
 
 	<!-- Main content area with filters and problems -->
-	<div class="flex max-md:flex-col gap-8 relative">
+	<div class="flex max-[1080px]:flex-col relative">
 		<!-- Filters container - initially hidden on mobile -->
-		<div id="filters-wrapper" class="filter-wrapper border-grey-400 h-min min-w-[350px] max-w-[500px] border-1 border-gray-400 rounded-4xl hidden md:block absolute md:relative left-0 top-0 bg-gray-950/40 z-10">
+		<div id="filters-wrapper" class="filter-wrapper || h-min max-[1080px]:min-w-full max-w-[500px] border-1 border-gray-400 rounded-4xl absolute md:relative left-0 top-0 bg-blur z-10 hidden || section-invisible">
 			<div class="filters-container px-4 py-4">
 				<div class="filters grid grid-cols-1 gap-4 rounded-3xl">
 					<!-- Problems subjects and topics filtering -->
@@ -45,7 +45,7 @@
 					<div class="w-full">
 						<ul class="flex flex-col gap-2">
 							{% for subject, topics in subjects.items %}
-							<li class="border border-gray-400 rounded-3xl">
+							<li class="border border-gray-400 rounded-3xl min-w-64">
 								<!-- Toggle & Subject Checkbox -->
 								<div onclick="toggleSection(this)" class="cursor-pointer p-4 flex justify-between items-center select-none">
 									<label class="chkbx-primary-label" onclick="event.stopPropagation()">
@@ -81,7 +81,7 @@
 					{% endif %}
 
 					<!-- Problems type filtering -->
-					<div class="filter-section || max-h-min hover:border-gray-300 transition-colors">
+					<div class="filter-section || max-h-min hover:border-gray-300 transition-colors min-w-64">
 						<h4 class="text-gray-300 font-semibold mb-2">Typ zadania</h4>
 						<ul class="flex flex-col gap-2" id="type-filter">
 							<!-- Unsolved (gray) type -->
@@ -247,19 +247,6 @@
 		});
 	});
 
-	// Toggle filters visibility
-	document.getElementById("toggle-filters-btn").addEventListener("click", function () {
-		const filtersWrapper = document.getElementById("filters-wrapper");
-		filtersWrapper.classList.toggle("hidden");
-
-		// When filters are visible, push content to the right (on mobile)
-		const isMobile = window.innerWidth < 768; // md breakpoint
-		if (isMobile) {
-			filtersWrapper.classList.toggle("absolute");
-			filtersWrapper.classList.toggle("relative");
-		}
-	});
-
 	// Sticky filters on scroll
 	function handleStickyFilters() {
 		const filtersWrapper = document.getElementById("filters-wrapper");
@@ -271,19 +258,6 @@
 		filtersWrapper.style.top = "188px"; // Add a small margin from the top
 		searchInput.style.top = "98px"; // Add a small margin from the top
 	}
-
-	// Check screen size on resize and update filters visibility
-	window.addEventListener("resize", function () {
-		const filtersWrapper = document.getElementById("filters-wrapper");
-		if (window.innerWidth >= 768) {
-			// md breakpoint
-			filtersWrapper.classList.remove("hidden");
-			filtersWrapper.classList.remove("absolute");
-			filtersWrapper.classList.add("relative");
-		} else {
-			filtersWrapper.classList.add("hidden");
-		}
-	});
 
 	// Initialize sticky scroll behavior
 	window.addEventListener("scroll", handleStickyFilters);
@@ -380,4 +354,5 @@
 		});
 	});
 </script>
+<script src="{% static 'js/filter-toggle.js' %}"></script>
 {% endblock content %}

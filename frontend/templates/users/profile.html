@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <section class="w-full p-4 flex flex-col sm:flex-row sm:items-start items-center gap-4">
-	<div class="sidebar || min-h-96 min-w-3xs max-w-sm flex flex-col gap-4 max-lg:w-full">
+	<div class="sidebar || order-1 sm:order-0 min-h-96 min-w-3xs max-w-sm flex flex-col gap-4 max-lg:w-full">
 		<div class="user-info || flex-1/4 p-4 flex-grow flex flex-col items-center gap-2 border border-gray-400 hover:border-gray-300 rounded-4xl transition-colors">
 			{% if user.first_name and user.last_name%}
 			<div class="user-info || text-xl font-semibold">

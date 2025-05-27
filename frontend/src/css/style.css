@@ -298,7 +298,7 @@
 
 	.card-items-list {
 		@apply w-full grid grid-flow-row items-start gap-4;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
 	}
 
 	/* Materials cards */

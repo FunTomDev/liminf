@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-packages = [{include = "liminf", from = "src"}]
+packages = [{ include = "app", from = "backend" }]
 
 
 [build-system]

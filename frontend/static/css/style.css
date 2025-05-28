@@ -269,9 +269,6 @@
   .order-1 {
     order: 1;
   }
-  .order-2 {
-    order: 2;
-  }
   .order-last {
     order: 9999;
   }
@@ -473,6 +470,9 @@
   .max-w-\[500px\] {
     max-width: 500px;
   }
+  .max-w-full {
+    max-width: 100%;
+  }
   .max-w-lg {
     max-width: var(--container-lg);
   }
@@ -493,9 +493,6 @@
   }
   .min-w-\[200px\] {
     min-width: 200px;
-  }
-  .min-w-\[350px\] {
-    min-width: 350px;
   }
   .min-w-full {
     min-width: 100%;
@@ -1264,11 +1261,6 @@
       width: 100%;
     }
   }
-  .max-md\:flex-col {
-    @media (width < 48rem) {
-      flex-direction: column;
-    }
-  }
   .max-sm\:order-first {
     @media (width < 40rem) {
       order: -9999;
@@ -1310,19 +1302,9 @@
       padding-inline: calc(var(--spacing) * 14);
     }
   }
-  .min-\[1080px\]\:mr-8 {
-    @media (width >= 1080px) {
-      margin-right: calc(var(--spacing) * 8);
-    }
-  }
   .sm\:order-0 {
     @media (width >= 40rem) {
       order: 0;
-    }
-  }
-  .sm\:order-1 {
-    @media (width >= 40rem) {
-      order: 1;
     }
   }
   .sm\:flex-row {
@@ -1352,9 +1334,9 @@
       position: relative;
     }
   }
-  .md\:block {
+  .md\:order-0 {
     @media (width >= 48rem) {
-      display: block;
+      order: 0;
     }
   }
   .md\:w-1\/2 {
@@ -1382,6 +1364,21 @@
     @media (width >= 48rem) {
       font-size: var(--text-7xl);
       line-height: var(--tw-leading, var(--text-7xl--line-height));
+    }
+  }
+  .lg\:order-0 {
+    @media (width >= 64rem) {
+      order: 0;
+    }
+  }
+  .lg\:flex-row {
+    @media (width >= 64rem) {
+      flex-direction: row;
+    }
+  }
+  .lg\:items-start {
+    @media (width >= 64rem) {
+      align-items: flex-start;
     }
   }
   .\[\&_textarea\]\:rounded-4xl {
@@ -1643,6 +1640,7 @@
     }
     div {
       display: flex;
+      min-width: calc(var(--spacing) * 48);
       flex-direction: column;
       gap: calc(var(--spacing) * 2);
       input[type="submit"] {

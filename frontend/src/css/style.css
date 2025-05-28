@@ -95,7 +95,7 @@
 	.form-primary {
 		@apply flex flex-col gap-4 border-2 border-gray-400 rounded-4xl p-4 sm:p-8 transition-colors;
 		div {
-			@apply flex flex-col gap-2;
+			@apply flex flex-col gap-2 min-w-48;
 			input[type="submit"] {
 				@apply btn-primary;
 			}

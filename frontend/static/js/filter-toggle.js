@@ -34,9 +34,11 @@ function showFilters(filtersWrapper, toggleBtn, isMobile) {
     }
 
     filtersWrapper.classList.remove('hidden');
+    void filtersWrapper.offsetWidth;
     setTimeout(() => {
-        filtersWrapper.classList.remove('section-invisible');
         filtersWrapper.classList.add('section-visible');
+        filtersWrapper.classList.remove('section-invisible');
+        filtersWrapper._hideTimeout = null; // Clear reference
     }, 0); // Force reflow
 }
 

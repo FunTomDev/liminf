@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import morfeusz2
 
 # Create your models here.
 class User(AbstractUser):
@@ -24,6 +25,23 @@ class User(AbstractUser):
         choices=ACCOUNT_TYPE_CHOICES,
         default=STUDENT
     )
+
+    @property
+    def voc_name(self):
+        """
+        Returns the vocname of the user.
+        If the user has a first name, it returns the first name.
+        Otherwise, it returns the username.
+        """
+        morf = morfeusz2.Morfeusz()
+        if not self.first_name:
+            return self.username
+        analyses = morf.generate(self.first_name)
+        for form, base, tags, _, _ in analyses:
+            if ':voc:' in tags:
+                return form
+        # fallback if no vocative form found
+        return self.first_name
 
     bio = models.TextField(blank=True)
 

@@ -13,6 +13,8 @@ dependencies = [
     "psycopg2 (>=2.9.10,<3.0.0)",
     "django-tests (>=1.8.3,<2.0.0)",
     "dotenv (>=0.9.9,<0.10.0)",
+    "python-morfeusz (>=0.3400,<0.3401)",
+    "morfeusz2 (>=1.99.9,<2.0.0)",
 ]
 
 [tool.poetry]

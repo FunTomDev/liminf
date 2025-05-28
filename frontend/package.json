@@ -5,6 +5,7 @@
   "main": "tailwind.config.js",
   "scripts": {
     "dev": "tailwindcss -i ./src/css/style.css -o ./static/css/style.css --watch",
+    "build": "tailwindcss -i ./src/css/style.css -o ./static/css/style.css --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

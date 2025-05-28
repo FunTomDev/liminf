@@ -4,7 +4,7 @@
 		<h2 class="text-2xl font-bold text-gray-300 text-center">Logowanie</h2>
 		<form class="form-primary" action="{% url 'users:login' %}" class="main-form p-4 border-gray-400 border-2 rounded-3xl" method="post">
 			{% csrf_token %}
-			<input type="hidden" name="next" value="{{ next }}" />
+			<input type="hidden" name="next" value="{{ next|default_if_none:'' }}" />
 			{% if messages %}
 			<div>
 				<div class="success">
@@ -24,7 +24,7 @@
 			<div>
 				<div class="flex flex-row justify-between">
 					<label for="{{ form.password.id_for_label }}">Hasło:</label>
-					<a class="inline-link__sm" href="{% url 'users:reset-password' %}">Przypomnij hasło</a>
+					<!-- <a class="inline-link__sm" href="{% url 'users:reset-password' %}">Resetuj hasło</a> -->
 				</div>
 				{{ form.password }}
 			</div>

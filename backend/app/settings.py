@@ -39,7 +39,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = ['localhost', '192.168.22.160', '192.168.0.12', '192.168.0.13']
+ALLOWED_HOSTS = ['localhost', 'liminf.onrender.com']
 
 AUTH_USER_MODEL = 'users.User'
 

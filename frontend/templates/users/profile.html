@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<section class="w-full p-4 flex flex-col sm:flex-row sm:items-start items-center gap-4">
-	<div class="sidebar || order-1 sm:order-0 min-h-96 min-w-3xs max-w-sm flex flex-col gap-4 max-lg:w-full">
+<section class="w-full p-4 flex flex-col lg:flex-row lg:items-start items-center gap-4">
+	<div class="sidebar || order-1 lg:order-0 min-h-96 min-w-3xs max-w-sm flex flex-col gap-4 max-lg:w-full">
 		<div class="user-info || flex-1/4 p-4 flex-grow flex flex-col items-center gap-2 border border-gray-400 hover:border-gray-300 rounded-4xl transition-colors">
 			{% if user.first_name and user.last_name%}
 			<div class="user-info || text-xl font-semibold">
@@ -164,7 +164,7 @@
 					<div class="embla__container">
 						{% for solution in uploaded_solutions %}
 						<div class="carousel-item embla__slide__profile">
-							<a href="" class="block max-w-96 w-full">
+							<a href="{% url 'problems:details' solution.problem.subject.slug solution.problem.topic.slug solution.problem.id %}" class="block max-w-96 w-full">
 								<div class="card-item__gray tilt-container" onmousemove="updateTilt(event)">
 									<div class="flex flex-row gap-4 items-center justify-between">
 										<div class="basic-data">
@@ -195,7 +195,7 @@
 									</div>
 									<hr class="divider" />
 									<div class="additional-data flex justify-between items-center">
-										<span class="solution-votes font-semibold {% if solution.votes > 0 %}text-green-400 {% endif %}">{{ solution.votes_total }}</span>
+										<span class="solution-votes font-semibold {% if solution.votes_total > 0 %}text-green-400 {% elif solution.votes_total < 0 %} text-red-400 {% endif %}">{{ solution.votes_total }}</span>
 										<span class="upload-date">{{ solution.uploaded_at|date:'d.m.Y' }}</span>
 									</div>
 								</div>

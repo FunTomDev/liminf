@@ -30,17 +30,15 @@ def profile_view(request):
 def login_view(request):
     """Used for user authentication"""
 
+    next_url = request.GET.get('next') or request.POST.get('next') or reverse('home')
+
     if request.method == 'POST':
         form = StudentLoginForm(request, data=request.POST)
         if form.is_valid():
-            next_url = request.POST.get('next')
-            if not next_url or next_url == 'None':
-                next_url = reverse('home')
             login(request, form.get_user())
             return redirect(next_url)
     else:
         form = StudentLoginForm()
-        next_url = request.GET.get('next', None)
     
     return render(request, 'users/login.html', {'form': form, 'next': next_url})
 

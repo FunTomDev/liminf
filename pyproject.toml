@@ -17,6 +17,9 @@ dependencies = [
     "python-morfeusz (>=0.3400,<0.3401)",
     "morfeusz2 (>=1.99.9,<2.0.0)",
     "whitenoise (>=6.9.0,<7.0.0)",
+    "boto3 (>=1.38.25,<2.0.0)",
+    "django-storages[s3] (>=1.14.6,<2.0.0)",
+    "supabase (>=2.15.2,<3.0.0)",
 ]
 
 [tool.poetry]

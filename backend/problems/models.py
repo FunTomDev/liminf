@@ -37,7 +37,7 @@ class Problem(models.Model):
     
     type = models.CharField(max_length=16, choices=PROBLEM_TYPES, default='unsolved')
 
-    file = models.FileField(upload_to="problems/", blank=True, null=True)
+    file = models.FileField(upload_to="problems/", blank=True, null=True, max_length=600)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
 

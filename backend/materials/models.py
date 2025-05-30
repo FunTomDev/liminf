@@ -39,7 +39,7 @@ class Material(models.Model):
     # Material content
     description = models.CharField(max_length=2048, blank=True)
     content = models.TextField(blank=True)
-    file = models.FileField(upload_to=material_file_upload_path, blank=True, null=True)
+    file = models.FileField(upload_to=material_file_upload_path, blank=True, null=True, max_length=600)
     url = models.URLField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)

@@ -17,6 +17,7 @@ def solution_file_upload_path(instance, filename):
     """Used to save solution files with a specific naming convention"""
     ext = filename.split('.')[-1]
     filename = f"solution_{instance.id}_{filename}"
+    print("Link length is ", len(posixpath.join('solutions', instance.problem.topic.subject.slug, instance.problem.topic.slug, filename)))
     return posixpath.join('solutions', instance.problem.topic.subject.slug, instance.problem.topic.slug, filename)
 
 def update_problem_status(self):
@@ -44,7 +45,7 @@ class Solution(models.Model):
     helpful = models.BooleanField(default=False)
 
     content = models.TextField(blank=True, null=True)
-    file = models.FileField(upload_to='solutions/', blank=True, null=True)
+    file = models.FileField(upload_to='solutions/', blank=True, null=True, max_length=600)
 
     uploaded_at = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
@@ -54,7 +55,10 @@ class Solution(models.Model):
         temp_file = self.file
 
         # First save to generate ID
+        print("Saving solution, is new:", is_new)
+        print("File link length is ", len(self.file.name) if self.file else "No file")
         super().save(*args, **kwargs)
+        print("Solution saved with ID:", self.id)
 
         update_problem_status(self)
 

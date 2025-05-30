@@ -27,4 +27,8 @@ class SolutionForm(forms.ModelForm):
 
         if not content and not file:
             raise forms.ValidationError("Rozwiązanie musi zawierać treść albo załączony plik.")
+        if file and not file.name.lower().endswith(('.pdf')):
+            raise forms.ValidationError("Aktualnie obsługiwane są tylko pojedyńcze pliki PDF. Jest to ograniczenie związane z brakiem czasu na zabawę z obsługą wielu formatów. Pls don't kill me 🙏😭")
+        if file and len(file.name) > 600:
+            raise forms.ValidationError("Nazwa pliku jest zbyt długa. Maksymalna długość to 512 znaków.")
         return cleaned_data

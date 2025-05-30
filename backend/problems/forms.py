@@ -19,3 +19,13 @@ class ProblemForm(forms.ModelForm):
             'file': forms.ClearableFileInput(attrs={'multiple': False}),
             'topic': forms.Select(attrs={'class': 'form-control'}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        print("Cleaned data:", cleaned_data)
+        content = cleaned_data.get('content')
+        file = cleaned_data.get('file')
+
+        if not content and not file:
+            raise forms.ValidationError("Zadania muszą mieć treść albo załączony plik.")
+        return cleaned_data

@@ -18,3 +18,12 @@ class MaterialForm(forms.ModelForm):
             'file': forms.ClearableFileInput(attrs={'multiple': False}),
             'topic': forms.Select(attrs={'class': 'form-control'}),
         }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        content = cleaned_data.get('content')
+        file = cleaned_data.get('file')
+
+        if not content and not file:
+            raise forms.ValidationError("Materiały muszą mieć treść albo załączony plik.")
+        return cleaned_data

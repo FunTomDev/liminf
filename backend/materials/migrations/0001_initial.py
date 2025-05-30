@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('type', models.CharField(choices=[('official', 'Oficjalne'), ('student_notes', 'Notatki'), ('mathpro', 'MathPro')], max_length=20)),
                 ('short_description', models.CharField(blank=True, max_length=2048)),
                 ('content', models.TextField(blank=True)),
-                ('file', models.FileField(blank=True, null=True, upload_to=materials.models.material_upload_path)),
+                ('file', models.FileField(blank=True, null=True, upload_to=materials.models.material_file_upload_path)),
                 ('url', models.URLField(blank=True, null=True)),
                 ('uploaded_at', models.DateTimeField(auto_now_add=True)),
                 ('topic', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='materials', to='curriculum.topic')),

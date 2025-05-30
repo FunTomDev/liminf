@@ -26,5 +26,5 @@ class SolutionForm(forms.ModelForm):
         file = cleaned_data.get('file')
 
         if not content and not file:
-            raise forms.ValidationError("Rozwiązanie musi zawierać treść albo załączony plik. To jest błąd z formsów jak coś")
+            raise forms.ValidationError("Rozwiązanie musi zawierać treść albo załączony plik.")
         return cleaned_data

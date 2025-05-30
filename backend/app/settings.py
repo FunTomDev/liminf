@@ -46,6 +46,7 @@ AUTH_USER_MODEL = 'users.User'
 # Application definition
 
 INSTALLED_APPS = [
+    'storages',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -160,15 +161,38 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "..", "frontend", "static")
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# SUPABASE MEDIA STORAGE
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+        },
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    }
+}
+
+AWS_ACCESS_KEY_ID = os.getenv('SUPABASE_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('SUPABASE_SERVICE_KEY')
+AWS_STORAGE_BUCKET_NAME = 'uploaded.files'  # e.g. 'uploaded.files'
+AWS_S3_REGION_NAME = 'auto'  # required but ignored by Supabase
+AWS_S3_ENDPOINT_URL = 'https://zixduyyedlbzcxrbtjtn.supabase.co/storage/v1/s3'
+
+AWS_S3_FILE_OVERWRITE = False  # Optional: don't overwrite files with the same name
+AWS_DEFAULT_ACL = None         # Optional: prevents "public-read" issues
+
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'

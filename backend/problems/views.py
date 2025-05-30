@@ -83,10 +83,11 @@ def details(request, subject_slug, topic_slug, problem_id):
     for sol in problem.solutions.all():
         vote = next((v for v in sol.votes.all() if v.user_id == request.user.id), None)
         sol.user_vote_type = vote.value if vote else None
+        sol.filename = os.path.basename(sol.file.name) if sol.file else None
 
     context = {
         'problem': problem,
-        'file_name': os.path.basename(problem.file.name),
+        'filename': os.path.basename(problem.file.name),
     }
 
     return render(request, 'problems/details.html', context=context)
@@ -99,6 +100,7 @@ def add_problem(request):
         if form.is_valid():
             problem = form.save(commit=False)
             problem.uploaded_by = request.user
+            print("Problem file is", problem.file)
             problem.save()
             return redirect('problems:details', subject_slug=problem.topic.subject.slug, topic_slug=problem.topic.slug, problem_id=problem.id)
     else:

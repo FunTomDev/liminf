@@ -6,18 +6,18 @@ from django.db.models.signals import post_delete
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from supabase import create_client
+
 from curriculum.models import Topic
 
-import os
+import posixpath
+
 
 # Specify the upload path for materials based on their type
-def material_upload_path(instance, filename)->str:
+def material_file_upload_path(instance, filename)->str:
     """Store files in different directories based on material type."""
-    if instance.material_type == 'official':
-        return f"materials/official/{instance.topic.subject}/{filename}"
-    elif instance.material_type == 'student_notes':
-        return f"materials/student_notes/{instance.topic.subject}/{filename}"
-    return f"materials/{filename}"
+
+    return posixpath.join("materials", instance.type, instance.topic.subject.slug, instance.topic.slug, filename)
 
 # Create your models here.
 class Material(models.Model):
@@ -39,7 +39,7 @@ class Material(models.Model):
     # Material content
     description = models.CharField(max_length=2048, blank=True)
     content = models.TextField(blank=True)
-    file = models.FileField(upload_to=material_upload_path, blank=True, null=True)
+    file = models.FileField(upload_to=material_file_upload_path, blank=True, null=True)
     url = models.URLField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
@@ -51,11 +51,6 @@ class Material(models.Model):
         if self.type == "article":
             if not self.url:
                 raise ValidationError("Artykuły muszą mieć link URL.")
-            if self.file:
-                raise ValidationError("Artykuły nie mogą mieć załączonego pliku.")
-        if self.type != "article" and not self.file and not self.content:
-            print(_("Materials must have content or file."))
-            raise ValidationError("Materiały muszą mieć treść albo załączony plik.")
         super().clean()
 
     def get_border_style(self):
@@ -68,5 +63,16 @@ class Material(models.Model):
 @receiver(post_delete, sender=Material)
 def delete_file_on_material_delete(sender, instance, **kwargs):
     if instance.file:
-        if os.path.isfile(instance.file.path):
-            os.remove(instance.file.path)
+        supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+
+        # Ensure you extract the Supabase key, not a local path or URL
+        file_key = instance.file.name.replace("\\", "/")  # just in case
+        
+        print(f"Deleting Supabase file: {file_key}")
+        
+        res = supabase.storage.from_('uploaded.files').remove([file_key])
+
+        if res == []:
+            print("File does not exist or was already deleted.")
+        elif res[0].get('error'):
+            print(f"Error deleting file: {res[0]['error']}")

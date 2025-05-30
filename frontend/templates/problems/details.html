@@ -7,24 +7,24 @@
 	</div>
 </section>
 <hr class="divider" />
+{% if problem.content %}
 <section class="p-4">
-	{% if problem.content %}
 	<div class="details flex flex-col items-center gap-4 max-w-2xl mx-auto">
 		<h2 class="text-2xl font-bold text-center text-gray-300">Treść</h2>
 		<p class="text-gray-400 text-center">{{ problem.content|safe }}</p>
 	</div>
-	{% endif %}
 </section>
 <hr class="divider" />
-{% if problem.file %}
+{% endif %} {% if problem.file %}
 <section class="p-4">
 	<div class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
 		<h2 class="text-2xl font-bold text-center text-gray-300">Pliki</h2>
 		<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
-			<a href="{{ problem.file.url }}" target="_blank" class="p-4 border-2 border-gray-300 text-gray-300 rounded-full w-min hover:bg-gray-900 transition-all duration-300"> {{ file_name }} </a>
+			<a href="{{ problem.file.url }}" target="_blank" class="p-4 border-2 border-gray-300 text-gray-300 rounded-full w-min hover:bg-gray-900 transition-all duration-300"> {{ filename }} </a>
 		</div>
 	</div>
 </section>
+<hr class="divider" />
 {% endif %}
 
 <section class="solutions || p-4">

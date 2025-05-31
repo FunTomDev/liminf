@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="container min-w-full p-4 flex justify-center gap-8">
+	<form class="form-primary w-md [&_textarea]:rounded-4xl" action="{% url 'curriculum:add_subject' %}" method="post">
+		<input type="hidden" name="next" value="{{ next }}" />
+		{% if form.non_field_errors %}
+		<div>
+			<div class="error">{{ form.non_field_errors}}</div>
+		</div>
+		{% endif %} {% csrf_token %}
+		<div>
+			<label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
+			{{ form.name }}
+		</div>
+
+		<button class="btn-primary">Dodaj</button>
+	</form>
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <div class="container min-w-full p-4 flex justify-center gap-8">
 	<form class="form-primary [&_textarea]:rounded-4xl" action="{% url 'problems:add' %}" method="post" enctype="multipart/form-data">
 		{% if form.non_field_errors %}
@@ -11,30 +11,30 @@
 			{{ form.title }}
 		</div>
 		<div>
-			<label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
+			<label for="{{ form.description.id_for_label }}">{{ form.description.label }} <span class="text-gray-500">(opcjonalne)</span>:</label>
 			{{ form.description }}
 		</div>
-		<div>
-			<label for="{{ form.topic.id_for_label }}">{{ form.topic.label }}:</label>
-			<div class="custom-select-wrapper relative">
+		<div class="relative">
+			<label for="{{ form.semester.id_for_label }}">{{ form.semester.label }}:</label>
+			<div class="custom-select-wrapper relative" data-select-id="{{ form.semester.id_for_label }}">
 				<!-- Hidden original select to maintain form submission -->
-				<div class="opacity-0 absolute w-full min-h-full flex flex-row [&>select]:w-full" aria-hidden="true">{{ form.topic }}</div>
+				<div class="opacity-0 absolute w-full min-h-full flex flex-row [&>select]:w-full" aria-hidden="true">{{ form.semester }}</div>
 
 				<!-- Custom select UI -->
 				<div class="custom-select min-w-[200px] relative">
 					<button
 						type="button"
-						id="topicButton"
 						class="select-btn cursor-pointer w-full text-left flex items-center justify-between bg-blur border border-gray-400 hover:border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-gray-300"
+						data-target="semester"
 					>
-						<span id="selectedTopic">Select a topic</span>
+						<span class="selected-text">Select a semester</span>
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
 							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
 						</svg>
 					</button>
 					<div
-						id="topicDropdown"
 						class="dropdown-menu absolute z-10 w-full mt-[42px] bg-blur border border-gray-300 rounded-md max-h-60 overflow-y-auto overflow-x-hidden hidden opacity-0 transform scale-95 transition-all duration-200 ease-in-out"
+						data-dropdown="semester"
 					>
 						<ul class="py-1">
 							<!-- Options will be populated by JavaScript -->
@@ -43,108 +43,56 @@
 				</div>
 			</div>
 		</div>
+		<div class="relative">
+			<label for="{{ form.topic.id_for_label }}">{{ form.topic.label }}:</label>
+			<div class="custom-select-wrapper relative" data-select-id="{{ form.topic.id_for_label }}">
+				<!-- Hidden original select to maintain form submission -->
+				<div class="opacity-0 absolute w-full min-h-full flex flex-row [&>select]:w-full" aria-hidden="true">{{ form.topic }}</div>
+
+				<!-- Custom select UI -->
+				<div class="custom-select min-w-[200px] relative">
+					<button
+						type="button"
+						class="select-btn cursor-pointer w-full text-left flex items-center justify-between bg-blur border border-gray-400 hover:border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-gray-300"
+						data-target="topic"
+					>
+						<span class="selected-text">Select a topic</span>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+						</svg>
+					</button>
+					<div
+						class="dropdown-menu absolute z-10 w-full mt-[42px] bg-blur border border-gray-300 rounded-md max-h-60 overflow-y-auto overflow-x-hidden hidden opacity-0 transform scale-95 transition-all duration-200 ease-in-out"
+						data-dropdown="topic"
+					>
+						<ul class="py-1">
+							<!-- Options will be populated by JavaScript -->
+							<a href="{% url 'curriculum:add_topic' %}?next={% url 'problems:add' %}"
+								><li class="px-4 py-2 hover:bg-gray-900 cursor-pointer bg-blur flex flex-row items-center gap-2">
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+									</svg>
+									Dodaj nowy
+								</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div>
-			<label for="{{ form.content.id_for_label }}">{{ form.content.label }}:</label>
+			<label for="{{ form.content.id_for_label }}">{{ form.content.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano plik)</span>:</label>
 			{{ form.content }}
 		</div>
 		<div>
-			<label for="{{ form.file.id_for_label }}">{{ form.file.label }}:</label>
+			<label for="{{ form.file.id_for_label }}">{{ form.file.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano treść)</span>:</label>
 			{{ form.file }}
 		</div>
 		<button class="btn-primary">Dodaj</button>
 	</form>
 </div>
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		// Get references to elements
-		const originalSelect = document.getElementById("{{ form.topic.id_for_label }}");
-		const customButton = document.getElementById("topicButton");
-		const selectedText = document.getElementById("selectedTopic");
-		const dropdown = document.getElementById("topicDropdown");
-		const dropdownList = dropdown.querySelector("ul");
 
-		// Populate the custom dropdown with options from the original select
-		for (let option of originalSelect.options) {
-			const li = document.createElement("li");
-			li.textContent = option.text;
-			li.dataset.value = option.value;
-			li.classList.add("px-4", "py-2", "hover:bg-gray-900", "cursor-pointer");
-
-			// Mark as selected if it's the currently selected option
-			if (option.selected) {
-				li.classList.add("bg-gray-900/60", "backdrop-blur-sm");
-				selectedText.textContent = option.text;
-			}
-
-			li.addEventListener("click", function () {
-				// Update the original select value
-				originalSelect.value = this.dataset.value;
-
-				// Trigger change event on the original select
-				originalSelect.value = this.dataset.value;
-
-				// Trigger both 'change' and 'input' events
-				["change", "input"].forEach((eventName) => {
-					const event = new Event(eventName, { bubbles: true });
-					originalSelect.dispatchEvent(event);
-				});
-
-				// Update the button text
-				selectedText.textContent = this.textContent;
-
-				// Hide the dropdown with animation
-				dropdown.classList.remove("opacity-100", "scale-100");
-				dropdown.classList.add("opacity-0", "scale-95");
-				setTimeout(() => {
-					dropdown.classList.add("hidden");
-				}, 200);
-
-				// Update selected visual state
-				dropdownList.querySelectorAll("li").forEach((item) => {
-					item.classList.remove("bg-gray-900/60", "backdrop-blur-sm");
-				});
-				this.classList.add("bg-gray-900/60", "backdrop-blur-sm");
-			});
-
-			dropdownList.appendChild(li);
-		}
-
-		// If no option was initially selected, show the first available option text
-		if (selectedText.textContent === "Select a topic" && originalSelect.options.length > 0) {
-			selectedText.textContent = originalSelect.options[0].text;
-		}
-
-		// Toggle dropdown when button is clicked with animation
-		customButton.addEventListener("click", function () {
-			if (dropdown.classList.contains("hidden")) {
-				// Show dropdown with animation
-				dropdown.classList.remove("hidden");
-				setTimeout(() => {
-					dropdown.classList.remove("opacity-0", "scale-95");
-					dropdown.classList.add("opacity-100", "scale-100");
-				}, 10);
-			} else {
-				// Hide dropdown with animation
-				dropdown.classList.remove("opacity-100", "scale-100");
-				dropdown.classList.add("opacity-0", "scale-95");
-				setTimeout(() => {
-					dropdown.classList.add("hidden");
-				}, 200);
-			}
-		});
-
-		// Close dropdown when clicking outside with animation
-		document.addEventListener("click", function (event) {
-			if (!customButton.contains(event.target) && !dropdown.contains(event.target) && !dropdown.classList.contains("hidden")) {
-				dropdown.classList.remove("opacity-100", "scale-100");
-				dropdown.classList.add("opacity-0", "scale-95");
-				setTimeout(() => {
-					dropdown.classList.add("hidden");
-				}, 200);
-			}
-		});
-	});
-</script>
+<script src="{% static 'js/custom-dropdown.js' %}"></script>
 
 <style>
 	/* Custom styles for animations and appearance */

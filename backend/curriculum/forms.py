@@ -5,12 +5,14 @@ from curriculum.models import Subject, Topic, Semester
 class SubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
-        fields = ['name']
+        fields = ['name', 'semester']
         labels = {
             'name': 'Nazwa przedmiotu',
+            'semester': 'Semestr',
         }
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nazwa przedmiotu'}),
+            'semester': forms.Select(attrs={'class': 'form-control'}),
         }
 
 class TopicForm(forms.ModelForm):

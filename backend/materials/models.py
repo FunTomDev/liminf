@@ -31,15 +31,6 @@ class Material(models.Model):
     # Relations and metadata
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="materials")
     title = models.CharField(max_length=255)
-
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name='Semestr',
-        related_name='materials'
-    )
     
     type = models.CharField(max_length=20, choices=MATERIAL_TYPES, default='student_notes')
 

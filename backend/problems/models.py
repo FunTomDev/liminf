@@ -32,15 +32,6 @@ class Problem(models.Model):
     description = models.CharField(max_length=256, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='topic_problems')
-
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name='Semestr',
-        related_name='problems'
-    )
     
     type = models.CharField(max_length=16, choices=PROBLEM_TYPES, default='unsolved')
 

@@ -5,6 +5,12 @@ from unidecode import unidecode
 # Create your models here.
 class Subject(models.Model):
     name = models.CharField(max_length=127, unique=True)
+    semester = models.ForeignKey(
+        'Semester',
+        on_delete=models.CASCADE,
+        related_name='subjects',
+        default=None
+    )
     slug = models.SlugField(unique=True, blank=True)
 
     def save(self, *args, **kwargs):

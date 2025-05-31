@@ -12,11 +12,10 @@ class ProblemForm(forms.ModelForm):
     class Meta:
 
         model = Problem
-        fields = ['title', 'description', 'semester', 'topic', 'content', 'file']
+        fields = ['title', 'description', 'topic', 'content', 'file']
         labels = {
             'title': 'Tutuł',
             'description': 'Opis',
-            'semester': 'Semestr',
             'topic': 'Temat',
             'content': 'Treść',
             'file': 'Plik',

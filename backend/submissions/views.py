@@ -94,16 +94,30 @@ def add_solution(request, subject_slug, topic_slug, problem_id):
 @login_required
 def edit_solution(request, subject_slug, topic_slug, problem_id, solution_id):
     solution = get_object_or_404(Solution, id=solution_id, uploaded_by=request.user)
+    filename = os.path.basename(solution.file.name) if solution.file else None
+    old_file = solution.file
+    solution.skip_file_realocation = False # ensure file realocation
 
     if request.method == 'POST':
         form = SolutionForm(request.POST, request.FILES, instance=solution)
         if form.is_valid():
+            # File delete logic (only if the user has uploaded a new file or requested to clear the file)
+            if form.cleaned_data.get('clear_file') or 'file' in request.FILES:
+                print("Clearing old file for solution:", solution_id)
+                if old_file:
+                    old_file.delete(save=False)
+                    solution.file = None if not 'file' in request.FILES else request.FILES['file']
+            else:
+                 # File is not cleared nor new file was uploaded
+                print("Keeping old file for solution:", solution_id)
+                solution.skip_file_realocation = True
             form.save()
             return redirect('users:profile')
     else:
+        print("Editing solution with ID:", solution_id, solution)
         form = SolutionForm(instance=solution)
 
-    return render(request, 'submissions/edit_solution.html', {'form': form, 'solution': solution})
+    return render(request, 'submissions/edit_solution.html', {'form': form, 'solution': solution, 'filename': filename})
 
 @login_required
 def delete_solution(request, subject_slug, topic_slug, problem_id, solution_id):

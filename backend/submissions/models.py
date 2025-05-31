@@ -16,9 +16,7 @@ from supabase import create_client
 def solution_file_upload_path(instance, filename):
     """Used to save solution files with a specific naming convention"""
     ext = filename.split('.')[-1]
-    filename = f"solution_{instance.id}_{filename}"
-    print("Link length is ", len(posixpath.join('solutions', instance.problem.topic.subject.slug, instance.problem.topic.slug, filename)))
-    return posixpath.join('solutions', instance.problem.topic.subject.slug, instance.problem.topic.slug, filename)
+    return posixpath.join("solutions", str(instance.problem.topic.subject.slug), str(instance.problem.topic.slug), str(instance.problem.id), str(instance.id), str(filename))
 
 def update_problem_status(self):
     problem = self.problem
@@ -40,7 +38,7 @@ class Solution(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE, related_name='solutions')
 
     title = models.CharField(max_length=255, default="Rozwiązanie")
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(max_length=256, blank=True, null=True)
 
     helpful = models.BooleanField(default=False)
 
@@ -51,50 +49,46 @@ class Solution(models.Model):
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
 
     def save(self, *args, **kwargs):
-        is_new = self.pk is None
-        temp_file = self.file
+        supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
 
-        # First save to generate ID
-        print("Saving solution, is new:", is_new)
-        print("File link length is ", len(self.file.name) if self.file else "No file")
-        super().save(*args, **kwargs)
-        print("Solution saved with ID:", self.id)
+        skip_file_realocation = getattr(self, 'skip_file_realocation', False)
+        print("Skip file reallocation:", skip_file_realocation)
 
-        update_problem_status(self)
+        super().save(*args, **kwargs)  # initial save
 
-        if is_new and temp_file:
+        if not skip_file_realocation and self.file:
+            print(f"Saving file for problem {self.id}: {self.file.name}")
+            temp_path = self.file.name
+            new_path = solution_file_upload_path(self, os.path.basename(self.file.name))
 
-            supabase_url = settings.SUPABASE_URL
-            supabase_key = settings.SUPABASE_KEY
-            supabase = create_client(supabase_url, supabase_key)
+            # Download the temporarily saved file
+            file_data = supabase.storage.from_('uploaded.files').download(temp_path)
 
-            old_path = temp_file.name
-            new_path = solution_file_upload_path(self, os.path.basename(temp_file.name))
-            print(f"Uploading solution file to {new_path}")
-
-            # Download the file from Supabase
-            file_data = supabase.storage.from_('uploaded.files').download(old_path)
-
-            # Upload the file to the new path
+            # Upload to final destination
             supabase.storage.from_('uploaded.files').upload(new_path,
                                                             file_data,
                                                             {
                                                                 "content-type": "application/pdf",
                                                                 "cache-control": "public, max-age=3600",
-                                                                "x-amz-meta-content-disposition": "inline"  # **important**
+                                                                "x-amz-meta-content-disposition": "inline"
                                                             })
 
-            # Delete the old file
-            supabase.storage.from_('uploaded.files').remove([old_path])
+            # Delete temporary file (Django path) from Supabase
+            supabase.storage.from_('uploaded.files').remove([temp_path])
 
-            # Update the file field to the new path
+            # Update Django model with new path
             self.file.name = new_path
-            print("Solution file path updated to", self.file.name)
             super().save(update_fields=['file'])
     
     @property
     def votes_total(self):
         return self.votes.aggregate(total=models.Sum('value'))['total'] or 0
+
+    @property
+    def file_base(self):
+        if self.file:
+            return os.path.basename(self.file.name)
+        return None
 
     def __str__(self):
         return f"Solution #{self.id} for {self.problem.title}"

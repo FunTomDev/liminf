@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container min-w-full p-4 flex flex-col items-center gap-2">
 	<form class="form-primary [&_textarea]:rounded-4xl" enctype="multipart/form-data" method="post">
+		<h2 class="font-semibold text-xl text-center">Edytuj rozwiązanie</h2>
 		{% csrf_token %} {% if form.non_field_errors %}
 		<div>
 			<div class="error">{{ form.non_field_errors}}</div>

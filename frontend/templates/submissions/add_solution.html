@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container min-w-full p-4 flex justify-center gap-8">
 	<form class="form-primary [&_textarea]:rounded-4xl" action="{% url 'problems:solutions:add' problem.subject.slug problem.topic.slug problem.id %}" enctype="multipart/form-data" method="post">
+		<h2 class="font-semibold text-xl text-center">Nowe rozwiązanie</h2>
 		{% if form.non_field_errors %}
 		<div>
 			<div class="error">{{ form.non_field_errors}}</div>

@@ -8,16 +8,17 @@ from django.utils.translation import gettext_lazy as _
 
 from supabase import create_client
 
-from curriculum.models import Topic
+from curriculum.models import Topic, Semester
 
 import posixpath
+import os
 
 
 # Specify the upload path for materials based on their type
 def material_file_upload_path(instance, filename)->str:
     """Store files in different directories based on material type."""
 
-    return posixpath.join("materials", instance.type, instance.topic.subject.slug, instance.topic.slug, filename)
+    return posixpath.join("materials", instance.type, str(instance.topic.subject.slug), str(instance.topic.slug), str(instance.id), str(filename))
 
 # Create your models here.
 class Material(models.Model):
@@ -31,18 +32,56 @@ class Material(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="materials")
     title = models.CharField(max_length=255)
 
-    SEMESTER_CHOICES = [(i, f"Semestr {i}") for i in range(1, 9)]
-    semester = models.PositiveSmallIntegerField(choices=SEMESTER_CHOICES, null=True, blank=True)
+    semester = models.ForeignKey(
+        Semester,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Semestr',
+        related_name='materials'
+    )
     
     type = models.CharField(max_length=20, choices=MATERIAL_TYPES, default='student_notes')
 
     # Material content
-    description = models.CharField(max_length=2048, blank=True)
+    description = models.CharField(max_length=256, blank=True, null=True)
     content = models.TextField(blank=True)
-    file = models.FileField(upload_to=material_file_upload_path, blank=True, null=True, max_length=600)
+    file = models.FileField(upload_to="materials/", blank=True, null=True, max_length=600)
     url = models.URLField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+
+    def save(self, *args, **kwargs):
+        supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+
+        skip_file_realocation = getattr(self, 'skip_file_realocation', False)
+        print("Skip file reallocation:", skip_file_realocation)
+
+        super().save(*args, **kwargs)  # initial save
+
+        if not skip_file_realocation and self.file:
+            print(f"Saving file for problem {self.id}: {self.file.name}")
+            temp_path = self.file.name
+            new_path = material_file_upload_path(self, os.path.basename(self.file.name))
+
+            # Download the temporarily saved file
+            file_data = supabase.storage.from_('uploaded.files').download(temp_path)
+
+            # Upload to final destination
+            supabase.storage.from_('uploaded.files').upload(new_path,
+                                                            file_data,
+                                                            {
+                                                                "content-type": "application/pdf",
+                                                                "cache-control": "public, max-age=3600",
+                                                                "x-amz-meta-content-disposition": "inline"
+                                                            })
+
+            # Delete temporary file (Django path) from Supabase
+            supabase.storage.from_('uploaded.files').remove([temp_path])
+
+            # Update Django model with new path
+            self.file.name = new_path
+            super().save(update_fields=['file'])
 
     def __str__(self):
         return f"{self.title}"

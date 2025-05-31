@@ -9,7 +9,7 @@ from django.db.models import Q, Prefetch, Sum, IntegerField, Value
 from django.db.models.functions import Coalesce
 from django.contrib.auth.decorators import login_required
 
-from curriculum.models import Subject, Topic
+from curriculum.models import Subject, Topic, Semester
 from .models import Problem
 from submissions.models import Solution
 
@@ -61,7 +61,7 @@ def problems(request):
     page_obj = paginator.get_page(page_number)
     print(problems_list)
 
-    return render(request, 'problems/problems.html', context={'page_obj': page_obj, 'subjects': subjects})
+    return render(request, 'problems/problems.html', context={'page_obj': page_obj, 'subjects': subjects, "semesters": Semester.objects.all()})
 
 def details(request, subject_slug, topic_slug, problem_id):
     """Display details for a problem"""
@@ -112,16 +112,26 @@ def add_problem(request):
 def edit_problem(request, problem_id):
     """Edit an existing problem"""
     problem = get_object_or_404(Problem, id=problem_id, uploaded_by=request.user)
+    filename = os.path.basename(problem.file.name) if problem.file else None
+    old_file = problem.file
 
     if request.method == 'POST':
         form = ProblemForm(request.POST, request.FILES, instance=problem)
         if form.is_valid():
+            # File delete logic (only if the user has uploaded a new file or requested to clear the file)
+            if form.cleaned_data.get('clear_file') or 'file' in request.FILES:
+                print("Clearing old file for problem:", problem_id)
+                if old_file:
+                    old_file.delete(save=False)
+                    problem.file = None if not 'file' in request.FILES else request.FILES['file']
+
             form.save()
             return redirect('users:profile')
     else:
+        print("Editing problem with ID:", problem_id, problem)
         form = ProblemForm(instance=problem)
 
-    return render(request, 'problems/edit_problem.html', {'form': form, 'problem': problem})
+    return render(request, 'problems/edit_problem.html', {'form': form, 'problem': problem, 'filename': filename})
 
 @login_required
 def delete_problem(request, problem_id):

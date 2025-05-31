@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 from .models import Material
-from curriculum.models import Subject, Topic
+from curriculum.models import Subject, Topic, Semester
 
 from .forms import MaterialForm
 
@@ -58,7 +58,7 @@ def materials(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'materials/materials.html', context={'page_obj': page_obj, 'subjects': subjects})
+    return render(request, 'materials/materials.html', context={'page_obj': page_obj, 'subjects': subjects, "semesters": Semester.objects.all()})
 
 
 def details(request, subject_slug, topic_slug, material_id):
@@ -94,16 +94,26 @@ def add_material(request):
 def edit_material(request, material_id):
     """Edit existing material"""
     material = get_object_or_404(Material, id=material_id, uploaded_by=request.user)
+    filename = os.path.basename(material.file.name) if material.file else None
+    old_file = material.file
 
     if request.method == 'POST':
         form = MaterialForm(request.POST, request.FILES, instance=material)
         if form.is_valid():
+            # File delete logic (only if the user has uploaded a new file or requested to clear the file)
+            if form.cleaned_data.get('clear_file') or 'file' in request.FILES:
+                print("Clearing old file for material:", material_id)
+                if old_file:
+                    old_file.delete(save=False)
+                    material.file = None if not 'file' in request.FILES else request.FILES['file']
+
             form.save()
             return redirect('users:profile')
     else:
+        print("Editing material with ID:", material_id, material)
         form = MaterialForm(instance=material)
 
-    return render(request, 'materials/edit_material.html', {'form': form, 'material': material})
+    return render(request, 'materials/edit_material.html', {'form': form, 'material': material, 'filename': filename})
 
 @login_required
 def delete_material(request, material_id):

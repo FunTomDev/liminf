@@ -9,13 +9,14 @@ from supabase import create_client
 import posixpath
 import os
 
+from curriculum.models import Semester
+
 # Utility functions
 
 def problem_file_upload_path(instance, filename):
     """Used to save problem files with a specific naming convention"""
     ext = filename.split('.')[-1]
-    filename = f"problem_{instance.id}_{filename}"
-    return posixpath.join('problems', instance.topic.subject.slug, instance.topic.slug, filename)
+    return posixpath.join("problems", str(instance.topic.subject.slug), str(instance.topic.slug), str(instance.id), str(filename))
 
 
 # Create your models here.
@@ -28,12 +29,18 @@ class Problem(models.Model):
     ]
 
     title = models.CharField(max_length=128)
-    description = models.CharField(max_length=256)
+    description = models.CharField(max_length=256, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='topic_problems')
 
-    SEMESTER_CHOICES = [(i, f"Semestr {i}") for i in range(1, 9)]
-    semester = models.PositiveSmallIntegerField(choices=SEMESTER_CHOICES, null=True, blank=True)
+    semester = models.ForeignKey(
+        Semester,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Semestr',
+        related_name='problems'
+    )
     
     type = models.CharField(max_length=16, choices=PROBLEM_TYPES, default='unsolved')
 
@@ -63,37 +70,34 @@ class Problem(models.Model):
         }.get(self.type, 'card-item__gray')
     
     def save(self, *args, **kwargs):
-        is_new = self.pk is None
-        temp_file = self.file
+        supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
 
-        # First save to generate ID
-        super().save(*args, **kwargs)
+        skip_file_realocation = getattr(self, 'skip_file_realocation', False)
+        print("Skip file reallocation:", skip_file_realocation)
 
-        if is_new and temp_file:
+        super().save(*args, **kwargs)  # initial save
 
-            supabase_url = settings.SUPABASE_URL
-            supabase_key = settings.SUPABASE_KEY
-            supabase = create_client(supabase_url, supabase_key)
+        if not skip_file_realocation and self.file:
+            print(f"Saving file for problem {self.id}: {self.file.name}")
+            temp_path = self.file.name
+            new_path = problem_file_upload_path(self, os.path.basename(self.file.name))
 
-            old_path = temp_file.name
-            new_path = problem_file_upload_path(self, os.path.basename(temp_file.name))
+            # Download the temporarily saved file
+            file_data = supabase.storage.from_('uploaded.files').download(temp_path)
 
-            # Download the file from Supabase
-            file_data = supabase.storage.from_('uploaded.files').download(old_path)
-
-            # Upload the file to the new path
+            # Upload to final destination
             supabase.storage.from_('uploaded.files').upload(new_path,
                                                             file_data,
                                                             {
                                                                 "content-type": "application/pdf",
                                                                 "cache-control": "public, max-age=3600",
-                                                                "x-amz-meta-content-disposition": "inline"  # **important**
+                                                                "x-amz-meta-content-disposition": "inline"
                                                             })
 
-            # Delete the old file
-            supabase.storage.from_('uploaded.files').remove([old_path])
+            # Delete temporary file (Django path) from Supabase
+            supabase.storage.from_('uploaded.files').remove([temp_path])
 
-            # Update the file field to the new path
+            # Update Django model with new path
             self.file.name = new_path
             super().save(update_fields=['file'])
 

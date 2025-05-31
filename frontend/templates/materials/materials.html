@@ -41,14 +41,14 @@
 	<div class="flex max-[1080px]:flex-col relative">
 		<!-- Filters container - initially hidden on mobile -->
 		<div id="filters-wrapper" class="filter-wrapper || h-min max-[1080px]:min-w-full max-w-[500px] border-1 border-gray-400 rounded-4xl absolute md:relative left-0 top-0 bg-blur z-10 hidden || section-invisible">
-			<div class="filters-container px-4 py-4">
-				<div class="filters grid grid-cols-1 gap-4 rounded-3xl">
+			<div class="filters-container || overflow-hidden px-4 py-4">
+				<div class="filters grid grid-cols-1 gap-8 rounded-3xl">
 					<!-- Problems subjects and topics filtering -->
 					{% if subjects %}
 					<div class="w-full">
 						<ul class="flex flex-col gap-2">
 							{% for subject, topics in subjects.items %}
-							<li class="border border-gray-400 rounded-3xl min-w-64">
+							<li class="border border-gray-400 rounded-3xl min-w-72">
 								<!-- Toggle & Subject Checkbox -->
 								<div onclick="toggleSection(this)" class="cursor-pointer p-4 flex justify-between items-center select-none">
 									<label class="chkbx-primary-label" onclick="event.stopPropagation()">
@@ -81,10 +81,41 @@
 							{% endfor %}
 						</ul>
 					</div>
+					{% endif %} {% if semesters %}
+					<div class="w-full border border-gray-400 rounded-3xl min-w-72">
+						<!-- Toggle & Header -->
+						<div onclick="toggleSection(this)" class="cursor-pointer p-4 flex justify-between items-center select-none">
+							<label class="chkbx-primary-label" onclick="event.stopPropagation()">
+								<input type="checkbox" class="semester-main-checkbox chkbx-primary peer" />
+								<span class="chkbx-box"></span>
+								<span class="font-semibold">Semestry</span>
+							</label>
+							<svg class="arrow-icon || w-4 h-4 transform transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+							</svg>
+						</div>
+
+						<!-- Hidden Section -->
+						<div class="max-h-0 px-4 overflow-hidden opacity-0 scale-y-0 origin-top transition-all duration-300" data-section>
+							<!-- Divider -->
+							<hr class="divider scale-x-0 transition-transform duration-300 origin-center" />
+							<ul class="semester-filter || flex flex-col py-4 px-8 gap-2">
+								{% for semester in semesters %}
+								<li data-semester="{{ semester.id|default:semester }}">
+									<label class="chkbx-primary-label text-sm">
+										<input type="checkbox" name="semester" data-semester="{{ semester.id|default:semester }}" class="chkbx-primary peer semester-checkbox" />
+										<span class="chkbx-box"></span>
+										<span>{{ semester.name|default:semester }}</span>
+									</label>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
 					{% endif %}
 
 					<!-- Materials type filtering -->
-					<div class="filter-section || max-h-min hover:border-gray-300 transition-colors min-w-64">
+					<div class="filter-section || max-h-min hover:border-gray-300 transition-colors min-w-72">
 						<h4 class="text-gray-300 font-semibold mb-2">Typ materiału</h4>
 						<ul class="flex flex-col gap-2" id="type-filter">
 							<!-- Official (grey) type -->
@@ -126,13 +157,11 @@
 
 <script>
 	let selectedFilters = {
-		page: 1, // current page number
+		page: 1,
 		q: "",
-		topics: {
-			// topics dictionary
-			// Example: "subject_slug": ["topic1", "topic2"]
-		},
-		types: [], // types array
+		topics: {},
+		types: [],
+		semesters: [], // Add this new property
 	};
 
 	function fetchMaterials(signal) {
@@ -144,7 +173,6 @@
 		if (selectedFilters.q) params.append("q", selectedFilters.q);
 		if (Object.keys(selectedFilters.topics).length > 0) {
 			for (const subject in selectedFilters.topics) {
-				console.log("Subject:", subject, "Topics:", selectedFilters.topics[subject]); // Debugging line
 				if (selectedFilters.topics[subject].length > 0) {
 					params.append(`topics`, JSON.stringify(selectedFilters.topics));
 				}
@@ -153,8 +181,10 @@
 		if (selectedFilters.types.length > 0) {
 			params.append("types", selectedFilters.types.join(","));
 		}
-
-		console.log("Request issued with params:", params.toString()); // Debugging line
+		// Add semester filtering to params
+		if (selectedFilters.semesters.length > 0) {
+			params.append("semesters", selectedFilters.semesters.join(","));
+		}
 
 		return fetch(`/materials/ajax/?${params.toString()}`, { signal })
 			.then((response) => response.json())
@@ -163,7 +193,6 @@
 			})
 			.catch((error) => {
 				if (error.name === "AbortError") {
-					// Żądanie zostało anulowane — ignorujemy
 					return;
 				}
 				console.error("Fetch error:", error);
@@ -172,6 +201,93 @@
 				container.classList.remove("loading");
 			});
 	}
+
+	document.querySelectorAll(".semester-filter label").forEach((label) => {
+		const input = label.querySelector("input");
+
+		input.addEventListener("change", () => {
+			const semester = input.dataset.semester;
+			const index = selectedFilters.semesters.indexOf(semester);
+
+			if (index > -1) {
+				// Already selected, deselect it
+				selectedFilters.semesters.splice(index, 1);
+				input.checked = false;
+			} else {
+				// Add new selection
+				selectedFilters.semesters.push(semester);
+				input.checked = true;
+			}
+
+			// Reset to page 1 when filters change
+			selectedFilters.page = 1;
+			debounceFetch();
+		});
+	});
+
+	// Main semester checkbox controls all individual semesters
+	document.querySelectorAll(".semester-main-checkbox").forEach((mainCheckbox) => {
+		mainCheckbox.addEventListener("change", function () {
+			const semesterCheckboxes = document.querySelectorAll('input[name="semester"]');
+
+			semesterCheckboxes.forEach((semester) => {
+				semester.checked = this.checked;
+				const semesterValue = semester.dataset.semester;
+
+				if (this.checked) {
+					// If main checkbox is checked, add all semesters to selected filters
+					if (!selectedFilters.semesters.includes(semesterValue)) {
+						selectedFilters.semesters.push(semesterValue);
+					}
+				} else {
+					// If unchecked, remove all semesters from selected filters
+					const index = selectedFilters.semesters.indexOf(semesterValue);
+					if (index > -1) {
+						selectedFilters.semesters.splice(index, 1);
+					}
+				}
+			});
+
+			// Reset to page 1 when filters change
+			selectedFilters.page = 1;
+			debounceFetch();
+		});
+	});
+
+	// Individual semester changes may affect the main semester checkbox
+	document.querySelectorAll('input[name="semester"]').forEach((semesterCheckbox) => {
+		semesterCheckbox.addEventListener("change", function () {
+			const allSemesters = document.querySelectorAll('input[name="semester"]');
+			const checkedSemesters = [...allSemesters].filter((cb) => cb.checked);
+			const mainCheckbox = document.querySelector(".semester-main-checkbox");
+
+			// Update the semester in selectedFilters
+			const semesterValue = this.dataset.semester;
+			const index = selectedFilters.semesters.indexOf(semesterValue);
+
+			if (this.checked && index === -1) {
+				selectedFilters.semesters.push(semesterValue);
+			} else if (!this.checked && index > -1) {
+				selectedFilters.semesters.splice(index, 1);
+			}
+
+			// Main checkbox state logic
+			if (checkedSemesters.length === allSemesters.length) {
+				mainCheckbox.checked = true;
+				mainCheckbox.indeterminate = false;
+			} else if (checkedSemesters.length > 0) {
+				mainCheckbox.checked = false;
+				mainCheckbox.indeterminate = true;
+			} else {
+				mainCheckbox.checked = false;
+				mainCheckbox.indeterminate = false;
+			}
+
+			// Reset to page 1 when filters change
+			selectedFilters.page = 1;
+			debounceFetch();
+		});
+	});
 
 	// Pagination event listener
 	document.addEventListener("click", function (e) {
@@ -201,7 +317,6 @@
 
 			const controller = new AbortController();
 			currentAbortController = controller;
-			console.log("Fetching materials with filters:", selectedFilters); // Debugging line
 			fetchMaterials(controller.signal).finally(() => {
 				if (currentAbortController === controller) currentAbortController = null;
 			});

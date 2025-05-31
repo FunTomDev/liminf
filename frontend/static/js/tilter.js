@@ -1,6 +1,5 @@
 function updateTilt(event) {
         const element = event.currentTarget;
-        console.log("Updating tilt");
         const { width, height, left, top } = element.getBoundingClientRect();
         const centerX = left + width / 2;
         const centerY = top + height / 2;

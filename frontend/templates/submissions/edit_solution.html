@@ -11,15 +11,30 @@
 			{{ form.title }}
 		</div>
 		<div>
-			<label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
+			<label for="{{ form.description.id_for_label }}">{{ form.description.label }} <span class="text-gray-500">(opcjonalne)</span>:</label>
 			{{ form.description }}
 		</div>
 		<div>
-			<label for="{{ form.content.id_for_label }}">{{ form.content.label }}:</label>
+			<label for="{{ form.content.id_for_label }}">{{ form.content.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano plik)</span>:</label>
 			{{ form.content }}
 		</div>
+		{% if solution.file %}
 		<div>
-			<label for="{{ form.file.id_for_label }}">{{ form.file.label }}:</label>
+			<label>Aktualny plik:</label>
+			<div class="flex flex-row justify-between items-center gap-4">
+				<div class="flex flex-col">
+					<a href="{{ solution.file.url }}" target="_blank" class="text-blue-600 underline"> {{ filename }} </a>
+				</div>
+				<label class="chkbx-primary-label">
+					<input type="checkbox" name="clear_file" class="chkbx-primary peer" />
+					<span class="chkbx-box"></span>
+					<span>Usuń plik</span>
+				</label>
+			</div>
+		</div>
+		{% endif %}
+		<div>
+			<label>Nowy plik <span class="text-gray-500">(UWAGA! Dodanie nowego pliku zastępuje istniejący)</span>:</label>
 			{{ form.file }}
 		</div>
 		<div class="buttons || flex flex-row gap-2">
@@ -56,6 +71,33 @@
 				alert("Wystąpił błąd po stronie klienta.");
 			});
 	}
+</script>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const fileInput = document.querySelector('input[type="file"][name="file"]');
+		const clearCheckbox = document.querySelector('input[type="checkbox"][name="clear_file"]');
+
+		if (fileInput && clearCheckbox) {
+			fileInput.addEventListener("change", function () {
+				if (fileInput.files.length > 0) {
+					clearCheckbox.disabled = true;
+					clearCheckbox.checked = false;
+				} else {
+					clearCheckbox.disabled = false;
+				}
+			});
+
+			clearCheckbox.addEventListener("change", function () {
+				if (clearCheckbox.checked) {
+					fileInput.disabled = true;
+					fileInput.value = "";
+				} else {
+					fileInput.disabled = false;
+				}
+			});
+		}
+	});
 </script>
 
 {% endblock %}

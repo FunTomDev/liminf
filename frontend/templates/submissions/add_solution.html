@@ -11,15 +11,15 @@
 			{{ form.title }}
 		</div>
 		<div>
-			<label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
+			<label for="{{ form.description.id_for_label }}">{{ form.description.label }} <span class="text-gray-500">(opcjonalne)</span>:</label>
 			{{ form.description }}
 		</div>
 		<div>
-			<label for="{{ form.content.id_for_label }}">{{ form.content.label }}:</label>
+			<label for="{{ form.content.id_for_label }}">{{ form.content.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano plik)</span>:</label>
 			{{ form.content }}
 		</div>
 		<div>
-			<label for="{{ form.file.id_for_label }}">{{ form.file.label }}:</label>
+			<label for="{{ form.file.id_for_label }}">{{ form.file.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano treść)</span>:</label>
 			{{ form.file }}
 		</div>
 		<button class="btn-primary">Dodaj</button>

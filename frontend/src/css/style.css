@@ -41,11 +41,15 @@
 		@apply max-w-[3000px] mx-auto;
 	}
 
+	input {
+		@apply transition-opacity duration-500;
+	}
+
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
 	input[type="textbox"] {
-		@apply bg-gray-950 rounded-full border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300 placeholder:text-gray-500;
+		@apply opacity-100 bg-gray-950 rounded-full border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300 placeholder:text-gray-500;
 	}
 
 	input[type="file"] {
@@ -53,7 +57,7 @@
         file:mr-4 file:h-full file:py-2 file:px-4 file:rounded-l-full
         file:border-0 file:text-sm file:font-semibold
         file:bg-gray-900 file:text-gray-300
-        hover:file:bg-gray-800 transition-colors file:transition-colors;
+        hover:file:bg-gray-800 transition-colors file:transition-colors opacity-100;
 	}
 
 	textarea {
@@ -72,6 +76,16 @@
 	textarea:focus {
 		box-shadow: none;
 		outline: none;
+	}
+
+	input[type="text"]:disabled,
+	input[type="password"]:disabled,
+	input[type="email"]:disabled,
+	input[type="textbox"]:disabled,
+	input[type="checkbox"]:disabled,
+	input[type="file"]:disabled,
+	textarea:disabled {
+		@apply opacity-50 pointer-events-none  cursor-not-allowed;
 	}
 }
 
@@ -121,7 +135,7 @@
 	}
 
 	.chkbx-primary-label {
-		@apply flex items-center gap-2 cursor-pointer select-none hover:text-gray-200 has-[:checked]:text-gray-200 relative border-gray-400 rounded-full transition-colors;
+		@apply flex items-center gap-2 cursor-pointer select-none hover:text-gray-200 has-[:checked]:text-gray-200 has-[:disabled]:[&>*]:opacity-50 has-[:disabled]:pointer-events-none relative border-gray-400 rounded-full transition-colors;
 	}
 
 	.chkbx-primary-label input[type="checkbox"] {

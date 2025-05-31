@@ -1,15 +1,16 @@
 <h2 class="text-2xl font-semibold">{{ solution.title }}</h2>
-<div class="solution || w-full flex flex-col gap-4 border border-gray-400 p-4 rounded-4xl">
-	<div class="solution-content">
+<div class="solution || w-full flex flex-col border border-gray-400 p-4 rounded-4xl">
+	<div class="solution-content || w-full flex flex-col gap-4 p-4">
 		{% if solution.content %}
 		<p>{{ solution.content }}</p>
+		<hr class="divider" />
 		{% endif %} {% if solution.file %}
 		<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
 			<a href="{{ solution.file.url }}" target="_blank" class="p-4 border-2 border-gray-300 text-gray-300 rounded-full w-min hover:bg-gray-900 transition-all duration-300"> {{ filename }} </a>
 		</div>
+		<hr class="divider" />
 		{% endif %}
 	</div>
-	<hr class="divider" />
 	<div class="flex justify-center items-center">
 		{% if user == solution.problem.uploaded_by %}
 		<button

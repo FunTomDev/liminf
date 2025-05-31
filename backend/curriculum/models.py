@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from unidecode import unidecode
 
 # Create your models here.
 class Subject(models.Model):
@@ -8,7 +9,8 @@ class Subject(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            normalized_name = unidecode(self.name).lower()
+            self.slug = slugify(normalized_name)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -27,8 +29,27 @@ class Topic(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            normalized_name = unidecode(self.name).lower()
+            self.slug = slugify(normalized_name)
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.subject} > {self.name}"
+
+class Semester(models.Model):
+    DEGREE_CHOICES = [
+        ('I', 'Licencjat / Inżynier'),
+    ]
+
+    degree_type = models.CharField(
+        max_length=2,
+        choices=DEGREE_CHOICES,
+    )
+    number = models.PositiveSmallIntegerField()
+
+    class Meta:
+        unique_together = ('degree_type', 'number')
+        ordering = ['degree_type', 'number']
+
+    def __str__(self):
+        return f"Semestr {self.number}"

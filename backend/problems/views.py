@@ -23,6 +23,7 @@ def problems_ajax(request):
     subjects = request.GET.get('subjects', '')
     problem_types = request.GET.get('types', '')
     page_number = request.GET.get('page', 1)
+    semesters = request.GET.get('semesters', '')
 
     topics = json.loads(request.GET.get('topics', '{}'))
 
@@ -40,6 +41,8 @@ def problems_ajax(request):
         problems = problems.filter(query)
     if problem_types:
         problems = problems.filter(type__in=problem_types.split(','))
+    if semesters:
+        problems = problems.filter(topic__subject__semester__number__in=[int(x) for x in semesters.split(',')])
 
     paginator = Paginator(problems, 24)
     page_obj = paginator.get_page(page_number)

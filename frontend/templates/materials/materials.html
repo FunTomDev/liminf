@@ -62,10 +62,10 @@
 								</div>
 
 								<!-- Hidden Section -->
-								<div class="max-h-0 px-4 overflow-hidden opacity-0 scale-y-0 origin-top transition-all duration-300" data-section>
+								<div class="max-h-0 px-4 opacity-0 scale-y-0 origin-top transition-all duration-300" data-section>
 									<!-- Divider -->
 									<hr class="divider scale-x-0 transition-transform duration-300 origin-center" id="hr-{{ subject.slug }}" />
-									<ul class="topic-filter || flex flex-col py-4 px-8 gap-2">
+									<ul class="topic-filter || overflow-y-auto max-h-80 flex flex-col py-4 px-8 gap-2">
 										{% for topic in topics %}
 										<li data-topic="{{ topic.slug }}">
 											<label class="chkbx-primary-label text-sm">
@@ -161,7 +161,7 @@
 		q: "",
 		topics: {},
 		types: [],
-		semesters: [], // Add this new property
+		semesters: [],
 	};
 
 	function fetchMaterials(signal) {

@@ -375,6 +375,9 @@
   .max-h-60 {
     max-height: calc(var(--spacing) * 60);
   }
+  .max-h-80 {
+    max-height: calc(var(--spacing) * 80);
+  }
   .max-h-min {
     max-height: min-content;
   }
@@ -1379,6 +1382,30 @@
   }
 }
 @layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gray-400) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    border-radius: calc(infinity * 1px);
+    background-color: var(--color-gray-800);
+  }
+  *::-webkit-scrollbar-thumb {
+    border-radius: calc(infinity * 1px);
+    background-color: var(--color-gray-400);
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-300);
+      }
+    }
+    &:active {
+      background-color: var(--color-gray-200);
+    }
+    border-radius: 3px;
+  }
   section {
     margin-inline: auto;
     max-width: 3000px;

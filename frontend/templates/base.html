@@ -9,6 +9,8 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" rel="stylesheet" />
+		<link rel="stylesheet" href="https://unpkg.com/@milkdown/theme-nord/style.css" />
 
 		<link rel="icon" type="image/png" href="{% static 'src/img/logo/favicon-96x96.png' %}" sizes="96x96" />
 		<link rel="icon" type="image/svg+xml" href="{% static 'src/img/logo/favicon.svg' %}" />
@@ -29,7 +31,24 @@
 	</body>
 	<script src="{% static 'js/tilter.js' %}"></script>
 	<script src="{% static 'js/menu-toggle.js' %}"></script>
+
+	<script>
+		window.MathJax = {
+			tex: {
+				inlineMath: [["$", "$"]], // '$...$' for inline
+				displayMath: [["$$", "$$"]], // '$$...$$' for blocks
+			},
+			options: {
+				skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+			},
+		};
+	</script>
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+	<!-- Prism Autoloader -->
+	<script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-core.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/autoloader/prism-autoloader.min.js"></script>
+
 	<script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
 	<script src="https://unpkg.com/embla-carousel-autoplay/embla-carousel-autoplay.umd.js"></script>
 </html>

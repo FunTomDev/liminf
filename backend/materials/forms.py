@@ -20,7 +20,7 @@ class MaterialForm(forms.ModelForm):
             'file': 'Plik',
         }
         widgets = {
-            'content': forms.Textarea(attrs={'cols': 120, 'rows': 10, 'class': 'w-full'}),
+            'content': forms.Textarea(attrs={'cols': 120, 'rows': 10, 'class': 'hidden'}),
             'file': forms.FileInput(attrs={'multiple': False}),
             'topic': forms.Select(attrs={'class': 'form-control'}),
         }

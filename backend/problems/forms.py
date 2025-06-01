@@ -21,7 +21,7 @@ class ProblemForm(forms.ModelForm):
             'file': 'Plik',
         }
         widgets = {
-            'content': forms.Textarea(attrs={'rows': 10, 'cols': 90, 'class': 'w-full'}),
+            'content': forms.Textarea(attrs={'rows': 10, 'cols': 90, 'class': 'hidden'}),
             'file': forms.FileInput(attrs={'multiple': False}),
             'topic': forms.Select(attrs={'class': 'form-control'}),
         }

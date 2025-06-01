@@ -55,6 +55,7 @@
 		<div>
 			<label for="{{ form.content.id_for_label }}">{{ form.content.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano plik)</span>:</label>
 			{{ form.content }}
+			<div id="milkdown" class="w-full min-h-96"></div>
 		</div>
 		<div>
 			<label for="{{ form.file.id_for_label }}">{{ form.file.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano treść)</span>:</label>
@@ -65,6 +66,7 @@
 </div>
 
 <script src="{% static 'js/custom-dropdown.js' %}"></script>
+<script type="module" src="{% static 'js/milkdown-setup.js' %}"></script>
 
 <style>
 	/* Custom styles for animations and appearance */

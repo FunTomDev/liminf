@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="container min-w-full p-4 flex justify-center gap-8">
-	<form class="form-primary [&_textarea]:rounded-4xl" action="{% url 'materials:add' %}" method="post" enctype="multipart/form-data">
+	<form class="form-primary" action="{% url 'materials:add' %}" method="post" enctype="multipart/form-data">
 		<h2 class="font-semibold text-xl text-center">Nowy materiał</h2>
 		{% if form.non_field_errors %}
 		<div>
@@ -55,7 +55,7 @@
 		<div>
 			<label for="{{ form.content.id_for_label }}">{{ form.content.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano plik)</span>:</label>
 			{{ form.content }}
-			<div id="milkdown" class="w-full min-h-96"></div>
+			<div id="milkdown" class="w-[90vw] max-w-full mx-auto"></div>
 		</div>
 		<div>
 			<label for="{{ form.file.id_for_label }}">{{ form.file.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano treść)</span>:</label>

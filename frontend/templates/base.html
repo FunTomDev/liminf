@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} {% load django_vite %}
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -10,17 +10,23 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
 		<link href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" rel="stylesheet" />
-		<link rel="stylesheet" href="https://unpkg.com/@milkdown/theme-nord/style.css" />
 
-		<link rel="icon" type="image/png" href="{% static 'src/img/logo/favicon-96x96.png' %}" sizes="96x96" />
-		<link rel="icon" type="image/svg+xml" href="{% static 'src/img/logo/favicon.svg' %}" />
-		<link rel="shortcut icon" href="{% static 'src/img/logo/favicon.ico' %}" />
-		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'src/img/logo/apple-touch-icon.png' %}" />
+		<!-- VITE CONFIGURATION -->
+		{% vite_hmr_client %}
+
+		<!-- ICONS -->
+		<link rel="icon" type="image/png" href="{% static 'img/logo/favicon-96x96.png' %}" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="{% static 'img/logo/favicon.svg' %}" />
+		<link rel="shortcut icon" href="{% static 'img/logo/favicon.ico' %}" />
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/logo/apple-touch-icon.png' %}" />
 		<meta name="apple-mobile-web-app-title" content="liminf" />
-		<link rel="manifest" href="{% static 'src/img/logo/site.webmanifest' %}" />
+		<link rel="manifest" href="{% static 'img/logo/site.webmanifest' %}" />
 
-		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+		<link rel="stylesheet" href="{% vite_asset_url 'css/style.css' %}" />
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+
+		{% vite_asset 'js/tilter.js' %} {% vite_asset 'js/menu-toggle.js' %}
 
 		<title>liminf - notatki, zadania, rozwiązania</title>
 	</head>
@@ -29,8 +35,6 @@
 		<main class="main-content pt-[90px]">{% block content %} {% endblock content %}</main>
 		{% include 'footer.html' %}
 	</body>
-	<script src="{% static 'js/tilter.js' %}"></script>
-	<script src="{% static 'js/menu-toggle.js' %}"></script>
 
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 

@@ -15,8 +15,11 @@ import os
 import platform
 from dotenv import load_dotenv
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 # Load environment variablesf
-load_dotenv()
+load_dotenv(os.path.join(BASE_DIR, '..' , '.env'))
 
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
@@ -24,9 +27,6 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,7 +37,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
@@ -47,6 +47,7 @@ AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
     'storages',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,11 +61,13 @@ INSTALLED_APPS = [
     'submissions.apps.SubmissionsConfig',
     'users.apps.UsersConfig',
     'forums.apps.ForumsConfig',
+    'django_vite',
 ]
 
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd" if platform.system() == 'Windows' else '/usr/bin/npm'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -75,7 +78,18 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
+
 ROOT_URLCONF = 'app.urls'
+
+# Django vite configuration
+DJANGO_VITE = {
+  "default": {
+    "dev_mode": True
+  }
+}
 
 TEMPLATES = [
     {
@@ -159,7 +173,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "..", "frontend", "static")
+    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, '..', 'frontend', 'dist', 'assets')
 ]
 
 # Default primary key field type

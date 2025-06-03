@@ -13,6 +13,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@milkdown/crepe": "^7.12.1",
     "@tailwindcss/cli": "^4.1.7",
     "@tailwindcss/vite": "^4.1.8",
     "tailwindcss": "^4.1.8"

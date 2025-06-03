@@ -5,11 +5,24 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="Platforma z materiałami i notatkami z zajęć, rozwiązaniami zadań i ogólnymi informacjami związanymi z kierunkiem." />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" rel="stylesheet" />
 
-		{% vite_hmr_client %}
+		<!-- VITE CONFIGURATION -->
+		{% vite_hmr_client %} {% vite_asset 'src/main.js' %}
+
+		<!-- ICONS -->
+		<link rel="icon" type="image/png" href="{% static 'img/logo/favicon-96x96.png' %}" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="{% static 'img/logo/favicon.svg' %}" />
+		<link rel="shortcut icon" href="{% static 'img/logo/favicon.ico' %}" />
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/logo/apple-touch-icon.png' %}" />
+		<meta name="apple-mobile-web-app-title" content="liminf" />
+		<link rel="manifest" href="{% static 'img/logo/site.webmanifest' %}" />
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
 		<title>liminf - notatki, zadania, rozwiązania</title>
 	</head>

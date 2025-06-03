@@ -12,7 +12,7 @@
 		<link href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" rel="stylesheet" />
 
 		<!-- VITE CONFIGURATION -->
-		{% vite_hmr_client %}
+		{% vite_hmr_client %} {% vite_asset 'src/main.js' %}
 
 		<!-- ICONS -->
 		<link rel="icon" type="image/png" href="{% static 'img/logo/favicon-96x96.png' %}" sizes="96x96" />
@@ -22,11 +22,7 @@
 		<meta name="apple-mobile-web-app-title" content="liminf" />
 		<link rel="manifest" href="{% static 'img/logo/site.webmanifest' %}" />
 
-		<link rel="stylesheet" href="{% vite_asset_url 'css/style.css' %}" />
-
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-
-		{% vite_asset 'js/tilter.js' %} {% vite_asset 'js/menu-toggle.js' %}
 
 		<title>liminf - notatki, zadania, rozwiązania</title>
 	</head>
@@ -35,12 +31,6 @@
 		<main class="main-content pt-[90px]">{% block content %} {% endblock content %}</main>
 		{% include 'footer.html' %}
 	</body>
-
-	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-	<!-- Prism Autoloader -->
-	<script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-core.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/autoloader/prism-autoloader.min.js"></script>
 
 	<script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
 	<script src="https://unpkg.com/embla-carousel-autoplay/embla-carousel-autoplay.umd.js"></script>

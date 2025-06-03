@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load django_vite %} {% block content %}
 <section class="hero-section relative overflow-hidden z-40">
 	<div class="text-center relative z-10 max-w-screen-lg mx-auto">
 		<h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-300 mb-6">Zadania</h1>
@@ -151,6 +151,8 @@
 		<div class="problems flex flex-col items-center gap-4 flex-grow transition-all duration-300" id="problems-container">{% include 'partials/problems_list.html' %}</div>
 	</div>
 </section>
+
+{% vite_asset 'src/filter-toggle.js' %}
 
 <script>
 	let selectedFilters = {

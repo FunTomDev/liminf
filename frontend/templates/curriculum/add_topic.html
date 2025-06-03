@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load django_vite %} {% block content %}
 <div class="container min-w-full p-4 flex justify-center gap-8">
 	<form class="form-primary w-md [&_textarea]:rounded-4xl" action="{% url 'curriculum:add_topic' %}" method="post">
 		<h2 class="font-semibold text-xl text-center">Nowy temat</h2>
@@ -54,6 +54,8 @@
 		<button class="btn-primary">Dodaj</button>
 	</form>
 </div>
+
+{% vite_asset 'src/js/custom-dropdown.js' %}
 
 <style>
 	/* Custom styles for animations and appearance */

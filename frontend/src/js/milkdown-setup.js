@@ -7,12 +7,18 @@ const crepe = new Crepe({
   features: {
     [Crepe.Feature.BlockEdit]: false,
   },
+  featureConfigs: {
+    [Crepe.Feature.Placeholder]: {
+      text: 'Zacznij pisać...',
+      mode: 'block',
+    },
+  },
 });
 
 crepe.create();
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("form .crepe button:not([type])").forEach(btn => {
+  document.querySelectorAll("form .milkdown button:not([type])").forEach(btn => {
     btn.setAttribute("type", "button");
   });
 });

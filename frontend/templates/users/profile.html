@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load django_vite %} {% block content %}
 <section class="w-full p-4 flex flex-col lg:flex-row lg:items-start items-center gap-4">
 	<div class="sidebar || order-1 lg:order-0 min-h-96 min-w-3xs max-w-sm flex flex-col gap-4 max-lg:w-full">
 		<div class="user-info || flex-1/4 p-4 flex-grow flex flex-col items-center gap-2 border border-gray-400 hover:border-gray-300 rounded-4xl transition-colors">
@@ -229,4 +229,4 @@
 	</div>
 </section>
 
-{% endblock content %}
+{% vite_asset 'src/carousel-profile.js' %} {% endblock content %}

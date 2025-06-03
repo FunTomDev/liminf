@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load django_vite %} {% block content %}
 <div class="container min-w-full p-4 flex justify-center gap-8">
 	<form class="form-primary [&_textarea]:rounded-4xl" action="{% url 'materials:edit' material.id %}" method="post" enctype="multipart/form-data">
 		<h2 class="font-semibold text-xl text-center">Edytuj materiał</h2>
@@ -55,6 +55,7 @@
 		<div>
 			<label for="{{ form.content.id_for_label }}">{{ form.content.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano plik)</span>:</label>
 			{{ form.content }}
+			<div id="milkdown" class="w-[90vw] max-w-full"></div>
 		</div>
 		{% if material.file %}
 		<div>
@@ -81,6 +82,8 @@
 		</div>
 	</form>
 </div>
+
+{% vite_asset 'src/js/milkdown-setup.js' %} {% vite_asset 'src/js/custom-dropdown.js' %}
 
 <script>
 	function submitDelete() {
@@ -186,6 +189,16 @@
 
 	.select-btn:active {
 		animation: pulse 0.3s;
+	}
+
+	/* custom styles for milkdown */
+	.milkdown {
+		--crepe-color-background: var(--color-gray-950); /* Main background color */
+		--crepe-color-surface: var(--color-gray-900); /* Surface color for cards/panels */
+		--crepe-color-surface-low: var(--color-gray-900); /* Lower surface color for depth */
+
+		--crepe-font-title: "Quicksand", sans-serif;
+		--crepe-font-default: "Quicksand", sans-serif;
 	}
 </style>
 {% endblock %}

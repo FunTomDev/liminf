@@ -52,7 +52,7 @@
 		<div>
 			<label for="{{ form.content.id_for_label }}">{{ form.content.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano plik)</span>:</label>
 			{{ form.content }}
-			<div id="milkdown" class="w-[90vw] max-w-full mx-auto"></div>
+			<div id="milkdown" class="w-[90vw] max-w-full"></div>
 		</div>
 		<div>
 			<label for="{{ form.file.id_for_label }}">{{ form.file.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano treść)</span>:</label>
@@ -113,6 +113,16 @@
 
 	.select-btn:active {
 		animation: pulse 0.3s;
+	}
+
+	/* custom styles for milkdown */
+	.milkdown {
+		--crepe-color-background: var(--color-gray-950); /* Main background color */
+		--crepe-color-surface: var(--color-gray-900); /* Surface color for cards/panels */
+		--crepe-color-surface-low: var(--color-gray-900); /* Lower surface color for depth */
+
+		--crepe-font-title: "Quicksand", sans-serif;
+		--crepe-font-default: "Quicksand", sans-serif;
 	}
 </style>
 {% endblock %}

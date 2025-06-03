@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					const li = document.createElement("li");
 					li.textContent = option.text;
 					li.dataset.value = option.value;
-					li.classList.add("px-4", "py-2", "hover:bg-gray-900", "cursor-pointer");
+					li.classList.add("px-4", "py-2", "bg-blur", "cursor-pointer");
 
 					// Mark as selected if it's the currently selected option
 					if (option.selected) {

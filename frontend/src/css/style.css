@@ -108,8 +108,11 @@
 }
 
 @layer components {
+	#milkdown .milkdown {
+		@apply border border-gray-400 rounded-4xl [&_*]:font-display;
+	}
 	#milkdown .ProseMirror {
-		@apply w-full min-h-80 py-2 px-4 border border-gray-400 rounded-4xl;
+		@apply w-full min-h-80 !py-2 !px-4 overflow-hidden;
 		pre {
 			@apply bg-gray-950;
 		}
@@ -133,7 +136,7 @@
 
 	.form-primary {
 		@apply flex flex-col gap-4 border-2 border-gray-400 rounded-4xl p-4 sm:p-8 transition-colors;
-		div {
+		> div {
 			@apply flex flex-col gap-2 min-w-48;
 			input[type="submit"] {
 				@apply btn-primary;

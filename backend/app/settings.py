@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variablesf
-load_dotenv(os.path.join(BASE_DIR, '..' , '.env'))
+load_dotenv()
 
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
@@ -39,7 +39,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", '').split(',')
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -82,14 +82,15 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
-ROOT_URLCONF = 'app.urls'
 
-# Django vite configuration
 DJANGO_VITE = {
   "default": {
-    "dev_mode": True
+    "dev_mode": True,
+    "manifest_path": os.path.join(BASE_DIR, "..", "frontend", "assets", "manifest.json"),
   }
 }
+
+ROOT_URLCONF = 'app.urls'
 
 TEMPLATES = [
     {
@@ -166,6 +167,21 @@ USE_I18N = True
 
 USE_TZ = True
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+}
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -174,7 +190,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, '..', 'frontend', 'dist', 'assets')
+    os.path.join(BASE_DIR, '..', 'frontend', 'assets')
 ]
 
 # Default primary key field type

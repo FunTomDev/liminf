@@ -1,0 +1,1 @@
+function g(t){const e=t.currentTarget,{width:n,height:o,left:c,top:r}=e.getBoundingClientRect(),l=c+n/2,s=r+o/2,a=t.clientX-l,d=(t.clientY-s)/o*20,i=a/n*-20;e.style.setProperty("--rotate-x",`${-d}deg`),e.style.setProperty("--rotate-y",`${-i}deg`)}window.updateTilt=g;

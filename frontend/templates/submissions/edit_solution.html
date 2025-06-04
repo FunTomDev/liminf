@@ -18,7 +18,7 @@
 		<div>
 			<label for="{{ form.content.id_for_label }}">{{ form.content.label }} <span class="text-gray-500">(opcjonalne, jeśli dodano plik)</span>:</label>
 			{{ form.content }}
-			<div id="milkdown" class="w-[90vw] max-w-full"></div>
+			<div id="milkdown" class="w-[90vw] max-w-full" data-readonly="false" data-markdown="{{ markdown|escape }}"></div>
 		</div>
 		{% if solution.file %}
 		<div>

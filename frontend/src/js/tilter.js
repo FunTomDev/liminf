@@ -14,3 +14,5 @@ function updateTilt(event) {
         element.style.setProperty('--rotate-y', `${-rotateY}deg`);
 		
     }
+
+window.updateTilt = updateTilt;

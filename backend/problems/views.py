@@ -90,6 +90,7 @@ def details(request, subject_slug, topic_slug, problem_id):
 
     context = {
         'problem': problem,
+        'markdown': problem.content,
         'filename': os.path.basename(problem.file.name),
     }
 
@@ -109,7 +110,7 @@ def add_problem(request):
     else:
         form = ProblemForm()
 
-    return render(request, 'problems/add_problem.html', {'form': form})
+    return render(request, 'problems/add_problem.html', {'form': form, 'markdown': ''})
 
 @login_required
 def edit_problem(request, problem_id):
@@ -134,7 +135,7 @@ def edit_problem(request, problem_id):
         print("Editing problem with ID:", problem_id, problem)
         form = ProblemForm(instance=problem)
 
-    return render(request, 'problems/edit_problem.html', {'form': form, 'problem': problem, 'filename': filename})
+    return render(request, 'problems/edit_problem.html', {'form': form, 'problem': problem, 'filename': filename, 'markdown': problem.content})
 
 @login_required
 def delete_problem(request, problem_id):

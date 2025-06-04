@@ -1,8 +1,10 @@
+{% load django_vite %}
+
 <h2 class="text-2xl font-semibold">{{ solution.title }}</h2>
 <div class="solution || w-full flex flex-col border border-gray-400 p-4 rounded-4xl">
 	<div class="solution-content || w-full flex flex-col gap-4 p-4">
 		{% if solution.content %}
-		<p>{{ solution.content }}</p>
+		<div id="milkdown" class="w-[90vw] max-w-full" data-readonly="true" data-markdown="{{ solution.content|escape }}"></div>
 		<hr class="divider" />
 		{% endif %} {% if solution.file %}
 		<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
@@ -36,3 +38,26 @@
 		{% endif %}
 	</div>
 </div>
+
+{% vite_asset 'src/js/milkdown-setup.js' %}
+<script>
+	initMilkdown();
+	console.log("Initializing again...");
+</script>
+
+<style>
+	/* custom styles for milkdown */
+	.milkdown {
+		--crepe-color-background: var(--color-gray-950); /* Main background color */
+		--crepe-color-surface: var(--color-gray-900); /* Surface color for cards/panels */
+		--crepe-color-surface-low: var(--color-gray-900); /* Lower surface color for depth */
+
+		--crepe-font-title: "Quicksand", sans-serif;
+		--crepe-font-default: "Quicksand", sans-serif;
+
+		/* Custom details view for milkdown */
+		width: 100%;
+		max-height: none;
+		border: none;
+	}
+</style>

@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load django_vite %} {% block content %}
 
 <section class="p-4">
 	<div class="title flex flex-col items-center gap-4 max-w-2xl mx-auto py-10">
@@ -9,9 +9,9 @@
 <hr class="divider" />
 {% if problem.content %}
 <section class="p-4">
-	<div class="details flex flex-col items-center gap-4 max-w-2xl mx-auto">
+	<div class="details flex flex-col justify-center items-center">
 		<h2 class="text-2xl font-bold text-center text-gray-300">Treść</h2>
-		<p class="text-gray-400 text-center">{{ problem.content|safe }}</p>
+		<div id="milkdown" class="w-[90vw] max-w-full" data-readonly="true" data-markdown="{{ markdown|escape }}"></div>
 	</div>
 </section>
 <hr class="divider" />
@@ -35,7 +35,7 @@
 		<a href="{% url 'problems:solutions:add' problem.subject.slug problem.topic.slug problem.id %}" class="btn-primary">+ Dodaj rozwiązanie</a>
 	</div>
 	{% else %}
-	<div id="dynamic-solution-detail" class="flex flex-col items-center gap-4 max-w-2xl mx-auto">
+	<div id="dynamic-solution-detail" class="flex flex-col items-center gap-4">
 		{% if problem.solution_count == 1 %}
 		<h2 class="text-2xl font-bold text-center text-gray-300">Rozwiązanie</h2>
 		{% else %}
@@ -44,7 +44,7 @@
 		<div class="solution || w-full flex flex-col border border-gray-400 p-4 rounded-4xl">
 			<div class="solution-content || w-full flex flex-col gap-4 p-4">
 				{% if solution.content %}
-				<p>{{ solution.content|safe }}</p>
+				<div id="milkdown" class="w-[90vw] max-w-full" data-readonly="true" data-markdown="{{ solution.content|escape }}"></div>
 				<hr class="divider" />
 				{% endif %} {% if solution.file %}
 				<div class="files grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 place-items-center">
@@ -158,8 +158,8 @@
 				const yOffset = -100;
 				const container = document.getElementById("dynamic-solution-detail");
 				container.innerHTML = data.html;
+				window.initMilkdown(container);
 				const y = container.getBoundingClientRect().top + window.scrollY + yOffset;
-				console.log(y);
 				window.scrollTo({ top: y, behavior: "smooth" });
 			})
 			.catch((error) => {
@@ -234,4 +234,21 @@
 			});
 	}
 </script>
+{% vite_asset 'src/js/milkdown-setup.js' %}
+<style>
+	/* custom styles for milkdown */
+	.milkdown {
+		--crepe-color-background: var(--color-gray-950); /* Main background color */
+		--crepe-color-surface: var(--color-gray-900); /* Surface color for cards/panels */
+		--crepe-color-surface-low: var(--color-gray-900); /* Lower surface color for depth */
+
+		--crepe-font-title: "Quicksand", sans-serif;
+		--crepe-font-default: "Quicksand", sans-serif;
+
+		/* Custom details view for milkdown */
+		width: 100%;
+		max-height: none;
+		border: none;
+	}
+</style>
 {% endblock content %}

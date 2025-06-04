@@ -54,6 +54,7 @@ def materials(request):
         if topic.subject not in subjects:
             subjects[topic.subject] = []
         subjects[topic.subject].append(topic)
+    
     paginator = Paginator(materials_list, 24)  # 24 materials per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -69,6 +70,7 @@ def details(request, subject_slug, topic_slug, material_id):
 
     context = {
         'material': material,
+        'markdown': material.content,
         'file_name': os.path.basename(material.file.name),
     }
 
@@ -88,7 +90,7 @@ def add_material(request):
     else:
         form = MaterialForm()
     
-    return render(request, 'materials/add_material.html', {'form': form})
+    return render(request, 'materials/add_material.html', {'form': form, 'markdown': ''})
 
 @login_required
 def edit_material(request, material_id):
@@ -113,7 +115,7 @@ def edit_material(request, material_id):
         print("Editing material with ID:", material_id, material)
         form = MaterialForm(instance=material)
 
-    return render(request, 'materials/edit_material.html', {'form': form, 'material': material, 'filename': filename})
+    return render(request, 'materials/edit_material.html', {'form': form, 'material': material, 'filename': filename, 'markdown': material.content})
 
 @login_required
 def delete_material(request, material_id):

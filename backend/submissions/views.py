@@ -66,6 +66,7 @@ def toggle_helpful_solution(request, subject_slug, topic_slug, problem_id):
             return JsonResponse({'status': 'error', 'message': 'No permission'}, status=403)
 
         solution.helpful = not solution.helpful
+        solution.skip_file_realocation = True
         solution.save()
         return JsonResponse({'status': 'ok', 'helpful': solution.helpful})
     except Solution.DoesNotExist:
@@ -89,7 +90,7 @@ def add_solution(request, subject_slug, topic_slug, problem_id):
 			return redirect('problems:details', subject_slug=problem.topic.subject.slug, topic_slug=problem.topic.slug, problem_id=problem.id)
 	else:
 		form = SolutionForm()
-	return render(request, 'submissions/add_solution.html', {'form': form, 'problem': problem})
+	return render(request, 'submissions/add_solution.html', {'form': form, 'problem': problem, 'markdown': ''})
 
 @login_required
 def edit_solution(request, subject_slug, topic_slug, problem_id, solution_id):
@@ -117,7 +118,7 @@ def edit_solution(request, subject_slug, topic_slug, problem_id, solution_id):
         print("Editing solution with ID:", solution_id, solution)
         form = SolutionForm(instance=solution)
 
-    return render(request, 'submissions/edit_solution.html', {'form': form, 'solution': solution, 'filename': filename})
+    return render(request, 'submissions/edit_solution.html', {'form': form, 'solution': solution, 'markdown': solution.content, 'filename': filename})
 
 @login_required
 def delete_solution(request, subject_slug, topic_slug, problem_id, solution_id):

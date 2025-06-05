@@ -34,6 +34,10 @@ async function initMilkdown(target = document){
   await crepe.create();
   const markdown = crepe.getMarkdown();
 
+  document.querySelectorAll("form .milkdown button:not([type])").forEach(btn => {
+    btn.setAttribute("type", "button");
+  });
+
   if (readonly) {
       crepe.setReadonly(true);
   }
@@ -50,9 +54,6 @@ async function initMilkdown(target = document){
 
 document.addEventListener("DOMContentLoaded", () => {
   initMilkdown();
-  document.querySelectorAll("form .milkdown button:not([type])").forEach(btn => {
-    btn.setAttribute("type", "button");
-  });
 });
 
 window.initMilkdown = initMilkdown;

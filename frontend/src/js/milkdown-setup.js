@@ -4,15 +4,12 @@ import "@milkdown/crepe/theme/nord-dark.css";
 
 async function initMilkdown(target = document){
   const path = window.location.pathname;
-  console.log("Current path:", path)
 
   const contentInput = target.querySelector("#id_content")
   const milkdownRoot = target.querySelector("#milkdown")
 
   const readonly = milkdownRoot.dataset.readonly === 'true';
   const defaultMarkdown = milkdownRoot.dataset.markdown;
-
-  console.log(target)
 
   const crepe = new Crepe({
     root: target.querySelector("#milkdown"),

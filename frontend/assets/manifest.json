@@ -1,6 +1,6 @@
 {
-  "_index-z4n5fiCb.js": {
-    "file": "assets/index-z4n5fiCb.js",
+  "_index-BuI33E1L.js": {
+    "file": "assets/index-BuI33E1L.js",
     "name": "index",
     "imports": [
       "src/js/milkdown-setup.js"
@@ -11,7 +11,7 @@
     "name": "simple-mode"
   },
   "node_modules/@codemirror/lang-angular/dist/index.js": {
-    "file": "assets/index-D1LuOrUJ.js",
+    "file": "assets/index-EOml9H1p.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-angular/dist/index.js",
     "isDynamicEntry": true,
@@ -19,126 +19,126 @@
       "src/js/milkdown-setup.js",
       "node_modules/@codemirror/lang-html/dist/index.js",
       "node_modules/@codemirror/lang-javascript/dist/index.js",
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "node_modules/@codemirror/lang-css/dist/index.js"
     ]
   },
   "node_modules/@codemirror/lang-cpp/dist/index.js": {
-    "file": "assets/index-CTOiMwlz.js",
+    "file": "assets/index-40mBVY99.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-cpp/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
   "node_modules/@codemirror/lang-css/dist/index.js": {
-    "file": "assets/index-Byienzem.js",
+    "file": "assets/index-Cktha0Kd.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-css/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
   "node_modules/@codemirror/lang-go/dist/index.js": {
-    "file": "assets/index-Bz7jeJlW.js",
+    "file": "assets/index-Bl9Xkauk.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-go/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
   "node_modules/@codemirror/lang-html/dist/index.js": {
-    "file": "assets/index-DoIZ1cyZ.js",
+    "file": "assets/index-Cp8H-F6m.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-html/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js",
       "node_modules/@codemirror/lang-css/dist/index.js",
       "node_modules/@codemirror/lang-javascript/dist/index.js"
     ]
   },
   "node_modules/@codemirror/lang-java/dist/index.js": {
-    "file": "assets/index-DjcL0q2b.js",
+    "file": "assets/index-DWmKAa9_.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-java/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
   "node_modules/@codemirror/lang-javascript/dist/index.js": {
-    "file": "assets/index-D8cZVA0M.js",
+    "file": "assets/index-CqirdrFD.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-javascript/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
   "node_modules/@codemirror/lang-json/dist/index.js": {
-    "file": "assets/index-BMfUO2o3.js",
+    "file": "assets/index-CspYZ_vA.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-json/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
   "node_modules/@codemirror/lang-less/dist/index.js": {
-    "file": "assets/index-CyMAP46Q.js",
+    "file": "assets/index-D0EdqaWD.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-less/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
       "src/js/milkdown-setup.js",
       "node_modules/@codemirror/lang-css/dist/index.js",
-      "_index-z4n5fiCb.js"
+      "_index-BuI33E1L.js"
     ]
   },
   "node_modules/@codemirror/lang-liquid/dist/index.js": {
-    "file": "assets/index-C0GrAY3-.js",
+    "file": "assets/index-ChfK_quu.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-liquid/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
       "src/js/milkdown-setup.js",
       "node_modules/@codemirror/lang-html/dist/index.js",
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "node_modules/@codemirror/lang-css/dist/index.js",
       "node_modules/@codemirror/lang-javascript/dist/index.js"
     ]
   },
   "node_modules/@codemirror/lang-markdown/dist/index.js": {
-    "file": "assets/index-CxBC8iGT.js",
+    "file": "assets/index-e2NVHzWk.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-markdown/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
       "src/js/milkdown-setup.js",
       "node_modules/@codemirror/lang-html/dist/index.js",
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "node_modules/@codemirror/lang-css/dist/index.js",
       "node_modules/@codemirror/lang-javascript/dist/index.js"
     ]
   },
   "node_modules/@codemirror/lang-php/dist/index.js": {
-    "file": "assets/index-CTBUefWQ.js",
+    "file": "assets/index-Bk2oPZ0z.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-php/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js",
       "node_modules/@codemirror/lang-html/dist/index.js",
       "node_modules/@codemirror/lang-css/dist/index.js",
@@ -146,48 +146,48 @@
     ]
   },
   "node_modules/@codemirror/lang-python/dist/index.js": {
-    "file": "assets/index-FVnQLnQF.js",
+    "file": "assets/index-D3hEGuxg.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-python/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
   "node_modules/@codemirror/lang-rust/dist/index.js": {
-    "file": "assets/index-BF13kk8V.js",
+    "file": "assets/index-DJ38Dlzw.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-rust/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
   "node_modules/@codemirror/lang-sass/dist/index.js": {
-    "file": "assets/index-Pi1ZpcAu.js",
+    "file": "assets/index-Bng89FbV.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-sass/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js",
       "node_modules/@codemirror/lang-css/dist/index.js"
     ]
   },
   "node_modules/@codemirror/lang-sql/dist/index.js": {
-    "file": "assets/index-nrHzXLWP.js",
+    "file": "assets/index-CFDuPIY_.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-sql/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
       "src/js/milkdown-setup.js",
-      "_index-z4n5fiCb.js"
+      "_index-BuI33E1L.js"
     ]
   },
   "node_modules/@codemirror/lang-vue/dist/index.js": {
-    "file": "assets/index-DQsf11aS.js",
+    "file": "assets/index-lT2MrDp6.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-vue/dist/index.js",
     "isDynamicEntry": true,
@@ -195,37 +195,37 @@
       "src/js/milkdown-setup.js",
       "node_modules/@codemirror/lang-html/dist/index.js",
       "node_modules/@codemirror/lang-javascript/dist/index.js",
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "node_modules/@codemirror/lang-css/dist/index.js"
     ]
   },
   "node_modules/@codemirror/lang-wast/dist/index.js": {
-    "file": "assets/index-BguswRGf.js",
+    "file": "assets/index-gp2UH47b.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-wast/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
       "src/js/milkdown-setup.js",
-      "_index-z4n5fiCb.js"
+      "_index-BuI33E1L.js"
     ]
   },
   "node_modules/@codemirror/lang-xml/dist/index.js": {
-    "file": "assets/index-D7dqHMH0.js",
+    "file": "assets/index-DFmRTlkQ.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-xml/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
   "node_modules/@codemirror/lang-yaml/dist/index.js": {
-    "file": "assets/index-C1K_b0mc.js",
+    "file": "assets/index-CrjcD32X.js",
     "name": "index",
     "src": "node_modules/@codemirror/lang-yaml/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-z4n5fiCb.js",
+      "_index-BuI33E1L.js",
       "src/js/milkdown-setup.js"
     ]
   },
@@ -1078,7 +1078,7 @@
     "isEntry": true
   },
   "src/js/milkdown-setup.js": {
-    "file": "assets/milkdown-JLjf-tpy.js",
+    "file": "assets/milkdown-CmzslIib.js",
     "name": "milkdown",
     "src": "src/js/milkdown-setup.js",
     "isEntry": true,

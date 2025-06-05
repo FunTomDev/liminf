@@ -27,7 +27,7 @@
 }
 
 @utility card-item {
-	@apply min-w-[max(212px,100%)] h-min aspect-square border-2 rounded-3xl transition-colors max-w-96 cursor-pointer p-4 shadow-lg flex flex-col justify-between gap-4;
+	@apply min-w-[max(250px,100%)] h-min aspect-square border-2 rounded-3xl transition-colors max-w-96 cursor-pointer p-4 shadow-lg flex flex-col justify-between gap-4;
 }
 
 /*  */

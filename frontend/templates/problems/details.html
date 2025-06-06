@@ -42,6 +42,9 @@
 		<h2 class="text-2xl font-bold text-center text-gray-300">Polecane rozwiazanie</h2>
 		{% endif %} {% with solution=problem.solutions.first %}
 		<div class="solution || w-full flex flex-col border border-gray-400 p-4 rounded-4xl">
+			<div>
+				<h3 class="text-2xl font-bold text-center text-gray-300">{{ solution.title }}</h3>
+			</div>
 			<div class="solution-content || w-full flex flex-col gap-4 p-4">
 				{% if solution.content %}
 				<div id="milkdown" class="w-[90vw] max-w-full" data-readonly="true" data-markdown="{{ solution.content|escape }}"></div>
@@ -128,6 +131,13 @@
 {% endif %}
 
 <script>
+	document.addEventListener("DOMContentLoaded", () => {
+		const container = document.getElementById("dynamic-solution-detail");
+		initSolution();
+	});
+</script>
+
+<script>
 	function toggleHelpful(solutionId) {
 		fetch("{% url 'problems:solutions:toggle-helpful' problem.subject.slug problem.topic.slug problem.id %}", {
 			method: "POST",
@@ -148,6 +158,16 @@
 	}
 </script>
 <script>
+	function initSolution() {
+		const yOffset = -100;
+		const container = document.getElementById("dynamic-solution-detail");
+		if (typeof data !== "undefined") {
+			container.innerHTML = data.html;
+		}
+		window.initMilkdown(container);
+		const y = container.getBoundingClientRect().top + window.scrollY + yOffset;
+		window.scrollTo({ top: y, behavior: "smooth" });
+	}
 	function showSolutionDetail(solutionId) {
 		fetch(`/problems/{{ problem.subject.slug }}/{{ problem.topic.slug }}/{{ problem.id }}/solutions/ajax/${solutionId}/`)
 			.then((response) => {
@@ -155,12 +175,7 @@
 				return response.json();
 			})
 			.then((data) => {
-				const yOffset = -100;
-				const container = document.getElementById("dynamic-solution-detail");
-				container.innerHTML = data.html;
-				window.initMilkdown(container);
-				const y = container.getBoundingClientRect().top + window.scrollY + yOffset;
-				window.scrollTo({ top: y, behavior: "smooth" });
+				initSolution();
 			})
 			.catch((error) => {
 				alert(error.message);

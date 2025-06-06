@@ -3,6 +3,7 @@ import "@milkdown/crepe/theme/common/style.css";
 import "@milkdown/crepe/theme/nord-dark.css";
 
 window.initMilkdown = async function initMilkdown(target = document){
+  console.log("Crepe initialized")
   const path = window.location.pathname;
 
   const contentInput = target.querySelector("#id_content")

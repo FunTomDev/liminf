@@ -67,19 +67,19 @@
 	input[type="password"],
 	input[type="email"],
 	input[type="textbox"] {
-		@apply opacity-100 bg-gray-950 rounded-full border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300 placeholder:text-gray-500;
+		@apply opacity-100 bg-gray-950 rounded-lg border-1 border-gray-400 px-4 py-2 transition-colors focus:border-gray-200 hover:border-gray-300 placeholder:text-gray-500;
 	}
 
 	input[type="file"] {
-		@apply block h-[42px] border border-gray-400 hover:border-gray-300 cursor-pointer file:cursor-pointer rounded-full w-full text-sm text-gray-500
-        file:mr-4 file:h-full file:py-2 file:px-4 file:rounded-l-full
+		@apply block h-[42px] border border-gray-400 hover:border-gray-300 cursor-pointer file:cursor-pointer rounded-lg w-full text-sm text-gray-500
+        file:mr-4 file:h-full file:py-2 file:px-4 file:rounded-l-lg
         file:border-0 file:text-sm file:font-semibold
         file:bg-gray-900 file:text-gray-300
         hover:file:bg-gray-800 transition-colors file:transition-colors opacity-100;
 	}
 
 	textarea {
-		@apply bg-gray-950 min-h-48 rounded-4xl border-1 border-gray-400 p-4 transition-colors focus:border-gray-200 hover:border-gray-300;
+		@apply bg-gray-950 min-h-48 rounded-lg border-1 border-gray-400 p-4 transition-colors focus:border-gray-200 hover:border-gray-300;
 	}
 
 	input[type="checkbox"] {
@@ -361,7 +361,7 @@
 	}
 
 	.card-item__sky {
-		@apply bg-sky-900/10 border-sky-400 hover:border-sky-300 text-sky-400 [&_.divider]:border-sky-400 [&_.header]:text-sky-300 [&_.material-type]:border-sky-400 [&_.upload-date]:text-sky-500 card-item;
+		@apply bg-sky-900/10 border-sky-900 hover:border-sky-800 text-sky-600 [&_.divider]:border-sky-900 [&_.header]:text-sky-500 [&_.material-type]:border-sky-600 [&_.upload-date]:text-sky-700 card-item;
 	}
 
 	.card-item__violet {
@@ -389,6 +389,6 @@
 	}
 
 	.divider {
-		@apply border-t-2 border-gray-400 rounded-full;
+		@apply border-t-2 border-gray-800 rounded-full;
 	}
 }

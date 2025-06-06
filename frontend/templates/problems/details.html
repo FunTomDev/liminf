@@ -158,10 +158,12 @@
 	}
 </script>
 <script>
-	function initSolution() {
+	function initSolution(data) {
 		const yOffset = -100;
 		const container = document.getElementById("dynamic-solution-detail");
-		if (typeof data !== "undefined") {
+		if (typeof data === "undefined") {
+			window.initMilkdown(container);
+		} else {
 			container.innerHTML = data.html;
 		}
 		window.initMilkdown(container);
@@ -175,7 +177,7 @@
 				return response.json();
 			})
 			.then((data) => {
-				initSolution();
+				initSolution(data);
 			})
 			.catch((error) => {
 				alert(error.message);

@@ -7,7 +7,6 @@ window.initMilkdown = async function initMilkdown(target = document){
 
   const contentInput = target.querySelector("#id_content")
   const milkdownRoot = target.querySelector("#milkdown")
-  console.log("Target:", milkdownRoot)
 
   const readonly = milkdownRoot.dataset.readonly === 'true';
   const defaultMarkdown = milkdownRoot.dataset.markdown;

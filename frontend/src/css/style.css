@@ -353,11 +353,11 @@
 	}
 
 	.card-item__amber {
-		@apply bg-amber-900/10 border-amber-400 hover:border-amber-300 text-amber-400 [&_.divider]:border-amber-400 [&_.header]:text-amber-300 [&_.material-type]:border-amber-400 [&_.upload-date]:text-amber-500 card-item;
+		@apply bg-amber-900/10 border-amber-900 hover:border-amber-800 text-amber-600 [&_.divider]:border-amber-900 [&_.header]:text-amber-500 [&_.material-type]:border-amber-600 [&_.upload-date]:text-amber-700 card-item;
 	}
 
 	.card-item__green {
-		@apply bg-green-900/10 border-green-500 hover:border-green-400 text-green-500 [&_.divider]:border-green-500 [&_.header]:text-green-400 [&_.material-type]:border-green-500 [&_.upload-date]:text-green-600 card-item;
+		@apply bg-green-900/10 border-green-900 hover:border-green-800 text-green-600 [&_.divider]:border-green-900 [&_.header]:text-green-500 [&_.material-type]:border-green-600 [&_.upload-date]:text-green-700 card-item;
 	}
 
 	.card-item__sky {

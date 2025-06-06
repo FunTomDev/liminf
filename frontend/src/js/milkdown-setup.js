@@ -2,11 +2,12 @@ import { Crepe } from "@milkdown/crepe";
 import "@milkdown/crepe/theme/common/style.css";
 import "@milkdown/crepe/theme/nord-dark.css";
 
-async function initMilkdown(target = document){
+window.initMilkdown = async function initMilkdown(target = document){
   const path = window.location.pathname;
 
   const contentInput = target.querySelector("#id_content")
   const milkdownRoot = target.querySelector("#milkdown")
+  console.log("Target:", milkdownRoot)
 
   const readonly = milkdownRoot.dataset.readonly === 'true';
   const defaultMarkdown = milkdownRoot.dataset.markdown;
@@ -31,26 +32,23 @@ async function initMilkdown(target = document){
   await crepe.create();
   const markdown = crepe.getMarkdown();
 
-  document.querySelectorAll("form .milkdown button:not([type])").forEach(btn => {
-    btn.setAttribute("type", "button");
-  });
-
   if (readonly) {
       crepe.setReadonly(true);
+      document.querySelector(".milkdown-latex-inline-edit").remove();
   }
   else{
     // Register event listeners
     crepe.on((listener) => {
       listener.markdownUpdated((ctx, markdown) => {
         contentInput.value = markdown;
+        document.querySelectorAll("form .milkdown button:not([type])").forEach(btn => {
+          btn.setAttribute("type", "button");
+        });
       });
     });
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
-  initMilkdown();
+  window.initMilkdown();
 });
-
-window.initMilkdown = initMilkdown;

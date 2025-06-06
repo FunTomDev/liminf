@@ -37,7 +37,7 @@ ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", '').split(',')
 
@@ -85,7 +85,7 @@ CORS_ALLOWED_ORIGINS = [
 
 DJANGO_VITE = {
   "default": {
-    "dev_mode": False,
+    "dev_mode": DEBUG,
     "manifest_path": os.path.join(BASE_DIR, "..", "frontend", "assets", "manifest.json"),
   }
 }

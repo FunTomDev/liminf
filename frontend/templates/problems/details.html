@@ -161,9 +161,7 @@
 	function initSolution(data) {
 		const yOffset = -100;
 		const container = document.getElementById("dynamic-solution-detail");
-		if (typeof data === "undefined") {
-			window.initMilkdown(container);
-		} else {
+		if (typeof data !== "undefined") {
 			container.innerHTML = data.html;
 		}
 		window.initMilkdown(container);

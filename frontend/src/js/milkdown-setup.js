@@ -34,6 +34,27 @@ window.initMilkdown = async function initMilkdown(target = document){
   if (readonly) {
       crepe.setReadonly(true);
       document.querySelector(".milkdown-latex-inline-edit").remove();
+      document.querySelectorAll('.milkdown-code-block').forEach(editor => {
+      // Check if it's a LaTeX editor based on the language button label
+      const langButton = editor.querySelector('.language-button');
+      if (langButton?.textContent.includes('LaTeX')) {
+          // Hide the code editor host
+          const codeMirrorHost = editor.querySelector('.codemirror-host');
+          if (codeMirrorHost) {
+              codeMirrorHost.classList.add('hidden');
+          }
+
+          // Remove the toolbar (tools)
+          const tools = editor.querySelector('.tools');
+          const divider = editor.querySelector('.preview-divider')
+          if (tools) {
+              tools.remove();
+          }
+          if (divider){
+            divider.remove();
+          }
+      }
+  });
   }
   else{
     // Register event listeners

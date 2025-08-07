@@ -11,7 +11,7 @@
         }
 
     ],
-    "installCommand": "poetry install && npm install",
+    "installCommand": "pip install poetry && npm install",
     "buildCommand": "poetry install && npm run build && python manage.py collectstatic --noinput"
 
 }

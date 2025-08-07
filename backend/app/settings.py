@@ -90,7 +90,7 @@ DJANGO_VITE = {
   }
 }
 
-ROOT_URLCONF = 'app.urls'
+ROOT_URLCONF = 'backend.app.urls'
 
 TEMPLATES = [
     {
@@ -108,7 +108,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app.wsgi.application'
+WSGI_APPLICATION = 'backend.app.wsgi.application'
 
 
 # Database

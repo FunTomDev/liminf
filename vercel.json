@@ -10,6 +10,8 @@
             "dest": "backend/app/wsgi.py"
         }
 
-    ]
+    ],
+    "installCommand": "poetry install && npm install",
+    "buildCommand": "poetry install && npm run build && python manage.py collectstatic --noinput"
 
 }

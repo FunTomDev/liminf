@@ -1,7 +1,0 @@
-Functions:
-	- Share problem;
-	- Add to favourites (mark to practice in learning session);
-	- Report;
-
-7. Add forums discussions to new and existing problems and solutions.
-8. Add user registration and login.

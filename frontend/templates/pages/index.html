@@ -26,7 +26,7 @@
 							</div>
 							<hr class="divider" />
 							<div class="description flex-1">
-								<p class="">{{ material.short_description }}</p>
+								<p class="">{{ material.description|default:"" }}</p>
 							</div>
 							<hr class="divider" />
 							<div class="additional-data flex justify-between items-center">
@@ -84,7 +84,7 @@
 							</div>
 							<hr class="divider" />
 							<div class="description flex-1">
-								<p class="">{{ problem.short_description }}</p>
+								<p class="">{{ problem.description|default:"" }}</p>
 							</div>
 							<hr class="divider" />
 							<div class="additional-data flex justify-between items-center">

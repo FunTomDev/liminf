@@ -4,6 +4,3 @@ buildCommand = "poetry install"
 
 [deploy]
 startCommand = "poetry run gunicorn backend.app.wsgi:app"
-healthcheckPath = "/"
-healthcheckTimeout = 100
-restartPolicyType = "never"

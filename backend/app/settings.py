@@ -40,7 +40,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", '').split(',')
-print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")
 
 AUTH_USER_MODEL = 'users.User'
 

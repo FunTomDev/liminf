@@ -83,7 +83,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://liminf.up.railway.app',
+    'https://liminf.up.railway.app',
 ]
 
 DJANGO_VITE = {

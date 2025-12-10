@@ -1,6 +1,6 @@
 from django.test import TestCase
 from .models import Material
-from curriculum.models import Subject, Topic
+from curriculum.models import Subject, Topic, Semester
 import random
 
 # Create your tests here.
@@ -18,7 +18,7 @@ def generator():
     topics = []
 
     for subject_name in subject_names:
-        subject, _ = Subject.objects.get_or_create(name=subject_name)
+        subject, _ = Subject.objects.get_or_create(name=subject_name, semester=Semester.objects.get_or_create(degree_type="I", number=random.randint(1,7))[0])
         subjects.append(subject)
         for topic_name in topic_names:
             print(f"Creating topic: {topic_name} for subject: {subject_name}")
@@ -35,9 +35,8 @@ def generator():
             topic=topic,
             title=title,
             type=mat_type,
-            short_description="To jest przykładowy opis testowego materiału.",
+            description="To jest przykładowy opis testowego materiału.",
             content="Testowa zawartość materiału.",
-            file=None  # Optional: can point to dummy file if needed
         )
 
     print("✅ Test materials, topics and subjects created.")

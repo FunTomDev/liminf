@@ -136,6 +136,43 @@ ENV/
 env.bak/
 venv.bak/
 
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/assets/
+dist/
+.parcel-cache
+.cache
+.next
+out
+.nuxt
+.expo
+.svelte-kit
+
+# Django / Static files
+staticfiles/
+backend/staticfiles/
+media/
+backend/media/
+
+# JetBrains / IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
 # Spyder project settings
 .spyderproject
 .spyproject
